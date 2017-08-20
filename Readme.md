@@ -2,7 +2,7 @@
 
 Ce gestionnaire est la suite de ''MyAnimeManager''. 
 
--Quelles sont les modifications réalisées ?
+## Quelles sont les modifications réalisées par rapport à l'autre version ?
 Le logiciel utilise désormais des outils récents: Python 3 ainsi la librairie PyQt 5
 
 
@@ -36,4 +36,3 @@ Le logiciel utilise désormais des outils récents: Python 3 ainsi la librairie 
 
 - Planning des épisodes
 - ~~Outil pratique de calcul du temps~~
-
