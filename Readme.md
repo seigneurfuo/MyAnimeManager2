@@ -37,5 +37,3 @@ Le logiciel utilise désormais des outils récents: Python 3 ainsi la librairie 
 - Planning des épisodes
 - ~~Outil pratique de calcul du temps~~
 
-
-
