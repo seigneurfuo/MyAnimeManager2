@@ -17,6 +17,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 # Modules locaux
+from ressources.ressources import icons # Chemins vers les fichiers (à remplacer dans le futur par un qrc)
 from ressources.log import *
 from ressources.utils import *
 from ressources.calendar import Calendar
@@ -28,7 +29,7 @@ class MainWindow(QMainWindow):
     def __init__(self, version, appDir):
         """
 
-        :param version:
+        :param version: La version de l'application (uniquement pour afficher le titre et
         :param appDir:
         """
 
@@ -48,8 +49,8 @@ class MainWindow(QMainWindow):
         self.planningWatched = []
         self.planningToWatch = []
 
-        # Initialise l'affichage
-        self.setup_Ui(version)
+        # Indique si les modifications on eté sauvegardées (permet d'afficher un message uniquement si il y a des informations à sauvegarder)
+        self.unsaved = False
 
         # Création du profil
         self.profile__create()
@@ -59,6 +60,9 @@ class MainWindow(QMainWindow):
 
         # Vérification / Création de la base de données
         self.database_()
+
+        # Initialise l'affichage
+        self.setup_Ui(version)
 
         # Chargement des évenements des élements de l'interface
         self.events()
@@ -76,7 +80,8 @@ class MainWindow(QMainWindow):
     def setup_Ui(self, version):
         """
 
-        :return:
+        :param version: Version de l'application
+        :return: None
         """
 
         loadUi(os.path.join(self.appDir, 'ressources/MainWindow.ui'), self)
@@ -91,9 +96,6 @@ class MainWindow(QMainWindow):
         #self.tableWidget_3.setColumnWidth(0, 60)
         #self.tableWidget_2.setColumnWidth(1, 150)
         #self.tableWidget_3.setColumnWidth(1, 150)
-
-        # Indique si les modifications on eté sauvegardées (permet d'afficher un message uniquement si il y a des informations à sauvegarder)
-        self.unsaved = False
 
         windowTitle = "MyAnimeManager2 - version {0}".format(version)
         self.setWindowTitle(windowTitle)
@@ -355,7 +357,7 @@ class MainWindow(QMainWindow):
             # Affichage du logo si cette série est aimée
             if serieLiked == 1:
                 # Application de l'image
-                pixmap = QPixmap(os.path.join(self.appDir, "ressources/icons/heart-2.ico"))
+                pixmap = QPixmap(os.path.join(self.appDir, icons["heart"]))
                 self.label_34.setPixmap(pixmap)
 
             # Chargement de la cover depuis serieId
@@ -377,7 +379,7 @@ class MainWindow(QMainWindow):
         self.label_34.clear()
 
         # Application d'une image génerique en cas de cover introuvable
-        pixmap = QPixmap(os.path.join(self.appDir, "ressources/icons/image-x-generic.png"))
+        pixmap = QPixmap(os.path.join(self.appDir, icons["cover"]))
         self.label_30.setPixmap(pixmap)
 
 
