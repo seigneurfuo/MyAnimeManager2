@@ -1,3 +1,6 @@
+# 19 mao 2018
+ - Déplacement du code SQL dans le fichier "queries"
+
 # 4 mai 2018
  - La configuration de MyAnimeManager est désormais stockée dans le dossier de l'utilisateur dans le dossier .myanimemanager2
 

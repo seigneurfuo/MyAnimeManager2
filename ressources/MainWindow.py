@@ -8,7 +8,7 @@ from ressources.SeasonModal import SeasonModal
 from ressources.SerieModal import SerieModal
 
 # Tables SQL
-from ressources.tables import *
+from ressources.queries import *
 
 import os
 import sqlite3
@@ -224,10 +224,10 @@ class MainWindow(QMainWindow):
         """"""
 
         # Exécution du code SQL
-        self.cursor.execute(serieTableQuery)
-        self.cursor.execute(seasonTableQuery)
-        self.cursor.execute(planningTableQuery)
-        self.cursor.execute(notesTableQuery)
+        self.cursor.execute(serieCreateTableQuery)
+        self.cursor.execute(seasonCreateTableQuery)
+        self.cursor.execute(planningCreateTableQuery)
+        self.cursor.execute(notesCreateTableQuery)
 
 
     def listtab__seriemodal__open(self, titre, action, data):
@@ -297,14 +297,11 @@ class MainWindow(QMainWindow):
 
         # Si aucune recherche n'est lancée, on affiche toute la liste des séries
         if searchPatern:
-            sqlQuery = "SELECT * FROM serie WHERE serieTitle LIKE(:searchPatern) ORDER BY serieSortId, serieTitle"
             sqlData = {'searchPatern': '%' + searchPatern + '%'} # Les % sont pour la condition LIKE: cela permet de rechercher un texte n'importe ou dans le titre
-            self.cursor.execute(sqlQuery, sqlData)
+            self.cursor.execute(seriesGetListWhereQuery, sqlData)
 
         else:
-            sqlQuery = "SELECT * FROM serie ORDER BY serieSortId, serieTitle"
-            self.cursor.execute(sqlQuery)
-
+            self.cursor.execute(seriesGetListQuery)
 
         self.seriesList = self.cursor.fetchall()
 
@@ -405,11 +402,9 @@ class MainWindow(QMainWindow):
 
             serieId = self.seriesList[serieIdList]["serieId"]
 
-            sqlQuery = "SELECT * FROM season, serie WHERE seasonFKserieId == serieId AND serieId = :serieId ORDER BY seasonSortId"
-
-            log.info(sqlQuery)
+            log.info(seasonsGetListQuery)
             sqlData = {'serieId': serieId}
-            self.cursor.execute(sqlQuery, sqlData)
+            self.cursor.execute(seasonsGetListQuery, sqlData)
             self.seasonsList = self.cursor.fetchall()
 
             # Si il existe des saisons pour cette série
@@ -538,21 +533,18 @@ class MainWindow(QMainWindow):
             sqlData = {'serieId': serieId}
 
             # Suppression de la série dans dans le planning (évite de garder des séries dans le planning)
-            sqlQuery = "DELETE FROM planning WHERE planningFKserieId = :serieId"
-            log.info(sqlQuery)
-            self.cursor.execute(sqlQuery, sqlData)
+            log.info(serieDeleteFromPlanningQuery)
+            self.cursor.execute(serieDeleteFromPlanningQuery, sqlData)
 
             # Suppression des saisons
-            sqlQuery = "DELETE FROM season WHERE seasonFKserieId = :serieId"
-            log.info(sqlQuery)
-            self.cursor.execute(sqlQuery, sqlData)
+            log.info(seasonDeleteFromSeasonsWhereSerieIdQuery)
+            self.cursor.execute(seasonDeleteFromSeasonsWhereSerieIdQuery, sqlData)
 
             # Suppression de la série
-            sqlQuery = "DELETE FROM serie WHERE serieId = :serieId"
-            log.info(sqlQuery)
-            self.cursor.execute(sqlQuery, sqlData)
+            log.info(serieDeleteFromSeriesQuery)
+            self.cursor.execute(serieDeleteFromSeriesQuery, sqlData)
 
-            # Mise a jour de la liste des séries et des informations
+            # Mise à jour de la liste des séries et des informations
             self.listtab__serieslist__fill()
             self.listtab__seriedata__fill()
             self.listtab__seasonslist__fill()
@@ -629,14 +621,12 @@ class MainWindow(QMainWindow):
             sqlData = {'seasonId': seasonId}
 
             # Suppression de la saison dans dans le planning (évite de garder des saisons dans le planning)
-            sqlQuery = "DELETE FROM planning WHERE planningFKseasonId = :seasonId"
-            log.info(sqlQuery)
-            self.cursor.execute(sqlQuery, sqlData)
+            log.info(seasonDeleteFromPlanningQuery)
+            self.cursor.execute(seasonDeleteFromPlanningQuery, sqlData)
 
             # Suppression des saisons
-            sqlQuery = "DELETE FROM season WHERE seasonId = :seasonId"
-            log.info(sqlQuery)
-            self.cursor.execute(sqlQuery, sqlData)
+            log.info(seasonDeleteFromSeasonsQuery)
+            self.cursor.execute(seasonDeleteFromSeasonsQuery, sqlData)
 
             # Mise à jour de l'interface
             self.listtab__serieslist__fill()
@@ -661,9 +651,8 @@ class MainWindow(QMainWindow):
         """
 
         self.planningCalendar.cellsCondition.clear()
-        sqlQuery = """SELECT distinct planningDate from Planning"""
-        log.info(sqlQuery)
-        self.cursor.execute(sqlQuery)
+        log.info(planningDateFromPlanningQuery)
+        self.cursor.execute(planningDateFromPlanningQuery)
         rows = self.cursor.fetchall()
 
         for row in rows:
@@ -697,15 +686,9 @@ class MainWindow(QMainWindow):
         # Récupération de la date en cours dans le calendrier
         selectedDate = self.planningCalendar.selectedDate().toPyDate()
 
-        # Commande SQL
-        sqlQuery = """SELECT * FROM Planning, Serie, Season
-        WHERE planningFKserieId = serieId
-        AND planningFKseasonId = seasonId
-        AND planningDate = :planningDate"""
-
-        log.info(sqlQuery)
+        log.info(getDataForTheChoosenDay)
         sqlData = {'planningDate': selectedDate}
-        self.cursor.execute(sqlQuery, sqlData)
+        self.cursor.execute(getDataForTheChoosenDay, sqlData)
         self.planningWatched = self.cursor.fetchall()
 
         # Affichage du nombre d'épisodes vus pour cette date
@@ -766,38 +749,31 @@ class MainWindow(QMainWindow):
             seasonCurrentEpisodeId = seasonWatchedEpisodes + 1
 
             # Commande SQL d'insertion dans les animés vus
-            sqlQuery = "INSERT INTO Planning (planningId, planningDate, planningFKserieId, planningFKseasonId, planningEpisodeId) VALUES (NULL, :selectedDate, :serieId, :seasonId, :seasonCurrentEpisodeId)"
-            log.info(sqlQuery)
+            log.info(planningAddEpisodeToWatchedList)
             sqlData = {'selectedDate': selectedDate, 'serieId': serieId, 'seasonId': seasonId, 'seasonCurrentEpisodeId': seasonCurrentEpisodeId}
-            self.cursor.execute(sqlQuery, sqlData)
+            self.cursor.execute(planningAddEpisodeToWatchedList, sqlData)
 
             # Incrémentation du nombre d'épisodes vus pour la saison
             # Si la saison est terminée, alors
             if seasonCurrentEpisodeId == seasonEpisodes:
 
                 # On passe le nombre d'épisodes vus à 0
-                sqlQuery = "UPDATE season SET seasonWatchedEpisodes = 0 WHERE seasonId = :seasonId"
-                log.info(sqlQuery)
+                log.info(planningSetCurrentEpisodeTo0)
                 sqlData = {'seasonId': seasonId}
-                self.cursor.execute(sqlQuery, sqlData)
+                self.cursor.execute(planningSetCurrentEpisodeTo0, sqlData)
 
                 # On incrémente le nombre de visionnages
-                sqlQuery = "UPDATE season SET seasonViewCount = seasonViewCount + 1 WHERE seasonId = :seasonId"
-                log.info(sqlQuery)
-                self.cursor.execute(sqlQuery, sqlData)
+                log.info(planningIncrementSeasonViewCount)
+                self.cursor.execute(planningIncrementSeasonViewCount, sqlData)
 
                 # On passe l'état de la série à 3: terminé
-                sqlQuery = "UPDATE season SET seasonState = 3 WHERE seasonId = :seasonId"
-                log.info(sqlQuery)
-                self.cursor.execute(sqlQuery, sqlData)
+                log.info(planningSetSeasonToFinished)
+                self.cursor.execute(planningSetSeasonToFinished, sqlData)
 
             # Sinon on incrémente normalement
             else:
-
-                sqlQuery = "UPDATE season SET seasonWatchedEpisodes = :seasonWatchedEpisodes WHERE seasonId = :seasonId"
-                log.info(sqlQuery)
                 sqlData = {'seasonWatchedEpisodes': seasonCurrentEpisodeId, 'seasonId': seasonId}
-                self.cursor.execute(sqlQuery, sqlData)
+                self.cursor.execute(planningIncrementEpisode, sqlData)
 
             # Mise à jour des couleurs de fond des jours dans le calendrier
             self.planningtab__calendar__paint_cells()
@@ -819,10 +795,9 @@ class MainWindow(QMainWindow):
             data = self.planningWatched[currentId]
             planningId = data["planningId"]
 
-            sqlQuery = "DELETE FROM Planning WHERE planningId = :planningId"
-            log.info(sqlQuery)
+            log.info(planningRemoveEpisodeFromWatchedList)
             sqlData = {'planningId': planningId}
-            self.cursor.execute(sqlQuery, sqlData)
+            self.cursor.execute(planningRemoveEpisodeFromWatchedList, sqlData)
 
             # Mise à jour des couleurs de fond des jours dans le calendrier
             self.planningtab__calendar__paint_cells()
@@ -864,17 +839,11 @@ class MainWindow(QMainWindow):
         # Si on choisi de n'afficher que les séries en cours
         if self.checkBox.isChecked():
             # Commande SQL
-            sqlQuery = """SELECT * FROM Serie, Season
-            WHERE seasonFKserieId = serieId
-            AND seasonState == 2
-            AND seasonWatchedEpisodes < seasonEpisodes"""  # Empèche que le nombre d'épisodes vus + soient plus grand que le nombre d'épisodes totaux de la série
+            sqlQuery = planningFillWithWatchingSeries
 
         else:
             # Commande SQL
-            sqlQuery = """SELECT * FROM Serie, Season
-            WHERE seasonFKserieId = serieId
-            AND seasonState IN (1, 2)
-            AND seasonWatchedEpisodes < seasonEpisodes"""  # Empèche que le nombre d'épisodes vus + soient plus grand que le nombre d'épisodes totaux de la série
+            sqlQuery = planningEpisodesFillWithAll
 
         log.info(sqlQuery)
         self.cursor.execute(sqlQuery)
@@ -937,9 +906,8 @@ class MainWindow(QMainWindow):
     def notestab__fill(self):
         """Fonction qui rempli les notes"""
 
-        sqlQuery = "SELECT * FROM Notes"
-        log.info(sqlQuery)
-        self.cursor.execute(sqlQuery)
+        log.info(notesGet)
+        self.cursor.execute(notesGet)
 
         notes = self.cursor.fetchone()
 
@@ -957,10 +925,9 @@ class MainWindow(QMainWindow):
         # Récupération des données
         notesData = self.plainTextEdit.toPlainText()
 
-        # Enregistrement des données en base
-        sqlQuery = "UPDATE notes SET notesData = :notesData WHERE notesPageId = 1"
+        # Enregistrement des notes dans la base de données
         sqlData = {'notesData': notesData}
-        self.cursor.execute(sqlQuery, sqlData)
+        self.cursor.execute(notesSave, sqlData)
 
 
     def settings__load(self):
