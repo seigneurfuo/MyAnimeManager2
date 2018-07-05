@@ -43,6 +43,7 @@ class SeasonModal(QDialog):
         seasonEpisodes = seasonData["seasonEpisodes"]
         seasonWatchedEpisodes = seasonData["seasonWatchedEpisodes"]
         seasonViewCount = seasonData["seasonViewCount"]
+        seasonLanguage = seasonData["seasonLanguage"]
         seasonState = seasonData["seasonState"]
         seasonNotes = seasonData["seasonNotes"]
 
@@ -56,6 +57,7 @@ class SeasonModal(QDialog):
         self.episodesSpinbox.setValue(seasonEpisodes)
         self.episodesWatchedSpinbox.setValue(seasonWatchedEpisodes)
         self.seasonViewCountSpinbox.setValue(seasonViewCount)
+        self.seasonLanguageComboBox.setCurrentIndex(seasonLanguage)
         self.seasonStateComboBox.setCurrentIndex(seasonState)
         self.textEdit.setText(seasonNotes)
 
@@ -74,6 +76,7 @@ class SeasonModal(QDialog):
         seasonFansubTeam = str(self.lineEdit_6.text())
         seasonEpisodes = self.episodesSpinbox.value()
         seasonWatchedEpisodes = self.episodesWatchedSpinbox.value()
+        seasonLanguage = self.seasonLanguageComboBox.currentIndex()
         seasonViewCount = self.seasonViewCountSpinbox.value()
         seasonState = self.seasonStateComboBox.currentIndex()
         seasonNotes = self.textEdit.toPlainText()
@@ -83,13 +86,13 @@ class SeasonModal(QDialog):
 
         if self.action == "create":
             # Commande SQL de création # seriedId a terminer
-            sqlQuery = """INSERT INTO season (seasonId, seasonSortId, seasonTitle, seasonDescription, seasonStudio, seasonReleaseYear, seasonEpisodes, seasonWatchedEpisodes, seasonFKserieId, seasonState, seasonFansubTeam, seasonViewCount, seasonNotes)
-                          VALUES (NULL, :seasonSortId, :seasonTitle, :seasonDescription, :seasonStudio, :seasonReleaseYear, :seasonEpisodes, :seasonWatchedEpisodes, :serieId, :seasonState, :seasonFansubTeam, :seasonViewCount, :seasonNotes)"""
+            sqlQuery = """INSERT INTO season (seasonId, seasonSortId, seasonTitle, seasonDescription, seasonStudio, seasonReleaseYear, seasonEpisodes, seasonWatchedEpisodes, seasonFKserieId, seasonLanguage, seasonState, seasonFansubTeam, seasonViewCount, seasonNotes)
+                          VALUES (NULL, :seasonSortId, :seasonTitle, :seasonDescription, :seasonStudio, :seasonReleaseYear, :seasonEpisodes, :seasonWatchedEpisodes, :serieId, :seasonLanguage, :seasonState, :seasonFansubTeam, :seasonViewCount, :seasonNotes)"""
 
             sqlData = {'seasonSortId': seasonSortId, 'seasonTitle': seasonTitle, 'seasonDescription': seasonDescription,
                        'seasonStudio': seasonStudio, 'seasonReleaseYear': seasonReleaseYear,
                        'seasonEpisodes': seasonEpisodes, 'seasonWatchedEpisodes': seasonWatchedEpisodes,
-                       'serieId': serieId, 'seasonState': seasonState, 'seasonFansubTeam': seasonFansubTeam,
+                       'serieId': serieId, 'seasonLanguage': seasonLanguage, 'seasonState': seasonState, 'seasonFansubTeam': seasonFansubTeam,
                        'seasonViewCount': seasonViewCount, 'seasonNotes': seasonNotes}
 
             # Execution de la requete SQL
@@ -113,13 +116,14 @@ class SeasonModal(QDialog):
             seasonFansubTeam = :seasonFansubTeam,
             seasonWatchedEpisodes = :seasonWatchedEpisodes,
             seasonViewCount = :seasonViewCount,
+            seasonLanguage = :seasonLanguage,
             seasonState = :seasonState,
             seasonNotes = :seasonNotes
             WHERE seasonId = :seasonId"""
 
             sqlData = {'seasonSortId': seasonSortId, 'seasonTitle': seasonTitle, 'seasonDescription': seasonDescription,
                        'seasonStudio': seasonStudio, 'seasonReleaseYear': seasonReleaseYear,
-                       'seasonEpisodes': seasonEpisodes, 'seasonWatchedEpisodes': seasonWatchedEpisodes,
+                       'seasonEpisodes': seasonEpisodes, 'seasonWatchedEpisodes': seasonWatchedEpisodes, 'seasonLanguage': seasonLanguage,
                        'seasonState': seasonState, 'seasonId': seasonId, 'seasonFansubTeam': seasonFansubTeam,
                        'seasonViewCount': seasonViewCount, 'seasonNotes': seasonNotes}
 

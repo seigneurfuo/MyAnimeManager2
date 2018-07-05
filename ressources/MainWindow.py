@@ -45,6 +45,7 @@ class MainWindow(QMainWindow):
         self.seriePath = ""
         self.seasonsList = []
         self.seasonStates = ["Indéfinie", "A voir", "En cours", "Terminée"]
+        self.seasonLanguages = ["Indéfinie", "Japonais", "Japonais & Francais (Dual Audio)", "Français", "Autres"]
 
         self.planningWatched = []
         self.planningToWatch = []
@@ -55,14 +56,14 @@ class MainWindow(QMainWindow):
         # Création du profil
         self.profile__create()
 
-        # Chargement des paramètres
-        self.settings__load()
-
         # Vérification / Création de la base de données
         self.database_()
 
         # Initialise l'affichage
         self.setup_Ui(version)
+
+        # Chargement des paramètres
+        self.settings__load()
 
         # Chargement des évenements des élements de l'interface
         self.events()
@@ -176,6 +177,7 @@ class MainWindow(QMainWindow):
         # Paramètres
         elif tabId == 4:
             self.settings__fill()
+            pass
 
 
     def profile__create(self):
@@ -453,6 +455,8 @@ class MainWindow(QMainWindow):
             seasonWatchedEpisodes = str(seasonData["seasonWatchedEpisodes"])
             seasonViewCount = str(seasonData["seasonViewCount"])
             seasonNotes = seasonData["seasonNotes"]
+            seasonLanguageId = seasonData["seasonLanguage"]
+            seasonLanguage = self.seasonLanguages[seasonLanguageId]
             seasonStateId = seasonData["seasonState"]
             seasonState = self.seasonStates[seasonStateId]
 
@@ -466,6 +470,7 @@ class MainWindow(QMainWindow):
             self.label_20.setText(seasonEpisodes)
             self.label_21.setText(seasonWatchedEpisodes)
             self.label_28.setText(seasonViewCount)
+            self.label_39.setText(seasonLanguage)
             self.label_32.setText(seasonState)
             self.label_35.setText(seasonNotes)
 
@@ -473,17 +478,18 @@ class MainWindow(QMainWindow):
     def listtab__seasondata__clear(self):
         """Fonction qui nettoye la liste des informations de la saison sélectionnée"""
 
-        self.label_24.setText("")
-        self.label_5.setText("")
-        self.label.setText("")
-        self.label_23.setText("")
-        self.label_7.setText("")
-        self.label_8.setText("")
-        self.label_20.setText("")
-        self.label_21.setText("")
-        self.label_32.setText("")
-        self.label_28.setText("")
-        self.label_35.setText("")
+        self.label_24.clear()
+        self.label_5.clear()
+        self.label.clear()
+        self.label_23.clear()
+        self.label_7.clear()
+        self.label_8.clear()
+        self.label_20.clear()
+        self.label_21.clear()
+        self.label_39.clear()
+        self.label_32.clear()
+        self.label_28.clear()
+        self.label_35.clear()
 
 
     def listtab__create_serie(self):
