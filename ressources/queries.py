@@ -45,6 +45,7 @@ CREATE TABLE Season (
     seasonWatchedEpisodes INTEGER NOT NULL,
     seasonFKserieId       INTEGER NOT NULL,
     seasonFansubTeam      TEXT,
+    seasonLanguage        INTEGER NOT NULL,
     seasonState           INTEGER NOT NULL,
     seasonViewCount       INTEGER NOT NULL,
     seasonNotes           TEXT,
@@ -119,7 +120,7 @@ WHERE seasonId = :seasonId"
 planningIncrementEpisode = """
 UPDATE season 
 SET seasonWatchedEpisodes = :seasonWatchedEpisodes 
-WHERE seasonId = :seasonId"
+WHERE seasonId = :seasonId
 """
 
 planningSetSeasonToFinished = """

@@ -1,4 +1,8 @@
-# 19 mao 2018
+# 5 juillet 2018
+ - Ajout d'un attribut "langue" pour une saison
+ - Correction d'un bug lors de la création d'un nouveau profil: Les paramètre étaients chargés avant que la GUI ne soit initialisée
+
+# 19 mai 2018
  - Déplacement du code SQL dans le fichier "queries"
 
 # 4 mai 2018
