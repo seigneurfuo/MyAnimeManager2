@@ -1,6 +1,6 @@
 from PyQt5.QtCore import QTime, Qt, QDate, QRect
 from PyQt5.QtGui import QPixmap, QColor, QPainter
-from PyQt5.QtWidgets import QMessageBox, QListWidgetItem, QMainWindow, QTableWidgetItem
+from PyQt5.QtWidgets import QMessageBox, QListWidgetItem, QMainWindow, QTableWidgetItem, QAbstractScrollArea
 from PyQt5.uic import loadUi
 
 # Modales
@@ -93,10 +93,10 @@ class MainWindow(QMainWindow):
         self.verticalLayout_3.addWidget(self.planningCalendar)
 
         # Definition de la taille des colonnes dans l'onglet planning
-        #self.tableWidget_2.setColumnWidth(0, 60)
-        #self.tableWidget_3.setColumnWidth(0, 60)
-        #self.tableWidget_2.setColumnWidth(1, 150)
-        #self.tableWidget_3.setColumnWidth(1, 150)
+        self.tableWidget_2.setColumnWidth(0, 60)
+        self.tableWidget_3.setColumnWidth(0, 60)
+        self.tableWidget_2.setColumnWidth(1, 150)
+        self.tableWidget_3.setColumnWidth(1, 150)
 
         windowTitle = "MyAnimeManager2 - version {0}".format(version)
         self.setWindowTitle(windowTitle)
@@ -725,14 +725,17 @@ class MainWindow(QMainWindow):
                 planningEpisodeId = str(row["planningEpisodeId"])
 
                 # Ajout des colonnes dans le tableau
-                column0 = QTableWidgetItem(planningEpisodeId)
+                column0 = QTableWidgetItem(serieTitle)
                 self.tableWidget_2.setItem(id, 0, column0)
 
                 column1 = QTableWidgetItem(seasonTitle)
                 self.tableWidget_2.setItem(id, 1, column1)
 
-                column2 = QTableWidgetItem(serieTitle)
+                column2 = QTableWidgetItem(planningEpisodeId)
                 self.tableWidget_2.setItem(id, 2, column2)
+
+            # Taille de cellules s'adaptant au contenu
+            self.tableWidget_2.resizeColumnsToContents()
 
 
     def planningtab__watched__add(self):
@@ -870,14 +873,17 @@ class MainWindow(QMainWindow):
                 planningEpisodeId = str(row["seasonWatchedEpisodes"] + 1)  # Identifiant du prochain épisode
 
                 # Ajout des colonnes dans le tableau
-                column0 = QTableWidgetItem(planningEpisodeId)
+                column0 = QTableWidgetItem(serieTitle)
                 self.tableWidget_3.setItem(id, 0, column0)
 
                 column1 = QTableWidgetItem(seasonTitle)
                 self.tableWidget_3.setItem(id, 1, column1)
 
-                column2 = QTableWidgetItem(serieTitle)
+                column2 = QTableWidgetItem(planningEpisodeId)
                 self.tableWidget_3.setItem(id, 2, column2)
+
+            # Taille de cellules s'adaptant au contenu
+            self.tableWidget_3.resizeColumnsToContents()
 
 
     def planningtab__calendar__today(self):
