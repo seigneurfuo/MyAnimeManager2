@@ -224,8 +224,8 @@
           <string>Enregistrer</string>
          </property>
          <property name="icon">
-          <iconset resource="ressources.qrc">
-           <normaloff>:/images/icons/document-export.ico</normaloff>:/images/icons/document-export.ico</iconset>
+          <iconset>
+           <normaloff>icons/document-export.ico</normaloff>icons/document-export.ico</iconset>
          </property>
         </widget>
        </item>
@@ -235,8 +235,8 @@
           <string>Annuler</string>
          </property>
          <property name="icon">
-          <iconset resource="ressources.qrc">
-           <normaloff>:/images/icons/edit-delete-5.ico</normaloff>:/images/icons/edit-delete-5.ico</iconset>
+          <iconset>
+           <normaloff>icons/edit-delete-5.ico</normaloff>icons/edit-delete-5.ico</iconset>
          </property>
         </widget>
        </item>
@@ -253,8 +253,6 @@
   <tabstop>saveButton</tabstop>
   <tabstop>backButton</tabstop>
  </tabstops>
- <resources>
-  <include location="ressources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

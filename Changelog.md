@@ -1,3 +1,6 @@
+# 8 juillet 2018
+ - Correction d'icones dans les fenetres modales
+
 # 5 juillet 2018
  - Ajout d'un attribut "langue" pour une saison
  - Correction d'un bug lors de la création d'un nouveau profil: Les paramètre étaients chargés avant que la GUI ne soit initialisée

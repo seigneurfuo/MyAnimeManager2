@@ -436,7 +436,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>:/images/icons/document-export.ico</normaloff>:/images/icons/document-export.ico</iconset>
+         <normaloff>icons/document-export.ico</normaloff>icons/document-export.ico</iconset>
        </property>
       </widget>
      </item>
@@ -447,7 +447,7 @@ p, li { white-space: pre-wrap; }
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>:/images/icons/edit-delete-5.ico</normaloff>:/images/icons/edit-delete-5.ico</iconset>
+         <normaloff>icons/edit-delete-5.ico</normaloff>icons/edit-delete-5.ico</iconset>
        </property>
       </widget>
      </item>
