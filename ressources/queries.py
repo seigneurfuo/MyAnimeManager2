@@ -54,7 +54,7 @@ CREATE TABLE Season (
 
 seasonDeleteFromSeasonsWhereSerieIdQuery = """
 DELETE FROM season 
-WHERE seasonFKserieId = :serieId"
+WHERE seasonFKserieId = :serieId
 """
 
 seasonDeleteFromSeasonsQuery = """
@@ -114,7 +114,7 @@ WHERE planningId = :planningId
 planningSetCurrentEpisodeTo0 = """
 UPDATE season 
 SET seasonWatchedEpisodes = 0 
-WHERE seasonId = :seasonId"
+WHERE seasonId = :seasonId
 """
 
 planningIncrementEpisode = """
@@ -126,7 +126,7 @@ WHERE seasonId = :seasonId
 planningSetSeasonToFinished = """
 UPDATE season 
 SET seasonState = 3 
-WHERE seasonId = :seasonId"
+WHERE seasonId = :seasonId
 """
 
 planningIncrementSeasonViewCount = """
