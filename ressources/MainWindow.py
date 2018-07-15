@@ -720,6 +720,7 @@ class MainWindow(QMainWindow):
             for id, row in enumerate(self.planningWatched):
                 # On affiche pas la colonne de la date
                 # Récupération des informations
+
                 serieTitle = row["serieTitle"]
                 seasonTitle = row["seasonTitle"]
                 planningEpisodeId = str(row["planningEpisodeId"])
@@ -734,8 +735,8 @@ class MainWindow(QMainWindow):
                 column2 = QTableWidgetItem(planningEpisodeId)
                 self.tableWidget_2.setItem(id, 2, column2)
 
-            # Taille de cellules s'adaptant au contenu
-            self.tableWidget_2.resizeColumnsToContents()
+        # Taille de cellules s'adaptant au contenu
+        self.tableWidget_2.resizeColumnsToContents()
 
 
     def planningtab__watched__add(self):
@@ -882,8 +883,8 @@ class MainWindow(QMainWindow):
                 column2 = QTableWidgetItem(planningEpisodeId)
                 self.tableWidget_3.setItem(id, 2, column2)
 
-            # Taille de cellules s'adaptant au contenu
-            self.tableWidget_3.resizeColumnsToContents()
+        # Taille de cellules s'adaptant au contenu
+        self.tableWidget_3.resizeColumnsToContents()
 
 
     def planningtab__calendar__today(self):
