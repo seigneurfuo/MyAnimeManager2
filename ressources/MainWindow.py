@@ -15,6 +15,7 @@ import sqlite3
 from json import load, dump
 from datetime import datetime, timedelta
 from pathlib import Path
+from random import randint
 
 # Modules locaux
 from ressources.ressources import icons # Chemins vers les fichiers (à remplacer dans le futur par un qrc)
@@ -126,6 +127,7 @@ class MainWindow(QMainWindow):
         self.pushButton.clicked.connect(self.listtab__create_serie)  # Création série
         self.pushButton_3.clicked.connect(self.listtab__edit_serie)  # Edition série
         self.pushButton_2.clicked.connect(self.listtab__delete_serie)  # Suppression série
+        self.randomSerieButton.clicked.connect(self.listtab__random_anime)
         self.pushButton_10.clicked.connect(self.listtab__open_explorer)  # Ouverture du dossier de la série
 
         self.pushButton_5.clicked.connect(self.listtab__create_season)  # Création saison
@@ -637,6 +639,12 @@ class MainWindow(QMainWindow):
             # Mise à jour de l'interface
             self.listtab__serieslist__fill()
             self.listtab__seriedata__fill()
+
+    def listtab__random_anime(self):
+        self.listtab__serieslist__fill()
+        serieId = randint(0, self.comboBox_2.count())
+        print(serieId)
+        self.comboBox_2.setCurrentIndex(serieId)
 
 
     def listtab__open_explorer(self):
