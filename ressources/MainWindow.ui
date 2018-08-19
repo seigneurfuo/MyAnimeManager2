@@ -25,7 +25,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -378,20 +378,6 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pushButton_14">
-            <property name="toolTip">
-             <string>Effacer la barre de recherche</string>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset>
-              <normaloff>icons/edit-clear-2.ico</normaloff>icons/edit-clear-2.ico</iconset>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QLabel" name="label_34">
             <property name="enabled">
              <bool>true</bool>
@@ -422,6 +408,20 @@
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton_14">
+            <property name="toolTip">
+             <string>Effacer la barre de recherche</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>icons/edit-clear-2.ico</normaloff>icons/edit-clear-2.ico</iconset>
             </property>
            </widget>
           </item>
@@ -1707,6 +1707,13 @@
            </spacer>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBox_2">
+          <property name="text">
+           <string>Barres de recherche en temps réel</string>
+          </property>
+         </widget>
         </item>
         <item>
          <spacer name="verticalSpacer_3">

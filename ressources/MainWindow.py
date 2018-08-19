@@ -39,7 +39,7 @@ class MainWindow(QMainWindow):
         # Répertoire de travail de l'application lancée
         self.appDir = appDir
 
-        self.defaultSettings = {"startupPageId": 1}
+        self.defaultSettings = {"startupPageId": 1, "realtimeSearch": False}
         self.settings = {}
 
         self.seriesList = []
@@ -94,10 +94,10 @@ class MainWindow(QMainWindow):
         self.verticalLayout_3.addWidget(self.planningCalendar)
 
         # Definition de la taille des colonnes dans l'onglet planning
-        self.tableWidget_2.setColumnWidth(0, 60)
-        self.tableWidget_3.setColumnWidth(0, 60)
-        self.tableWidget_2.setColumnWidth(1, 150)
-        self.tableWidget_3.setColumnWidth(1, 150)
+        #self.tableWidget_2.setColumnWidth(0, 60)
+        #self.tableWidget_3.setColumnWidth(0, 60)
+        #self.tableWidget_2.setColumnWidth(1, 150)
+        #self.tableWidget_3.setColumnWidth(1, 150)
 
         windowTitle = "MyAnimeManager2 - version {0}".format(version)
         self.setWindowTitle(windowTitle)
@@ -135,6 +135,10 @@ class MainWindow(QMainWindow):
         self.pushButton_6.clicked.connect(self.listtab__delete__season)  # Suppression saison
 
         self.lineEdit.returnPressed.connect(self.listtab__serieslist__search)  # Barre de recherche de série
+
+        if self.settings["realtimeSearch"]:
+            self.lineEdit.textChanged.connect(self.listtab__serieslist__search)  # Barre de recherche de série (recherche en direct
+
         self.pushButton_14.clicked.connect(self.listtab__serieslist__search_clear)  # Bouton de nettoyage de la liste
 
         # Evenement des listes de sélections (séries et saisons)
@@ -990,11 +994,9 @@ class MainWindow(QMainWindow):
     def settings__save(self):
         """Fonction utilisé pour sauvegarder la configuration"""
 
-        # Récupération des informations
-        startupPageId = self.comboBox_3.currentIndex()
-
         # Application des nouveaux parametres
-        self.settings["startupPageId"] = startupPageId
+        self.settings["startupPageId"] = self.comboBox_3.currentIndex()
+        self.settings["realtimeSearch"] = self.checkBox_2.isChecked()
 
         # Ouverture ou création du fichier de configuration
         with open(os.path.join(self.appDataFolder, 'settings.json'), 'w') as settingsFile:
