@@ -44,7 +44,10 @@ class MainWindow(QMainWindow):
 
         self.seriesList = []
         self.seriePath = ""
+        self.currentSerieId = 0
+
         self.seasonsList = []
+        self.currentSeasonId = 0
         self.seasonStates = ["Indéfinie", "A voir", "En cours", "Terminée"]
         self.seasonLanguages = ["Indéfinie", "Japonais", "Japonais & Francais (Dual Audio)", "Français", "Autres"]
 
@@ -127,7 +130,7 @@ class MainWindow(QMainWindow):
         self.pushButton.clicked.connect(self.listtab__create_serie)  # Création série
         self.pushButton_3.clicked.connect(self.listtab__edit_serie)  # Edition série
         self.pushButton_2.clicked.connect(self.listtab__delete_serie)  # Suppression série
-        self.randomSerieButton.clicked.connect(self.listtab__random_anime)
+        self.randomSerieButton.clicked.connect(self.listtab__random_serie)
         self.pushButton_10.clicked.connect(self.listtab__open_explorer)  # Ouverture du dossier de la série
 
         self.pushButton_5.clicked.connect(self.listtab__create_season)  # Création saison
@@ -241,6 +244,9 @@ class MainWindow(QMainWindow):
     def listtab__seriemodal__open(self, titre, action, data):
         """Fonction d'ouverture de la fenètre modale série"""
 
+        # Utilisé pour mémoriser la sélection de la combobox pour sélectionner la ligne après une modification
+        self.currentSerieId = self.comboBox_2.currentIndex()
+
         # Création d'une instance de la classe
         self.seriemodal = SerieModal(self, action, data)
 
@@ -254,6 +260,9 @@ class MainWindow(QMainWindow):
 
     def listtab__seasonmodal__open(self, titre, action, serieData, seasonData):
         """Fonction d'ouverture de la fenètre modale saison"""
+
+        # Utilisé pour mémoriser la sélection de la combobox pour sélectionner la ligne après une modification
+        self.currentSeasonId = self.comboBox.currentIndex()
 
         # Création d'une instance de la classe
         self.seasonmodal = SeasonModal(self, action, serieData, seasonData)
@@ -276,6 +285,17 @@ class MainWindow(QMainWindow):
         # Remplissage de la liste des saisons
         log.info("self.listtab__series__changed --> self.listtab__seasonslist__fill")
         self.listtab__seasonslist__fill()
+
+
+    def listtab__serieslist__set_current_index(self):
+        """Fonction qui permet de remetre la sélection actuelle dans la combobox"""
+
+        if len(self.seriesList) == 1:
+            self.comboBox_2.setCurrentIndex(0)
+
+        elif len(self.seriesList) > self.currentSerieId:
+            index = self.currentSerieId
+            self.comboBox_2.setCurrentIndex(index)
 
 
     def listtab__serieslist__search(self):
@@ -317,13 +337,16 @@ class MainWindow(QMainWindow):
         seriesCount = len(self.seriesList)
         self.statusbar.showMessage("Nombre de séries: {0}".format(seriesCount))
 
-        # Remplissage de la liste des séries(Identifiant - Titre)
-        for rowId, serie in enumerate(self.seriesList):
-            serieSortId = serie["serieSortId"]
-            serieTitle = serie["serieTitle"]
+        if self.seriesList:
+            # Remplissage de la liste des séries(Identifiant - Titre)
+            for rowId, serie in enumerate(self.seriesList):
+                serieSortId = serie["serieSortId"]
+                serieTitle = serie["serieTitle"]
 
-            serieItem = "{0} - {1}".format(serieSortId, serieTitle)
-            self.comboBox_2.addItem(serieItem)
+                serieItem = "{0} - {1}".format(serieSortId, serieTitle)
+                self.comboBox_2.addItem(serieItem)
+
+            self.listtab__serieslist__set_current_index()
 
 
     def listtab__serieslist__clear(self):
@@ -396,6 +419,17 @@ class MainWindow(QMainWindow):
         self.listtab__seasondata__fill()
 
 
+    def listtab__seasonslist__set_current_index(self):
+        """Fonction qui permet de remetre la sélection actuelle dans la combobox"""
+
+        if len(self.seasonsList) == 1:
+            self.comboBox.setCurrentIndex(0)
+
+        elif len(self.seasonsList) > self.currentSeasonId:
+            index = self.currentSeasonId
+            self.comboBox.setCurrentIndex(index)
+
+
     def listtab__seasonslist__fill(self):
         """Fonction qui remplie la liste des saisons pour la série choisie"""
 
@@ -429,6 +463,8 @@ class MainWindow(QMainWindow):
                 seasonTitle = season["seasonTitle"]
                 seasonItem = "{0} - {1}".format(seasonSortId, seasonTitle)
                 self.comboBox.addItem(seasonItem)
+
+            self.listtab__seasonslist__set_current_index()
 
 
     def listtab__seasonslist__clear(self):
@@ -644,11 +680,12 @@ class MainWindow(QMainWindow):
             self.listtab__serieslist__fill()
             self.listtab__seriedata__fill()
 
-    def listtab__random_anime(self):
+    def listtab__random_serie(self):
         self.listtab__serieslist__fill()
-        serieId = randint(0, self.comboBox_2.count())
-        print(serieId)
-        self.comboBox_2.setCurrentIndex(serieId)
+
+        if self.seriesList:
+            serieId = randint(0, len(self.self.seriesList))
+            self.comboBox_2.setCurrentIndex(serieId)
 
 
     def listtab__open_explorer(self):
