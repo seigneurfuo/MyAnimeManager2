@@ -72,11 +72,11 @@ class MainWindow(QMainWindow):
         # Chargement des évenements des élements de l'interface
         self.events()
 
-        # Définition du premier onglet affiché
-        self.tabWidget.setCurrentIndex(self.settings["startupPageId"])
-
         # Chargement des evenement par rapport à l'onglet
         self.on_tab_changed()
+
+        # Définition du premier onglet affiché (ici car c'est un parametre qui n'est utilisé qu'au démarrage
+        self.tabWidget.setCurrentIndex(self.settings["startupPageId"])
 
         # Affichage de la fenètre
         self.show()
@@ -95,12 +95,6 @@ class MainWindow(QMainWindow):
         self.planningCalendar = Calendar()
         self.planningCalendar.setCellsBackgroundColor(QColor(115, 210, 22, 50))
         self.verticalLayout_3.addWidget(self.planningCalendar)
-
-        # Definition de la taille des colonnes dans l'onglet planning
-        #self.tableWidget_2.setColumnWidth(0, 60)
-        #self.tableWidget_3.setColumnWidth(0, 60)
-        #self.tableWidget_2.setColumnWidth(1, 150)
-        #self.tableWidget_3.setColumnWidth(1, 150)
 
         windowTitle = "MyAnimeManager2 - version {0}".format(version)
         self.setWindowTitle(windowTitle)
@@ -138,9 +132,8 @@ class MainWindow(QMainWindow):
         self.pushButton_6.clicked.connect(self.listtab__delete__season)  # Suppression saison
 
         self.lineEdit.returnPressed.connect(self.listtab__serieslist__search)  # Barre de recherche de série
-
         if self.settings["realtimeSearch"]:
-            self.lineEdit.textChanged.connect(self.listtab__serieslist__search)  # Barre de recherche de série (recherche en direct
+            self.lineEdit.textChanged.connect(self.listtab__serieslist__search)  # Barre de recherche de série (recherche en direct)
 
         self.pushButton_14.clicked.connect(self.listtab__serieslist__search_clear)  # Bouton de nettoyage de la liste
 
@@ -184,9 +177,8 @@ class MainWindow(QMainWindow):
             self.notestab__fill()
 
         # Paramètres
-        elif tabId == 4:
+        elif tabId == 5:
             self.settings__fill()
-            pass
 
 
     def profile__create(self):
@@ -1021,11 +1013,10 @@ class MainWindow(QMainWindow):
 
         log.info("Chargement des paramètres dans les élements de l'onglet Paramètres")
 
-        # Récupération des parametres
-        startupPageId = self.settings["startupPageId"]
 
         # Application des informations sur les controles visuels
-        self.comboBox_3.setCurrentIndex(startupPageId)
+        self.comboBox_3.setCurrentIndex(self.settings["startupPageId"])
+        self.checkBox_2.setChecked(self.settings["realtimeSearch"])
 
 
     def settings__save(self):
@@ -1042,7 +1033,7 @@ class MainWindow(QMainWindow):
             # Sauvegarde des paramètres avec JSON
             dump(self.settings, settingsFile)
 
-            self.statusbar.showMessage("Paramètres sauvegardés")
+        self.statusbar.showMessage("Paramètres sauvegardés. Relancer l'application pour qu'ils prennent effet.")
 
 
     # Fonctions de l'onglet outils
