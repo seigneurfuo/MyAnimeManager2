@@ -665,7 +665,7 @@
                </property>
                <property name="icon">
                 <iconset>
-                 <normaloff>icons/document-properties-4.ico</normaloff>icons/document-properties-4.ico</iconset>
+                 <normaloff>icons/edit-add-4.ico</normaloff>icons/edit-add-4.ico</iconset>
                </property>
               </widget>
              </item>

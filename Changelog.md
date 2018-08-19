@@ -1,6 +1,7 @@
 # 19 août 2018
  - Possibilité de choisir une série aléatoire
  - La sélection des combobox (série et saison) est désormais gardée lors d'une modification (ne retourne pas sur la première entrée)
+ - Correction d'icône incorrect
 
 # 8 juillet 2018
  - Correction d'icones dans les fenetres modales
