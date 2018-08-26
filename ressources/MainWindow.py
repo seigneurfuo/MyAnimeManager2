@@ -1,6 +1,7 @@
 from PyQt5.QtCore import QTime, Qt, QDate, QRect
 from PyQt5.QtGui import QPixmap, QColor, QPainter
-from PyQt5.QtWidgets import QMessageBox, QListWidgetItem, QMainWindow, QTableWidgetItem, QAbstractScrollArea
+from PyQt5.QtWidgets import QMessageBox, QListWidgetItem, QMainWindow, QTableWidgetItem, QAbstractScrollArea, \
+    QProgressBar
 from PyQt5.uic import loadUi
 
 # Modales
@@ -912,7 +913,10 @@ class MainWindow(QMainWindow):
                 # Récupération des informations
                 serieTitle = row["serieTitle"]
                 seasonTitle = row["seasonTitle"]
-                planningEpisodeId = str(row["seasonWatchedEpisodes"] + 1)  # Identifiant du prochain épisode
+                planningEpisodeId = row["seasonWatchedEpisodes"]  # Identifiant du prochain épisode
+                planningEpisodeIdNext = row["seasonWatchedEpisodes"] + 1
+                planningEpisodes = row["seasonEpisodes"]
+                plannningEpisodeIdTotal = "{} sur {}".format(planningEpisodeIdNext, planningEpisodes)
 
                 # Ajout des colonnes dans le tableau
                 column0 = QTableWidgetItem(serieTitle)
@@ -921,8 +925,16 @@ class MainWindow(QMainWindow):
                 column1 = QTableWidgetItem(seasonTitle)
                 self.tableWidget_3.setItem(id, 1, column1)
 
-                column2 = QTableWidgetItem(planningEpisodeId)
+                column2 = QTableWidgetItem(plannningEpisodeIdTotal)
                 self.tableWidget_3.setItem(id, 2, column2)
+
+                progressBar = QProgressBar(self)
+                progressBar.setMinimum(0)
+                progressBar.setValue(planningEpisodeId) # Car si un film donc épisode 1 / 1 on à déja une barre à 100%
+                progressBar.setMaximum(planningEpisodes)
+
+                self.tableWidget_3.setCellWidget(id, 3, progressBar)
+
 
         # Taille de cellules s'adaptant au contenu
         self.tableWidget_3.resizeColumnsToContents()
