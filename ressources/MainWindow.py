@@ -930,8 +930,8 @@ class MainWindow(QMainWindow):
 
                 progressBar = QProgressBar(self)
                 progressBar.setMinimum(0)
-                progressBar.setValue(planningEpisodeId) # Car si un film donc épisode 1 / 1 on à déja une barre à 100%
                 progressBar.setMaximum(planningEpisodes)
+                progressBar.setValue(planningEpisodeId) # Car si un film donc épisode 1 / 1 on à déja une barre à 100%
 
                 self.tableWidget_3.setCellWidget(id, 3, progressBar)
 
