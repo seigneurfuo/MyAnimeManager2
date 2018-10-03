@@ -155,7 +155,7 @@
               </attribute>
               <column>
                <property name="text">
-                <string>Episode</string>
+                <string>Série</string>
                </property>
               </column>
               <column>
@@ -165,7 +165,7 @@
               </column>
               <column>
                <property name="text">
-                <string>Série</string>
+                <string>Episode</string>
                </property>
               </column>
              </widget>
@@ -1199,8 +1199,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>257</width>
-                <height>288</height>
+                <width>255</width>
+                <height>175</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_3">

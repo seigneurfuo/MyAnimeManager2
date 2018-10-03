@@ -1,3 +1,9 @@
+# 03 octobre 2018
+ - Correction de l'ordre des colonnes pour les séries vue dans l'onglet planning
+
+# 23 septembre 2018
+ - Correction d'un bug avec les séries contenants plus de 100 épisodes
+
 # 19 août 2018
  - Possibilité de choisir une série aléatoire
  - La sélection des combobox (série et saison) est désormais gardée lors d'une modification (ne retourne pas sur la première entrée)
