@@ -1,6 +1,7 @@
 # 05 octobre 2018
  - Changement de l'odre d'affichage des animés dans le planning
  - Renommage de certains fichiers
+ - Le bouton "aujourd'hui" dans l'onglet planning est désormais placé en dessous du calendrier
 
 # 03 octobre 2018
  - Correction de l'ordre des colonnes pour les séries vue dans l'onglet planning

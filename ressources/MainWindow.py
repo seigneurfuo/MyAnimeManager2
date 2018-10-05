@@ -95,7 +95,7 @@ class MainWindow(QMainWindow):
         # Chargement du calendrier personalisé
         self.planningCalendar = Calendar()
         self.planningCalendar.setCellsBackgroundColor(QColor(115, 210, 22, 50))
-        self.verticalLayout_3.addWidget(self.planningCalendar)
+        self.verticalLayout_3.insertWidget(0, self.planningCalendar, )
 
         windowTitle = "MyAnimeManager2 - version {0}".format(version)
         self.setWindowTitle(windowTitle)
@@ -401,6 +401,8 @@ class MainWindow(QMainWindow):
 
         # Application d'une image génerique en cas de cover introuvable
         pixmap = QPixmap(os.path.join(self.appDir, icons["cover"]))
+
+        self.label_30.setScaledContents(True)
         self.label_30.setPixmap(pixmap)
 
 
