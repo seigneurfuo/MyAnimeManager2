@@ -140,6 +140,7 @@ FROM Serie, Season
 WHERE seasonFKserieId = serieId
 AND seasonState == 2
 AND seasonWatchedEpisodes < seasonEpisodes
+ORDER BY seasonWatchedEpisodes
 """
 
 planningEpisodesFillWithAll = """
@@ -148,6 +149,7 @@ FROM Serie, Season
 WHERE seasonFKserieId = serieId
 AND seasonState IN (1, 2)
 AND seasonWatchedEpisodes < seasonEpisodes
+ORDER BY seasonWatchedEpisodes
 """
 
 notesGet = """

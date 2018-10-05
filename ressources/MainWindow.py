@@ -9,7 +9,7 @@ from ressources.SeasonModal import SeasonModal
 from ressources.SerieModal import SerieModal
 
 # Tables SQL
-from ressources.queries import *
+from ressources.sql import *
 
 import os
 import sqlite3
@@ -19,7 +19,7 @@ from pathlib import Path
 from random import randint
 
 # Modules locaux
-from ressources.ressources import icons # Chemins vers les fichiers (à remplacer dans le futur par un qrc)
+from ressources.ressource import icons # Chemins vers les fichiers (TODO: à remplacer dans le futur par un qrc)
 from ressources.log import *
 from ressources.utils import *
 from ressources.calendar import Calendar

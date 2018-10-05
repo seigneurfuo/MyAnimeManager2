@@ -1,3 +1,7 @@
+# 05 octobre 2018
+ - Changement de l'odre d'affichage des animés dans le planning
+ - Renommage de certains fichiers
+
 # 03 octobre 2018
  - Correction de l'ordre des colonnes pour les séries vue dans l'onglet planning
 
