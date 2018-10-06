@@ -14,17 +14,17 @@
  - La sélection des combobox (série et saison) est désormais gardée lors d'une modification (ne retourne pas sur la première entrée)
  - Correction d'icône incorrect
 
-# 8 juillet 2018
+# 08 juillet 2018
  - Correction d'icones dans les fenetres modales
 
-# 5 juillet 2018
+# 05 juillet 2018
  - Ajout d'un attribut "langue" pour une saison
  - Correction d'un bug lors de la création d'un nouveau profil: Les paramètre étaients chargés avant que la GUI ne soit initialisée
 
 # 19 mai 2018
  - Déplacement du code SQL dans le fichier "queries"
 
-# 4 mai 2018
+# 04 mai 2018
  - La configuration de MyAnimeManager est désormais stockée dans le dossier de l'utilisateur dans le dossier .myanimemanager2
 
 # 29 avril 2018
@@ -49,7 +49,7 @@
  - Correction de bug: Zone de scroll non adaptive dans les notes de saisons
  - Correction de bug: L'identifiant de saison n'est pas rechargé lors d'une modification de l'édition d'une série
 
-# 5 décembre 2017
+# 05 décembre 2017
  - L'application est maintenant 100% adaptive
  - Migration des lignes sql vers ./ressources/tables.py
 
@@ -62,14 +62,14 @@
 # 15 novembre 2017
  - Mise en place progressive de fenetre adaptives
 
-﻿# 5 novembre 2017
+# 05 novembre 2017
  - Lors d'une suppression d'une serie / saison, la suppresion enlève également les informations dans le planning (permet de ne pa garder des vieilles informations dans la base de données)
  - Correction de bug: erreur sous windows si un dossier n'existait pas
 
-# 4 novembre 2017
+# 04 novembre 2017
  - Ajout du champ d'entrée des notes dans un scroll area dans la fenetre SeasonModal.
 
-# 1er novembre 2017
+# 01 novembre 2017
  - Migration des dernière lignes utilisant l'ancienne syntaxe sqlite
  - Ajout des notes de saisons dans un objet scroll area pour permettre de taper du texte sir plusieurs lignes.
 
@@ -95,14 +95,14 @@
  - Ajout de notes pour chaque saisons.
  - Modification de la taille des colonnes par défaut.
 
-# 9 octobre 2017
+# 09 octobre 2017
  - Inversion des lignes "Chemin de la série" et "Image de couverture" dans la fenêtre "SerieModal".
  - Ajout d'un bouton sur la planning afin d'ouvrir le dossier de l'animé sélectionné.
 
-# 8 octobre 2017
+# 08 octobre 2017
  - Remise en forme des tableaux dans l'onglet planning.
 
-# 1 octobre 2017
+# 01 octobre 2017
  - Les dossiers de profil sont crées automatiquement si il n'existent pas déjà.
  - Le fichier de paramètres est également crée avec les valeurs par défaut si il n'existe pas déjà.
 
@@ -122,20 +122,20 @@
  - Correction et documentation de fonctions diverses.
  - Ajout d'un onglet de prise de notes.
 
-# 7 septembre 2017 - 2017.09.07
+# 07 septembre 2017 - 2017.09.07
  - Correction et vérification des entrées contenant des numéros.
  - Possibilité de cocher les séries appréciées.
 
-# 5 septembre 2017 - 2017.09.05
+# 05 septembre 2017 - 2017.09.05
  - Ajout d'une fonction pour ouvrir le dossier la série directement sur la fiche de celle-ci.
  - Un clic sur la ligne dans l'onglet planning permet de d'effectuer l'ajout ou la suppression d'un épisode sans avoir à cliquer sur le bouton.
 
-# 4 septembre 2017 - version 0.6.2-bêta
+# 04 septembre 2017 - version 0.6.2-bêta
  - Possibilité de supprimer un épisode vu dans le planning.
  - Correction des valeurs des spin-box d’identifiant à 1 par défaut.
  - Désactivation de l'édition des éléments dans un tableau lors d'un double clic.
 
-# 3 septembre 2017 - version 0.6.1-bêta
+# 03 septembre 2017 - version 0.6.1-bêta
  - Correction des valeurs maximales dans les spin-box des informations de séries / saisons (IdMax: 5000, nombre épisode max: 1000).
  - Correction de bug: affichage d'une icône stock en cas de cover introuvable pour la série sélectionnée.
  - Correction de bug: quelques informations ne s’effacent pas de l'affichage: Oubli de nettoyage.
