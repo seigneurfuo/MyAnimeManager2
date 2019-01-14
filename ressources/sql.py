@@ -89,6 +89,11 @@ CREATE TABLE Notes (
     notesData   TEXT
 );"""
 
+# ----- Dernier animé vu -----
+lastEpisodeWatchedDate = """
+select planning.planningDate from planning
+order by planning.planningDate desc"""
+
 planningDateFromPlanningQuery = """
 SELECT distinct planningDate from Planning
 """

@@ -9,7 +9,7 @@
 #
 
 # Informations de l'application
-__version__ = "2017.10.05-BETA"
+__version__ = "2019.01.14-BETA"
 
 import sys
 from ressources.utils import python2

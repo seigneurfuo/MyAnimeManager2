@@ -1,3 +1,6 @@
+# 14 janvier 2019
+ - Ajout de la date du dernier épisode vu dans la barre de statut
+
 # 05 octobre 2018
  - Changement de l'odre d'affichage des animés dans le planning
  - Renommage de certains fichiers
