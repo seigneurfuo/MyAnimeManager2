@@ -187,7 +187,7 @@ class MainWindow(QMainWindow):
 
         # Recherche du profil à coté du programme, sinon recherche dans le dossier utilisateur
         localProfilePath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", ".myanimemanager2")
-        log.info("Recherche du dossier de profil dans: {}".format(localProfilePath))
+
         if os.path.exists(localProfilePath):
             self.appDataFolder = localProfilePath
 
@@ -199,6 +199,8 @@ class MainWindow(QMainWindow):
                 # Création du dossier ./profile/covers qui créer en meme temps le dossier parent ./profile
                 os.makedirs(self.appDataFolder)
                 log.info("Dossier de \"profile\" créer !")
+
+        log.info("Dossier du profil: {}".format(self.appDataFolder))
 
 
     def database_(self):

@@ -2,14 +2,14 @@
 
 # seigneurfuo - http://github.com/seigneurfuo
 # Date de création: 10/07/2017
-# Dernière modification: 29/04/2017
+# Dernière modification: 20/10/2017
 
 #
 # Un gestionnaire de séries basé sur le code de MyAnimeManager
 #
 
 # Informations de l'application
-__version__ = "2019.01.14-BETA"
+__version__ = "2019.10.20-BETA"
 
 import sys
 from ressources.utils import python2

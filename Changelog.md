@@ -1,3 +1,8 @@
+# 20 Octobre 2019
+ - Permet desormais de rechercher et de lancer un profil si le dossier est situé à coté du programme. Permet par exemple de fonctionner sur un disque dur ou une clé usb sur plusieurs PC avec le même profil.
+
+ - Correction d'un bug si aucun épisode n'a été vu
+
 # 14 janvier 2019
  - Ajout de la date du dernier épisode vu dans la barre de statut
 
