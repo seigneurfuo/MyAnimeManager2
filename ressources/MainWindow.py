@@ -185,14 +185,20 @@ class MainWindow(QMainWindow):
     def profile__create(self):
         """Fonction qui crée un dossier de profil si il n'existe pas"""
 
-        # Si le dossier est absent
-        userFolder = Path.home()
-        self.appDataFolder = os.path.join(userFolder, ".myanimemanager2")
+        # Recherche du profil à coté du programme, sinon recherche dans le dossier utilisateur
+        localProfilePath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", ".myanimemanager2")
+        log.info("Recherche du dossier de profil dans: {}".format(localProfilePath))
+        if os.path.exists(localProfilePath):
+            self.appDataFolder = localProfilePath
 
-        if not os.path.exists(self.appDataFolder):
-            # Création du dossier ./profile/covers qui créer en meme temps le dossier parent ./profile
-            os.makedirs(self.appDataFolder)
-            log.info("Dossier de \"profile\" créer !")
+        else:
+            userFolder = Path.home()
+            self.appDataFolder = os.path.join(userFolder, ".myanimemanager2")
+
+            if not os.path.exists(self.appDataFolder):
+                # Création du dossier ./profile/covers qui créer en meme temps le dossier parent ./profile
+                os.makedirs(self.appDataFolder)
+                log.info("Dossier de \"profile\" créer !")
 
 
     def database_(self):
