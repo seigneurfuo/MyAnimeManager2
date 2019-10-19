@@ -335,10 +335,10 @@ class MainWindow(QMainWindow):
         # Remplissage du message de statistiques (nombre de séries)
 
         seriesCount = len(self.seriesList)
-        self.cursor.execute(lastEpisodeWatchedDate)
-        lastEpisodeDate = self.cursor.fetchone()[0]
-
-        self.statusbar.showMessage("Nombre de séries: {0} - Dernier épisode vu le: {1}".format(seriesCount, lastEpisodeDate))
+        if seriesCount > 0:
+            self.cursor.execute(lastEpisodeWatchedDate)
+            lastEpisodeDate = self.cursor.fetchone()[0]
+            self.statusbar.showMessage("Nombre de séries: {0} - Dernier épisode vu le: {1}".format(seriesCount, lastEpisodeDate))
 
         if self.seriesList:
             # Remplissage de la liste des séries(Identifiant - Titre)
