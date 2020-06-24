@@ -25,7 +25,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -147,10 +147,10 @@
               <attribute name="verticalHeaderVisible">
                <bool>false</bool>
               </attribute>
-              <attribute name="verticalHeaderDefaultSectionSize">
+              <attribute name="verticalHeaderMinimumSectionSize">
                <number>20</number>
               </attribute>
-              <attribute name="verticalHeaderMinimumSectionSize">
+              <attribute name="verticalHeaderDefaultSectionSize">
                <number>20</number>
               </attribute>
               <column>
@@ -238,10 +238,10 @@
             <attribute name="verticalHeaderVisible">
              <bool>false</bool>
             </attribute>
-            <attribute name="verticalHeaderDefaultSectionSize">
+            <attribute name="verticalHeaderMinimumSectionSize">
              <number>20</number>
             </attribute>
-            <attribute name="verticalHeaderMinimumSectionSize">
+            <attribute name="verticalHeaderDefaultSectionSize">
              <number>20</number>
             </attribute>
             <column>
@@ -684,9 +684,6 @@
                </property>
                <property name="toolTip">
                 <string>Editer les informations de la série sélectionnée</string>
-               </property>
-               <property name="layoutDirection">
-                <enum>Qt::LeftToRight</enum>
                </property>
                <property name="text">
                 <string>Editer</string>
