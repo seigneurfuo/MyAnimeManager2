@@ -509,6 +509,14 @@ class MainWindow(QMainWindow):
             seasonStateId = seasonData["seasonState"]
             seasonState = self.seasonStates[seasonStateId]
 
+            # Sites web
+            anidb = href_link(seasonData["anidb"])
+            animeka = href_link(seasonData["animeka"])
+            animekun = href_link(seasonData["animekun"])
+            animenewsnetwork = href_link(seasonData["animenewsnetwork"])
+            myanimelist = href_link(seasonData["myanimelist"])
+            planetejeunesse = href_link(seasonData["planetejeunesse"])
+
             # Application des informations
             self.label_24.setText(seasonSortId)
             self.label_5.setText(seasonTitle)
@@ -522,23 +530,23 @@ class MainWindow(QMainWindow):
             self.label_39.setText(seasonLanguage)
             self.label_32.setText(seasonState)
             self.label_35.setText(seasonNotes)
+            self.label_52.setText(anidb)
+            self.label_54.setText(animeka)
+            self.label_56.setText(animekun)
+            self.label_58.setText(animenewsnetwork)
+
+            # TODO myanimelist & planetejeunesse
 
 
     def listtab__seasondata__clear(self):
         """Fonction qui nettoye la liste des informations de la saison sélectionnée"""
 
-        self.label_24.clear()
-        self.label_5.clear()
-        self.label.clear()
-        self.label_23.clear()
-        self.label_7.clear()
-        self.label_8.clear()
-        self.label_20.clear()
-        self.label_21.clear()
-        self.label_39.clear()
-        self.label_32.clear()
-        self.label_28.clear()
-        self.label_35.clear()
+        labels = [self.label_24, self.label_5, self.label, self.label_23, self.label_7, self.label_8, self.label_20,
+                  self.label_21, self.label_39, self.label_32, self.label_28, self.label_35, self.label_52,
+                  self.label_56, self.label_54, self.label_58]
+
+        for label_name in labels:
+            label_name.clear()
 
 
     def listtab__create_serie(self):

@@ -49,6 +49,12 @@ CREATE TABLE Season (
     seasonState           INTEGER NOT NULL,
     seasonViewCount       INTEGER NOT NULL,
     seasonNotes           TEXT,
+    anidb TEXT,
+    animeka TEXT,
+    animekun TEXT,
+    animenewsnetwork TEXT,
+    myanimelist TEXT,
+    planetejeunesse TEXT,
     FOREIGN KEY (seasonFKserieId) REFERENCES Serie (serieId) 
 );"""
 

@@ -7,11 +7,6 @@ class Calendar(QCalendarWidget):
     """
 
     def __init__(self, parent=None):
-        """
-
-        :param parent:
-        """
-
         QCalendarWidget.__init__(self, parent)
         self.cellBackgroundColor = None
         self.cellsCondition = []

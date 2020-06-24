@@ -25,3 +25,9 @@ def open_filebrowser(path):
 
     except:
         return None
+
+def href_link(text):
+    if text:
+        return "<a href=\"{text}\">{text}</a".format(text=text)
+    else:
+        return ""
