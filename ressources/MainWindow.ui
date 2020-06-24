@@ -474,7 +474,7 @@
                  </property>
                  <property name="icon">
                   <iconset>
-                   <normaloff>icons/edit-clear-2.ico</normaloff>icons/edit-clear-2.ico</iconset>
+                   <normaloff>icons/question.png</normaloff>icons/question.png</iconset>
                  </property>
                 </widget>
                </item>

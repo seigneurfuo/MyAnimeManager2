@@ -404,8 +404,8 @@ class MainWindow(QMainWindow):
     def listtab__seriedata__clear(self):
         """Fonction qui nettoye les informations d'une série"""
 
-        self.label_14.setText("")  # Identifiant
-        self.label_13.setText("")  # Titre
+        self.label_14.clear()  # Identifiant
+        self.label_13.clear()  # Titre
         self.seriePath = ""  # Chemin de la série
 
         # Nettoyage de l'icone coeur
@@ -691,7 +691,7 @@ class MainWindow(QMainWindow):
         self.listtab__serieslist__fill()
 
         if self.seriesList:
-            serieId = randint(0, len(self.self.seriesList))
+            serieId = randint(0, len(self.seriesList))
             self.comboBox_2.setCurrentIndex(serieId)
 
 
