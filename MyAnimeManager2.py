@@ -1,4 +1,4 @@
-#!/bin/python
+#!/bin/env python3
 
 # seigneurfuo - http://github.com/seigneurfuo
 # Date de création: 10/07/2017

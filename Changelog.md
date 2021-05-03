@@ -1,3 +1,9 @@
+# 24 juin 2020
+- Corection d'un bug avec la sélection d'une série aléatoire
+- Simplification de fonctions dans le code
+- Nettoyage de code
+- Ajout de liens pour une saisons (Anidb et autres)
+
 # 20 Octobre 2019
  - Permet desormais de rechercher et de lancer un profil si le dossier est situé à coté du programme. Permet par exemple de fonctionner sur un disque dur ou une clé usb sur plusieurs PC avec le même profil.
 

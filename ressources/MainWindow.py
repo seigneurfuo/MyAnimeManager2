@@ -938,7 +938,7 @@ class MainWindow(QMainWindow):
                 planningEpisodeId = row["seasonWatchedEpisodes"]  # Identifiant du prochain épisode
                 planningEpisodeIdNext = row["seasonWatchedEpisodes"] + 1
                 planningEpisodes = row["seasonEpisodes"]
-                plannningEpisodeIdTotal = "{} sur {}".format(planningEpisodeIdNext, planningEpisodes)
+                plannningEpisodeIdTotal = "{} / {}".format(planningEpisodeIdNext, planningEpisodes)
 
                 # Ajout des colonnes dans le tableau
                 column0 = QTableWidgetItem(serieTitle)
