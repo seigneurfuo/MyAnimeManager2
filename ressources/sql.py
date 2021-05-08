@@ -114,7 +114,7 @@ AND planning_date = :planning_date
 planningAddEpisodeToWatchedList = """
 INSERT INTO Planning (
     planning_id, planning_date, planning_fk_serie_id, planning_fk_season_id, planning_episode_id) 
-    VALUES (NULL, :selectedDate, :serie_id, :season_id, :seasonCurrentEpisodeId)
+    VALUES (NULL, :selected_date, :serie_id, :season_id, :season_current_episode_id)
 """
 
 planningRemoveEpisodeFromWatchedList = """
