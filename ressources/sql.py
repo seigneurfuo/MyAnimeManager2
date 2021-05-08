@@ -173,8 +173,9 @@ WHERE notes_page_id = 1
 """
 
 getDatesListForSeasonId = """
-SELECT planning_date, planning_episode_id
+SELECT planning_date, GROUP_CONCAT(planning_episode_id, ', ') AS episodes
 FROM Planning
 WHERE planning_fk_season_id = :season_id
+GROUP BY planning_date
 ORDER BY planning_date ASC
 """

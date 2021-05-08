@@ -991,7 +991,7 @@ class MainWindow(QMainWindow):
 
         else:
             # Changement du nom des colonnes
-            self.tableWidget_2.setHorizontalHeaderLabels(["Date", "Date", "Episode"])
+            self.tableWidget_2.setHorizontalHeaderLabels(["Date", "Delta", "Episode(s)"])
             self.planningtab__list_season_dates()
 
     def planningtab__list_season_dates(self):
@@ -1014,6 +1014,7 @@ class MainWindow(QMainWindow):
                 self.tableWidget_2.setRowCount(results_number)
 
                 # Ajout des éléments
+                old_date_object = None
                 for index, row in enumerate(results):
                     # On affiche pas la colonne de la date
                     # Récupération des informations
@@ -1022,12 +1023,28 @@ class MainWindow(QMainWindow):
                     date_french = date_object.strftime("%d/%m/%Y")
                     date = date_object.strftime("%d %B %Y")
 
-                    episode_id = str(row["planning_episode_id"])
+                    # Calcule le delta du nombre de jours entre l'épisode actuel et le précédent.
+
+                    if old_date_object:
+                        time_delta = date_object - old_date_object
+                        days = time_delta.days
+
+                        if days == 0:
+                            date_delta_message = ""
+                        else:
+                            date_delta_message = "{} jours".format(days)
+
+                    else:
+                        date_delta_message = ""
+
+                    old_date_object = date_object
+
+                    episode_id = str(row["episodes"])
 
                     column0 = QTableWidgetItem(date_french)
                     self.tableWidget_2.setItem(index, 0, column0)
 
-                    column1 = QTableWidgetItem(date)
+                    column1 = QTableWidgetItem(date_delta_message)
                     self.tableWidget_2.setItem(index, 1, column1)
 
                     column2 = QTableWidgetItem(episode_id)
