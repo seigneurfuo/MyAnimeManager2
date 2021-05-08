@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>690</height>
+    <width>1115</width>
+    <height>783</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,7 +25,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -47,21 +47,38 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
-             <widget class="QPushButton" name="pushButton_9">
-              <property name="maximumSize">
-               <size>
-                <width>101</width>
-                <height>27</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Aujourd'hui</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>icons/today.ico</normaloff>icons/today.ico</iconset>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_30">
+              <item>
+               <spacer name="horizontalSpacer_6">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_9">
+                <property name="maximumSize">
+                 <size>
+                  <width>101</width>
+                  <height>27</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Aujourd'hui</string>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>icons/today.ico</normaloff>icons/today.ico</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </item>
@@ -171,21 +188,45 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="planningDeleteButton">
-              <property name="maximumSize">
-               <size>
-                <width>91</width>
-                <height>31</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>Retirer</string>
-              </property>
-              <property name="icon">
-               <iconset>
-                <normaloff>icons/edit-delete-5.ico</normaloff>icons/edit-delete-5.ico</iconset>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_32">
+              <item>
+               <spacer name="horizontalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="season_dates_checkbox">
+                <property name="text">
+                 <string>Afficher les dates pour cette saison</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="planningDeleteButton">
+                <property name="maximumSize">
+                 <size>
+                  <width>91</width>
+                  <height>31</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Retirer</string>
+                </property>
+                <property name="icon">
+                 <iconset>
+                  <normaloff>icons/edit-delete-5.ico</normaloff>icons/edit-delete-5.ico</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </item>
@@ -1340,8 +1381,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>255</width>
-                <height>175</height>
+                <width>467</width>
+                <height>384</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_3">
@@ -1913,8 +1954,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>27</height>
+     <width>1115</width>
+     <height>24</height>
     </rect>
    </property>
   </widget>

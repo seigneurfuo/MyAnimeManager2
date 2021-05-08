@@ -140,7 +140,7 @@ SET season_state = 3
 WHERE season_id = :season_id
 """
 
-planningIncrementseason_wiew_count = """
+planningIncrementSeasonViewCount = """
 UPDATE season 
 SET season_wiew_count = season_wiew_count + 1 WHERE season_id = :season_id
 """
@@ -170,4 +170,11 @@ notesSave = """
 UPDATE notes 
 SET notes_data = :notes_data 
 WHERE notes_page_id = 1
+"""
+
+getDatesListForSeasonId = """
+SELECT planning_date, planning_episode_id
+FROM Planning
+WHERE planning_fk_season_id = :season_id
+ORDER BY planning_date ASC
 """

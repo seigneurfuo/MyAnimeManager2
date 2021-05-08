@@ -115,6 +115,7 @@ class MainWindow(QMainWindow):
         self.pushButton_13.clicked.connect(self.planningtab__open_explorer)  # Ouverture du dossier de la série
         self.checkBox.clicked.connect(self.planningtab__next__fill)
         self.planningDeleteButton.clicked.connect(self.planningtab__watched__remove)
+        self.season_dates_checkbox.clicked.connect(self.planningtab__on_season_dates_state_changed)
 
         # ----- Onglet liste -----
         self.pushButton.clicked.connect(self.listtab__create_serie)  # Création série
@@ -959,6 +960,82 @@ class MainWindow(QMainWindow):
             if serie_path:
                 if not open_filebrowser(serie_path):
                     log.info("Impossible d'ouvrir le répertoire")
+
+    def planningtab__on_season_dates_state_changed(self):
+
+        # Si aucune saison n'est selectionnée, alors on sort, pas besoin d'afficher quoi que ce soit
+        planningtab_season_index = self.tableWidget_3.currentRow()
+        if planningtab_season_index == -1:
+            self.season_dates_checkbox.setCheckState(False)
+            return
+
+        checked = self.season_dates_checkbox.isChecked()
+        enabled = not checked
+
+        self.planningCalendar.setEnabled(enabled)
+        self.pushButton_9.setEnabled(enabled)
+        self.planningAddButton.setEnabled(enabled)
+        self.planningDeleteButton.setEnabled(enabled)
+        self.checkBox.setEnabled(enabled)
+        self.label_10.setEnabled(enabled)
+        self.label_37.setEnabled(enabled)
+
+        self.tableWidget_2.setRowCount(0)
+
+
+        # Si on veut voir la liste normale
+        if not checked:
+            # Changement du nom des colonnes
+            self.tableWidget_2.setHorizontalHeaderLabels(["Série", "Saison", "Episode"])
+            self.planningtab__watched__fill()
+
+        else:
+            # Changement du nom des colonnes
+            self.tableWidget_2.setHorizontalHeaderLabels(["Date", "Date", "Episode"])
+            self.planningtab__list_season_dates()
+
+    def planningtab__list_season_dates(self):
+        # Récupération de l'identifiant sélectionné
+        planningtab_season_index = self.tableWidget_3.currentRow()
+
+        if planningtab_season_index != -1:
+            # Récupération des informations sur l'élement sélectionné
+            data = self.planningToWatch[planningtab_season_index]
+            season_id = data["season_id"]
+
+            sql_data = {'season_id': season_id}
+            self.cursor.execute(getDatesListForSeasonId, sql_data)
+            results = self.cursor.fetchall()
+
+            # Remplissage de la liste des séries vues (si elle n'est pas vide)
+            if results:
+                # Définition de la taille du tableau
+                results_number = len(results)
+                self.tableWidget_2.setRowCount(results_number)
+
+                # Ajout des éléments
+                for index, row in enumerate(results):
+                    # On affiche pas la colonne de la date
+                    # Récupération des informations
+
+                    date_object = datetime.strptime(row["planning_date"], "%Y-%m-%d")
+                    date_french = date_object.strftime("%d/%m/%Y")
+                    date = date_object.strftime("%d %B %Y")
+
+                    episode_id = str(row["planning_episode_id"])
+
+                    column0 = QTableWidgetItem(date_french)
+                    self.tableWidget_2.setItem(index, 0, column0)
+
+                    column1 = QTableWidgetItem(date)
+                    self.tableWidget_2.setItem(index, 1, column1)
+
+                    column2 = QTableWidgetItem(episode_id)
+                    self.tableWidget_2.setItem(index, 2, column2)
+
+            # Taille de cellules s'adaptant au contenu
+            self.tableWidget_2.resizeColumnsToContents()
+
 
     def notestab__fill(self):
         """Fonction qui rempli les notes"""
