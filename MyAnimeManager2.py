@@ -9,27 +9,29 @@
 #
 
 # Informations de l'application
-__version__ = "2020.03.24-BETA"
+__version__ = "2021.05.08-BETA"
 
 import sys
 from ressources.utils import python2
 
 # Vérification de la version de Python minimale pour lancer
-if python2(): sys.exit('Cette application à besoin de Python 3 pour fonctionner ! Veuillez l\'installer au préalable: http://python.org/download')
-
+if python2():
+    sys.exit('Cette application à besoin de Python 3 pour fonctionner ! Veuillez l\'installer au préalable: https://python.org/download')
 
 from PyQt5.QtWidgets import QApplication
 from ressources.MainWindow import MainWindow
 from os.path import dirname
 
+
 def main():
     """Fonction principale"""
 
-    appDir = dirname(__file__)
-    print("MyAnimeManager - Version:", __version__, appDir)
+    app_dir = dirname(__file__)
+    print("MyAnimeManager - Version:", __version__, app_dir)
 
     app = QApplication(sys.argv)
-    mainwindow = MainWindow(__version__, appDir)
+    mainwindow = MainWindow(__version__, app_dir)
+    mainwindow.show()
     sys.exit(app.exec_())
 
 

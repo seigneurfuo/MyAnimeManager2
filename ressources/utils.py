@@ -18,13 +18,14 @@ def open_filebrowser(path):
         elif platform.system() == "Darwin":
             from subprocess import Popen
             Popen(["open", path])
-            
+
         else:
             from subprocess import Popen
             Popen(["xdg-open", path])
 
     except:
         return None
+
 
 def href_link(text):
     if text:

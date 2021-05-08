@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QCalendarWidget
 
+
 class Calendar(QCalendarWidget):
     """
     Une classe personalisée qui permet d'étendre les possibilités du calendrier
@@ -26,7 +27,7 @@ class Calendar(QCalendarWidget):
 
         # Si une couleur à été choisi pour l'arrière plan des cellules, alors on l'applique
         if self.cellBackgroundColor:
-            #if self.cellsCondition:
+            # if self.cellsCondition:
 
             if date in self.cellsCondition:
                 painter.fillRect(rect, self.cellBackgroundColor)

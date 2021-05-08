@@ -1,7 +1,6 @@
 from PyQt5.QtCore import QTime, Qt, QDate, QRect
 from PyQt5.QtGui import QPixmap, QColor, QPainter
-from PyQt5.QtWidgets import QMessageBox, QListWidgetItem, QMainWindow, QTableWidgetItem, QAbstractScrollArea, \
-    QProgressBar
+from PyQt5.QtWidgets import QMessageBox, QListWidgetItem, QMainWindow, QTableWidgetItem, QProgressBar
 from PyQt5.uic import loadUi
 
 # Modales
@@ -19,7 +18,7 @@ from pathlib import Path
 from random import randint
 
 # Modules locaux
-from ressources.ressource import icons # Chemins vers les fichiers (TODO: à remplacer dans le futur par un qrc)
+from ressources.ressource import icons  # Chemins vers les fichiers (TODO: à remplacer dans le futur par un qrc)
 from ressources.log import *
 from ressources.utils import *
 from ressources.calendar import Calendar
@@ -28,23 +27,23 @@ from ressources.calendar import Calendar
 class MainWindow(QMainWindow):
     """Classe de la fenetre princinpale"""
 
-    def __init__(self, version, appDir):
+    def __init__(self, version, app_dir):
         """
 
         :param version: La version de l'application (uniquement pour afficher le titre et
-        :param appDir:
+        :param app_dir:
         """
 
         super(MainWindow, self).__init__()
 
         # Répertoire de travail de l'application lancée
-        self.appDir = appDir
+        self.appDir = app_dir
 
         self.defaultSettings = {"startupPageId": 1, "realtimeSearch": False}
         self.settings = {}
 
         self.seriesList = []
-        self.seriePath = ""
+        self.serie_path = ""
         self.currentSerieId = 0
 
         self.seasonsList = []
@@ -52,10 +51,11 @@ class MainWindow(QMainWindow):
         self.seasonStates = ["Indéfinie", "A voir", "En cours", "Terminée"]
         self.seasonLanguages = ["Indéfinie", "Japonais", "Japonais & Francais (Dual Audio)", "Français", "Autres"]
 
-        self.planningWatched = []
+        self.planning_watched = []
         self.planningToWatch = []
 
-        # Indique si les modifications on eté sauvegardées (permet d'afficher un message uniquement si il y a des informations à sauvegarder)
+        # Indique si les modifications on eté sauvegardées (permet d'afficher un message uniquement si il y a des
+        # informations à sauvegarder)
         self.unsaved = False
 
         # Création du profil
@@ -65,7 +65,7 @@ class MainWindow(QMainWindow):
         self.database_()
 
         # Initialise l'affichage
-        self.setup_Ui(version)
+        self.setup_ui(version)
 
         # Chargement des paramètres
         self.settings__load()
@@ -79,11 +79,7 @@ class MainWindow(QMainWindow):
         # Définition du premier onglet affiché (ici car c'est un parametre qui n'est utilisé qu'au démarrage
         self.tabWidget.setCurrentIndex(self.settings["startupPageId"])
 
-        # Affichage de la fenètre
-        self.show()
-
-
-    def setup_Ui(self, version):
+    def setup_ui(self, version):
         """
 
         :param version: Version de l'application
@@ -97,9 +93,8 @@ class MainWindow(QMainWindow):
         self.planningCalendar.setCellsBackgroundColor(QColor(115, 210, 22, 50))
         self.verticalLayout_3.insertWidget(0, self.planningCalendar, )
 
-        windowTitle = "MyAnimeManager2 - version {0}".format(version)
-        self.setWindowTitle(windowTitle)
-
+        window_title = "MyAnimeManager2 - version {0}".format(version)
+        self.setWindowTitle(window_title)
 
     def events(self):
         """Définition de tout les évènements de la fenetre pricipale"""
@@ -134,7 +129,8 @@ class MainWindow(QMainWindow):
 
         self.lineEdit.returnPressed.connect(self.listtab__serieslist__search)  # Barre de recherche de série
         if self.settings["realtimeSearch"]:
-            self.lineEdit.textChanged.connect(self.listtab__serieslist__search)  # Barre de recherche de série (recherche en direct)
+            self.lineEdit.textChanged.connect(
+                self.listtab__serieslist__search)  # Barre de recherche de série (recherche en direct)
 
         self.pushButton_14.clicked.connect(self.listtab__serieslist__search_clear)  # Bouton de nettoyage de la liste
 
@@ -152,17 +148,16 @@ class MainWindow(QMainWindow):
         # ----- Onglet paramètres -----
         self.pushButton_11.clicked.connect(self.settings__save)
 
-
     def on_tab_changed(self):
         """Fonction déclanchée a chaque fois qu'un onglet est lancé"""
 
-        tabId = self.tabWidget.currentIndex()
+        tab_id = self.tabWidget.currentIndex()
 
-        logMsg = "Id onglet: {0}".format(tabId)
-        log.info(logMsg)
+        log_msg = "Id onglet: {0}".format(tab_id)
+        log.info(log_msg)
 
         # Planning
-        if tabId == 0:
+        if tab_id == 0:
             log.info("Remplissage de l'onglet planning")
             self.planningtab__calendar__paint_cells()
             self.planningtab__watched__fill()
@@ -170,30 +165,29 @@ class MainWindow(QMainWindow):
             self.pushButton_13.setEnabled(False)
 
         # Liste
-        elif tabId == 1:
+        elif tab_id == 1:
             self.listtab__serieslist__fill()
 
         # Notes
-        elif tabId == 3:
+        elif tab_id == 3:
             self.notestab__fill()
 
         # Paramètres
-        elif tabId == 5:
+        elif tab_id == 5:
             self.settings__fill()
-
 
     def profile__create(self):
         """Fonction qui crée un dossier de profil si il n'existe pas"""
 
         # Recherche du profil à coté du programme, sinon recherche dans le dossier utilisateur
-        localProfilePath = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", ".myanimemanager2")
+        local_profile_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", ".myanimemanager2")
 
-        if os.path.exists(localProfilePath):
-            self.appDataFolder = localProfilePath
+        if os.path.exists(local_profile_path):
+            self.appDataFolder = local_profile_path
 
         else:
-            userFolder = Path.home()
-            self.appDataFolder = os.path.join(userFolder, ".myanimemanager2")
+            user_folder = Path.home()
+            self.appDataFolder = os.path.join(user_folder, ".myanimemanager2")
 
             if not os.path.exists(self.appDataFolder):
                 # Création du dossier ./profile/covers qui créer en meme temps le dossier parent ./profile
@@ -202,22 +196,20 @@ class MainWindow(QMainWindow):
 
         log.info("Dossier du profil: {}".format(self.appDataFolder))
 
-
     def database_(self):
         """"Fonction qui gère la créatio et l'ouverture de la base de données"""
 
-        isDatabase = os.path.exists(os.path.join(self.appDataFolder, "database.sqlite3"))
+        is_database = os.path.exists(os.path.join(self.appDataFolder, "database.sqlite3"))
 
         # Ouverture de la base de données
         self.database__open()
 
         # Si la base de données n'existe pas
-        if not isDatabase:
+        if not is_database:
             # Création des tables
             self.database__create_tables()
 
             # Remplissage des tables
-
 
     def database__open(self):
         """Ouvre la base de données et crée un curseur"""
@@ -231,7 +223,6 @@ class MainWindow(QMainWindow):
         # Création d'un curseur SQL
         self.cursor = self.database.cursor()
 
-
     def database__create_tables(self):
         """"""
 
@@ -240,7 +231,6 @@ class MainWindow(QMainWindow):
         self.cursor.execute(seasonCreateTableQuery)
         self.cursor.execute(planningCreateTableQuery)
         self.cursor.execute(notesCreateTableQuery)
-
 
     def listtab__seriemodal__open(self, titre, action, data):
         """Fonction d'ouverture de la fenètre modale série"""
@@ -258,15 +248,14 @@ class MainWindow(QMainWindow):
         self.seriemodal.setWindowModality(Qt.ApplicationModal)
         self.seriemodal.show()
 
-
-    def listtab__seasonmodal__open(self, titre, action, serieData, seasonData):
+    def listtab__seasonmodal__open(self, titre, action, serie_data, season_data):
         """Fonction d'ouverture de la fenètre modale saison"""
 
         # Utilisé pour mémoriser la sélection de la combobox pour sélectionner la ligne après une modification
         self.currentSeasonId = self.comboBox.currentIndex()
 
         # Création d'une instance de la classe
-        self.seasonmodal = SeasonModal(self, action, serieData, seasonData)
+        self.seasonmodal = SeasonModal(self, action, serie_data, season_data)
 
         # Définition d'un titre
         self.seasonmodal.setWindowTitle(titre)
@@ -274,7 +263,6 @@ class MainWindow(QMainWindow):
         # Rends la fenetre principale inacessible tant que celle-ci est ouverte
         self.seasonmodal.setWindowModality(Qt.ApplicationModal)
         self.seasonmodal.show()
-
 
     def listtab__series__changed(self):
         """Fonction appelée lorsque la sélection d'une série est changée"""
@@ -287,7 +275,6 @@ class MainWindow(QMainWindow):
         log.info("self.listtab__series__changed --> self.listtab__seasonslist__fill")
         self.listtab__seasonslist__fill()
 
-
     def listtab__serieslist__set_current_index(self):
         """Fonction qui permet de remetre la sélection actuelle dans la combobox"""
 
@@ -298,16 +285,14 @@ class MainWindow(QMainWindow):
             index = self.currentSerieId
             self.comboBox_2.setCurrentIndex(index)
 
-
     def listtab__serieslist__search(self):
         """Fonction executée lors de l'entrée de texte dans la boite de recherche"""
 
         # Récupération de titre recherché
-        searchPatern = self.lineEdit.text()
+        search_patern = self.lineEdit.text()
 
         # Remolissage de la liste avec les résultats
-        self.listtab__serieslist__fill(searchPatern=searchPatern)
-
+        self.listtab__serieslist__fill(search_patern=search_patern)
 
     def listtab__serieslist__search_clear(self):
         """Fonction qui vide la barre de recherche"""
@@ -317,17 +302,18 @@ class MainWindow(QMainWindow):
         # Rafraichi la liste des séries
         self.listtab__serieslist__fill()
 
-
-    def listtab__serieslist__fill(self, searchPatern=None):
+    def listtab__serieslist__fill(self, search_patern=None):
         """Fonction qui rempli la liste des séries"""
 
         # Nettoyage de la liste des saisons
         self.listtab__serieslist__clear()
 
         # Si aucune recherche n'est lancée, on affiche toute la liste des séries
-        if searchPatern:
-            sqlData = {'searchPatern': '%' + searchPatern + '%'} # Les % sont pour la condition LIKE: cela permet de rechercher un texte n'importe ou dans le titre
-            self.cursor.execute(seriesGetListWhereQuery, sqlData)
+        if search_patern:
+            sql_data = {
+                'searchPatern': '%' + search_patern + '%'}  # Les % sont pour la condition LIKE: cela permet de
+            # rechercher un texte n'importe ou dans le titre
+            self.cursor.execute(seriesGetListWhereQuery, sql_data)
 
         else:
             self.cursor.execute(seriesGetListQuery)
@@ -336,30 +322,29 @@ class MainWindow(QMainWindow):
 
         # Remplissage du message de statistiques (nombre de séries)
 
-        seriesCount = len(self.seriesList)
-        if seriesCount > 0:
+        series_count = len(self.seriesList)
+        if series_count > 0:
             self.cursor.execute(lastEpisodeWatchedDate)
-            lastEpisodeDate = self.cursor.fetchone()[0]
-            self.statusbar.showMessage("Nombre de séries: {0} - Dernier épisode vu le: {1}".format(seriesCount, lastEpisodeDate))
+            last_episode_date = self.cursor.fetchone()[0]
+            self.statusbar.showMessage(
+                "Nombre de séries: {0} - Dernier épisode vu le: {1}".format(series_count, last_episode_date))
 
         if self.seriesList:
             # Remplissage de la liste des séries(Identifiant - Titre)
             for rowId, serie in enumerate(self.seriesList):
-                serieSortId = serie["serieSortId"]
-                serieTitle = serie["serieTitle"]
+                serie_sort_id = serie["serie_sort_id"]
+                serie_title = serie["serie_title"]
 
-                serieItem = "{0} - {1}".format(serieSortId, serieTitle)
-                self.comboBox_2.addItem(serieItem)
+                serie_item = "{0} - {1}".format(serie_sort_id, serie_title)
+                self.comboBox_2.addItem(serie_item)
 
             self.listtab__serieslist__set_current_index()
-
 
     def listtab__serieslist__clear(self):
         """Fonction qui nettoye la liste des séries"""
 
         # Suppression des élements de la combobox
         self.comboBox_2.clear()
-
 
     def listtab__seriedata__fill(self):
         """Fonction qui rempli les champs d'informations de la série"""
@@ -368,45 +353,46 @@ class MainWindow(QMainWindow):
         self.listtab__seriedata__clear()
 
         # Récupération de l'identificant de l'élément sélectionné dans la liste des séries
-        serieIndexId = self.comboBox_2.currentIndex()
+        serie_index_id = self.comboBox_2.currentIndex()
 
         # Si une série est sélectionnée dans la liste
-        if serieIndexId != -1:
+        if serie_index_id != -1:
             # Récupération de l'indentifiant de la série (comme les identfiants commence à 1
-            serieData = self.seriesList[serieIndexId]
-            serieId = str(serieData["serieId"])
-            serieSortId = str(serieData["serieSortId"])
-            serieTitle = str(serieData["serieTitle"])
-            serieLiked = int(serieData["serieLiked"])
-            self.seriePath = str(serieData["seriePath"])
+            serie_data = self.seriesList[serie_index_id]
+            serie_id = str(serie_data["serie_id"])
+            serie_sort_id = str(serie_data["serie_sort_id"])
+            serie_title = str(serie_data["serie_title"])
+            serie_liked = int(serie_data["serie_liked"])
+            self.serie_path = str(serie_data["serie_path"])
 
             # Application des informations
-            self.label_14.setText(serieSortId)
-            self.label_13.setText(serieTitle)
+            self.label_14.setText(serie_sort_id)
+            self.label_13.setText(serie_title)
 
-            if os.path.exists(self.seriePath): self.pushButton_10.setEnabled(True)
-            else: self.pushButton_10.setEnabled(False)
+            if os.path.exists(self.serie_path):
+                self.pushButton_10.setEnabled(True)
+            else:
+                self.pushButton_10.setEnabled(False)
 
             # Affichage du logo si cette série est aimée
-            if serieLiked == 1:
+            if serie_liked == 1:
                 # Application de l'image
                 pixmap = QPixmap(os.path.join(self.appDir, icons["heart"]))
                 self.label_34.setPixmap(pixmap)
 
-            # Chargement de la cover depuis serieId
-            pictureFilename = os.path.join(self.appDataFolder, "covers/{0}".format(serieId))
-            if os.path.exists(pictureFilename):
+            # Chargement de la cover depuis serie_id
+            picture_filename = os.path.join(self.appDataFolder, "covers/{0}".format(serie_id))
+            if os.path.exists(picture_filename):
                 # Application de l'image
-                pixmap = QPixmap(pictureFilename)
+                pixmap = QPixmap(picture_filename)
                 self.label_30.setPixmap(pixmap)
-
 
     def listtab__seriedata__clear(self):
         """Fonction qui nettoye les informations d'une série"""
 
         self.label_14.clear()  # Identifiant
         self.label_13.clear()  # Titre
-        self.seriePath = ""  # Chemin de la série
+        self.serie_path = ""  # Chemin de la série
 
         # Nettoyage de l'icone coeur
         self.label_34.clear()
@@ -417,14 +403,12 @@ class MainWindow(QMainWindow):
         self.label_30.setScaledContents(True)
         self.label_30.setPixmap(pixmap)
 
-
     def listtab__seasons__changed(self):
         """Fonction appelée lorsque la sélection d'une saison est changée"""
 
         # Nettoyage et remplisage de informations de la série
         log.info("self.listtab__seasons__changed --> self.listtab__seasondata__fill")
         self.listtab__seasondata__fill()
-
 
     def listtab__seasonslist__set_current_index(self):
         """Fonction qui permet de remetre la sélection actuelle dans la combobox"""
@@ -436,7 +420,6 @@ class MainWindow(QMainWindow):
             index = self.currentSeasonId
             self.comboBox.setCurrentIndex(index)
 
-
     def listtab__seasonslist__fill(self):
         """Fonction qui remplie la liste des saisons pour la série choisie"""
 
@@ -447,39 +430,37 @@ class MainWindow(QMainWindow):
         if self.seriesList:
 
             # Récupération de l'identifiant de l'élément sélectionné dans la liste des séries
-            serieIdList = self.comboBox_2.currentIndex()
+            serie_id_list = self.comboBox_2.currentIndex()
 
-            serieId = self.seriesList[serieIdList]["serieId"]
+            serie_id = self.seriesList[serie_id_list]["serie_id"]
 
             log.info(seasonsGetListQuery)
-            sqlData = {'serieId': serieId}
-            self.cursor.execute(seasonsGetListQuery, sqlData)
+            sql_data = {'serie_id': serie_id}
+            self.cursor.execute(seasonsGetListQuery, sql_data)
             self.seasonsList = self.cursor.fetchall()
 
             # Si il existe des saisons pour cette série
             if self.seasonsList:
-                serieSeasonsNumber = str(len(self.seasonsList))
-                self.label_18.setText(serieSeasonsNumber)
+                serie_seasons_number = str(len(self.seasonsList))
+                self.label_18.setText(serie_seasons_number)
 
             else:
                 self.label_18.setText("Aucune")
 
             # Remplissage de la combobox
             for rowId, season in enumerate(self.seasonsList):
-                seasonSortId = season["seasonSortId"]
-                seasonTitle = season["seasonTitle"]
-                seasonItem = "{0} - {1}".format(seasonSortId, seasonTitle)
-                self.comboBox.addItem(seasonItem)
+                season_sort_id = season["season_sort_id"]
+                season_title = season["season_title"]
+                season_item = "{0} - {1}".format(season_sort_id, season_title)
+                self.comboBox.addItem(season_item)
 
             self.listtab__seasonslist__set_current_index()
-
 
     def listtab__seasonslist__clear(self):
         """Liste qui nettoye la liste des saisons"""
 
         # Suppression des élements de la combobox
         self.comboBox.clear()
-
 
     def listtab__seasondata__fill(self):
         """Fonction qui remplie la liste des informations de la saison sélectionnée"""
@@ -488,55 +469,55 @@ class MainWindow(QMainWindow):
         self.listtab__seasondata__clear()
 
         # Récupération de l'identifiant de l'élément sélectionné dans la liste des saisons
-        seasonIndexId = self.comboBox.currentIndex()
+        season_index_id = self.comboBox.currentIndex()
 
-        # Bug qui affiche les informations de la saison de la série précédente si la série choisie ne dispose pas de saison
-        if seasonIndexId != -1:
+        # Bug qui affiche les informations de la saison de la série précédente si la série choisie ne dispose pas de
+        # saison
+        if season_index_id != -1:
             # Récupération des informations
-            seasonData = self.seasonsList[seasonIndexId]
-            seasonSortId = str(seasonData["seasonSortId"])
-            seasonTitle = str(seasonData["seasonTitle"])
-            seasonStudio = str(seasonData["seasonStudio"])
-            seasonDescription = str(seasonData["seasonDescription"])
-            seasonReleaseYear = str(seasonData["seasonReleaseYear"])
-            seasonFansubTeam = str(seasonData["seasonFansubTeam"])
-            seasonEpisodes = str(seasonData["seasonEpisodes"])
-            seasonWatchedEpisodes = str(seasonData["seasonWatchedEpisodes"])
-            seasonViewCount = str(seasonData["seasonViewCount"])
-            seasonNotes = seasonData["seasonNotes"]
-            seasonLanguageId = seasonData["seasonLanguage"]
-            seasonLanguage = self.seasonLanguages[seasonLanguageId]
-            seasonStateId = seasonData["seasonState"]
-            seasonState = self.seasonStates[seasonStateId]
+            season_data = self.seasonsList[season_index_id]
+            season_sort_id = str(season_data["season_sort_id"])
+            season_title = str(season_data["season_title"])
+            season_studio = str(season_data["season_studio"])
+            season_description = str(season_data["season_description"])
+            season_release_year = str(season_data["season_release_year"])
+            season_fansub_team = str(season_data["season_fansub_team"])
+            season_episodes = str(season_data["season_episodes"])
+            season_watched_episodes = str(season_data["season_watched_episodes"])
+            season_view_count = str(season_data["season_view_count"])
+            season_notes = season_data["season_notes"]
+            season_language_id = season_data["season_language"]
+            season_language = self.seasonLanguages[season_language_id]
+            season_state_id = season_data["season_state"]
+            season_state = self.seasonStates[season_state_id]
 
             # Sites web
-            anidb = href_link(seasonData["anidb"])
-            animeka = href_link(seasonData["animeka"])
-            animekun = href_link(seasonData["animekun"])
-            animenewsnetwork = href_link(seasonData["animenewsnetwork"])
-            myanimelist = href_link(seasonData["myanimelist"])
-            planetejeunesse = href_link(seasonData["planetejeunesse"])
+            anidb = href_link(season_data["anidb"])
+            animeka = href_link(season_data["animeka"])
+            animekun = href_link(season_data["animekun"])
+            animenewsnetwork = href_link(season_data["animenewsnetwork"])
+            myanimelist = href_link(season_data["myanimelist"])
+            planetejeunesse = href_link(season_data["planetejeunesse"])
 
             # Application des informations
-            self.label_24.setText(seasonSortId)
-            self.label_5.setText(seasonTitle)
-            self.label.setText(seasonStudio)
-            self.label_23.setText(seasonDescription)
-            self.label_7.setText(seasonReleaseYear)
-            self.label_8.setText(seasonFansubTeam)
-            self.label_20.setText(seasonEpisodes)
-            self.label_21.setText(seasonWatchedEpisodes)
-            self.label_28.setText(seasonViewCount)
-            self.label_39.setText(seasonLanguage)
-            self.label_32.setText(seasonState)
-            self.label_35.setText(seasonNotes)
+            self.label_24.setText(season_sort_id)
+            self.label_5.setText(season_title)
+            self.label.setText(season_studio)
+            self.label_23.setText(season_description)
+            self.label_7.setText(season_release_year)
+            self.label_8.setText(season_fansub_team)
+            self.label_20.setText(season_episodes)
+            self.label_21.setText(season_watched_episodes)
+            self.label_28.setText(season_view_count)
+            self.label_39.setText(season_language)
+            self.label_32.setText(season_state)
+            self.label_35.setText(season_notes)
             self.label_52.setText(anidb)
             self.label_54.setText(animeka)
             self.label_56.setText(animekun)
             self.label_58.setText(animenewsnetwork)
 
             # TODO myanimelist & planetejeunesse
-
 
     def listtab__seasondata__clear(self):
         """Fonction qui nettoye la liste des informations de la saison sélectionnée"""
@@ -548,12 +529,10 @@ class MainWindow(QMainWindow):
         for label_name in labels:
             label_name.clear()
 
-
     def listtab__create_serie(self):
         """Fonction qui lance la fenetre de création d'une nouvelle série"""
 
         self.listtab__seriemodal__open("Ajouter", "create", None)
-
 
     def listtab__edit_serie(self):
         """Fonction qui lance la fenetre d'édition d'une série"""
@@ -561,22 +540,21 @@ class MainWindow(QMainWindow):
         # Empèche d'éditer une série inexistante
         if not self.seriesList:
             # Si la liste est vide on affiche un message à l'utilisateur
-            showInfo = QMessageBox.information(self, 'Action impossible', "Aucune saison à editer !", QMessageBox.Ok)
+            show_info = QMessageBox.information(self, 'Action impossible', "Aucune saison à editer !", QMessageBox.Ok)
 
         else:
             # Récupération de l'index de la série sélectionnée dans la liste déroulante
-            serieIndexId = self.comboBox_2.currentIndex()
+            serie_index_id = self.comboBox_2.currentIndex()
 
             # Récupération des informations
-            serieData = self.seriesList[serieIndexId]
-            serieTitle = serieData["serieTitle"]
+            serie_data = self.seriesList[serie_index_id]
+            serie_title = serie_data["serie_title"]
 
             # Titre de la fenetre
-            serieModalTitle = "Edition : %s" % serieTitle
+            serie_modal_title = "Edition : %s" % serie_title
 
             # Ouverture de la fenetre d'édition
-            self.listtab__seriemodal__open(serieModalTitle, "edit", serieData)
-
+            self.listtab__seriemodal__open(serie_modal_title, "edit", serie_data)
 
     def listtab__delete_serie(self):
         """Fonction appelée pour la suppresion d'une série"""
@@ -584,28 +562,29 @@ class MainWindow(QMainWindow):
         # Empèche de supprimer une série inexistante
         if not self.seriesList:
             # Si la liste est vide on affiche un message à l'utilisateur
-            showInfo = QMessageBox.information(self, 'Action impossible', "Aucune saison à supprimer !", QMessageBox.Ok)
+            show_info = QMessageBox.information(self, 'Action impossible', "Aucune saison à supprimer !",
+                                                QMessageBox.Ok)
 
         else:
             # Récupération de l'index de la série sélectionnée dans la liste déroulante
-            serieIndexId = self.comboBox_2.currentIndex()
+            serie_index_id = self.comboBox_2.currentIndex()
 
             # Récupération des informations
-            serieData = self.seriesList[serieIndexId]
-            serieId = serieData["serieId"]
-            sqlData = {'serieId': serieId}
+            serie_data = self.seriesList[serie_index_id]
+            serie_id = serie_data["serie_id"]
+            sql_data = {'serie_id': serie_id}
 
             # Suppression de la série dans dans le planning (évite de garder des séries dans le planning)
             log.info(serieDeleteFromPlanningQuery)
-            self.cursor.execute(serieDeleteFromPlanningQuery, sqlData)
+            self.cursor.execute(serieDeleteFromPlanningQuery, sql_data)
 
             # Suppression des saisons
             log.info(seasonDeleteFromSeasonsWhereSerieIdQuery)
-            self.cursor.execute(seasonDeleteFromSeasonsWhereSerieIdQuery, sqlData)
+            self.cursor.execute(seasonDeleteFromSeasonsWhereSerieIdQuery, sql_data)
 
             # Suppression de la série
             log.info(serieDeleteFromSeriesQuery)
-            self.cursor.execute(serieDeleteFromSeriesQuery, sqlData)
+            self.cursor.execute(serieDeleteFromSeriesQuery, sql_data)
 
             # Mise à jour de la liste des séries et des informations
             self.listtab__serieslist__fill()
@@ -613,27 +592,25 @@ class MainWindow(QMainWindow):
             self.listtab__seasonslist__fill()
             self.listtab__seasondata__fill()
 
-
     def listtab__create_season(self):
         """Fonction qui lance la fenetre de création d'une nouvelle saison"""
 
         # Empèche de créer une saison si aucune série n'existe
         if not self.seriesList:
             # Si la liste est vide on affiche un message à l'utilisateur
-            showInfo = QMessageBox.information(self, 'Action impossible', "Aucune série existante !", QMessageBox.Ok)
+            show_info = QMessageBox.information(self, 'Action impossible', "Aucune série existante !", QMessageBox.Ok)
 
         else:
 
             # Récupération de l'index de la série sélectionnée dans la liste déroulante
-            serieIndexId = self.comboBox_2.currentIndex()
+            serie_index_id = self.comboBox_2.currentIndex()
 
             # Récupération des informations
-            serieData = self.seriesList[serieIndexId]
-            serieId = serieData["serieId"]
+            serie_data = self.seriesList[serie_index_id]
+            serie_id = serie_data["serie_id"]
 
             # Ouverture de la fenetre modale
-            self.listtab__seasonmodal__open("Ajouter", "create", serieId, None)
-
+            self.listtab__seasonmodal__open("Ajouter", "create", serie_id, None)
 
     def listtab__edit_season(self):
         """Fonction qui lance la fenetre d'edition d'une saison"""
@@ -641,29 +618,28 @@ class MainWindow(QMainWindow):
         # Empèche d'éditer une saison inexistante
         if not self.seasonsList:
             # Si la liste est vide on affiche un message à l'utilisateur
-            showInfo = QMessageBox.information(self, 'Action impossible', "Aucune saison à editer !", QMessageBox.Ok)
+            show_info = QMessageBox.information(self, 'Action impossible', "Aucune saison à editer !", QMessageBox.Ok)
 
         else:
             # Récupération de l'index de la série sélectionnée dans la liste déroulante
-            serieIndexId = self.comboBox_2.currentIndex()
+            serie_index_id = self.comboBox_2.currentIndex()
 
             # Récupération de l'index de la série sélectionnée dans la liste déroulante
-            seasonIndexId = self.comboBox.currentIndex()
+            season_index_id = self.comboBox.currentIndex()
 
             # Récupération d'information sur la série
-            serieData = self.seriesList[serieIndexId]
-            serieId = serieData["serieId"]
+            serie_data = self.seriesList[serie_index_id]
+            serie_id = serie_data["serie_id"]
 
             # Récupération des informations sur la saison
-            seasonData = self.seasonsList[seasonIndexId]
-            seasonTitle = seasonData["seasonTitle"]
+            season_data = self.seasonsList[season_index_id]
+            season_title = season_data["season_title"]
 
             # Titre de la fenetre
-            seasonModalTitle = "Edition : %s" % seasonTitle
+            season_modal_title = "Edition : %s" % season_title
 
             # Ouverture de la fenetre d'édition
-            self.listtab__seasonmodal__open(seasonModalTitle, "edit", serieId, seasonData)
-
+            self.listtab__seasonmodal__open(season_modal_title, "edit", serie_id, season_data)
 
     def listtab__delete__season(self):
         """Fonction qui supprime la saison sélectionnée"""
@@ -671,25 +647,26 @@ class MainWindow(QMainWindow):
         # Empèche de supprimer une saison inexistante
         if not self.seasonsList:
             # Si la liste est vide on affiche un message à l'utilisateur
-            showInfo = QMessageBox.information(self, 'Action impossible', "Aucune saison à supprimer !", QMessageBox.Ok)
+            show_info = QMessageBox.information(self, 'Action impossible', "Aucune saison à supprimer !",
+                                                QMessageBox.Ok)
 
         else:
 
             # Récupération de l'index de la série sélectionnée dans la liste déroulante
-            seasonIndexId = self.comboBox.currentIndex()
+            season_index_id = self.comboBox.currentIndex()
 
             # Récupération des informations sur la saison
-            seasonData = self.seasonsList[seasonIndexId]
-            seasonId = seasonData["seasonId"]
-            sqlData = {'seasonId': seasonId}
+            season_data = self.seasonsList[season_index_id]
+            season_id = season_data["season_id"]
+            sql_data = {'season_id': season_id}
 
             # Suppression de la saison dans dans le planning (évite de garder des saisons dans le planning)
             log.info(seasonDeleteFromPlanningQuery)
-            self.cursor.execute(seasonDeleteFromPlanningQuery, sqlData)
+            self.cursor.execute(seasonDeleteFromPlanningQuery, sql_data)
 
             # Suppression des saisons
             log.info(seasonDeleteFromSeasonsQuery)
-            self.cursor.execute(seasonDeleteFromSeasonsQuery, sqlData)
+            self.cursor.execute(seasonDeleteFromSeasonsQuery, sql_data)
 
             # Mise à jour de l'interface
             self.listtab__serieslist__fill()
@@ -699,19 +676,18 @@ class MainWindow(QMainWindow):
         self.listtab__serieslist__fill()
 
         if self.seriesList:
-            serieId = randint(0, len(self.seriesList))
-            self.comboBox_2.setCurrentIndex(serieId)
-
+            serie_id = randint(0, len(self.seriesList))
+            self.comboBox_2.setCurrentIndex(serie_id)
 
     def listtab__open_explorer(self):
         """Fonction qui ouvre un gestionnaire de fichiers. Multiplatforme"""
 
         # Récupération du chemin du dossier de la série en cours
-        path = self.seriePath
+        path = self.serie_path
 
         if path:
-            if not open_filebrowser(path): log.info("Impossible d'ouvrir le répertoire")
-
+            if not open_filebrowser(path):
+                log.info("Impossible d'ouvrir le répertoire")
 
     def planningtab__calendar__paint_cells(self):
         """
@@ -731,8 +707,6 @@ class MainWindow(QMainWindow):
 
         self.planningCalendar.paintCell(QPainter(), QRect(), QDate())
 
-
-
     def planningtab__watched__clear(self):
         """Fonction qui vide la liste des séries vues"""
 
@@ -742,7 +716,6 @@ class MainWindow(QMainWindow):
 
         # Supprime les lignes vides
         self.tableWidget_2.setRowCount(0)
-
 
     def planningtab__watched__fill(self):
         """Fonction qui rempli la listes des séries vus en fonction de la date"""
@@ -754,100 +727,100 @@ class MainWindow(QMainWindow):
         self.label_37.setText("")
 
         # Récupération de la date en cours dans le calendrier
-        selectedDate = self.planningCalendar.selectedDate().toPyDate()
+        selected_date = self.planningCalendar.selectedDate().toPyDate()
 
         log.info(getDataForTheChoosenDay)
-        sqlData = {'planningDate': selectedDate}
-        self.cursor.execute(getDataForTheChoosenDay, sqlData)
-        self.planningWatched = self.cursor.fetchall()
+        sql_data = {'planning_date': selected_date}
+        self.cursor.execute(getDataForTheChoosenDay, sql_data)
+        self.planning_watched = self.cursor.fetchall()
 
         # Affichage du nombre d'épisodes vus pour cette date
-        episodesCount = len(self.planningWatched)
-        if episodesCount < 2:
+        episodes_count = len(self.planning_watched)
+        if episodes_count < 2:
             text = "épisode vu"
         else:
             text = "épisodes vus"
 
-        message = "{0} {1}".format(episodesCount, text)
+        message = "{0} {1}".format(episodes_count, text)
 
         # Application du message
         self.label_37.setText(message)
 
         # Remplissage de la liste des séries vues (si elle n'est pas vide)
-        if self.planningWatched:
+        if self.planning_watched:
 
             # Définition de la taille du tableau
-            rowNumber = len(self.planningWatched)
-            self.tableWidget_2.setRowCount(rowNumber)
+            row_number = len(self.planning_watched)
+            self.tableWidget_2.setRowCount(row_number)
 
             # Ajout des éléments
-            for id, row in enumerate(self.planningWatched):
+            for index, row in enumerate(self.planning_watched):
                 # On affiche pas la colonne de la date
                 # Récupération des informations
 
-                serieTitle = row["serieTitle"]
-                seasonTitle = row["seasonTitle"]
-                planningEpisodeId = str(row["planningEpisodeId"])
+                serieTitle = row["serie_title"]
+                season_title = row["season_title"]
+                planning_episode_id = str(row["planning_episode_id"])
 
                 # Ajout des colonnes dans le tableau
                 column0 = QTableWidgetItem(serieTitle)
-                self.tableWidget_2.setItem(id, 0, column0)
+                self.tableWidget_2.setItem(index, 0, column0)
 
-                column1 = QTableWidgetItem(seasonTitle)
-                self.tableWidget_2.setItem(id, 1, column1)
+                column1 = QTableWidgetItem(season_title)
+                self.tableWidget_2.setItem(index, 1, column1)
 
-                column2 = QTableWidgetItem(planningEpisodeId)
-                self.tableWidget_2.setItem(id, 2, column2)
+                column2 = QTableWidgetItem(planning_episode_id)
+                self.tableWidget_2.setItem(index, 2, column2)
 
         # Taille de cellules s'adaptant au contenu
         self.tableWidget_2.resizeColumnsToContents()
-
 
     def planningtab__watched__add(self):
         """Fonction qui ajoute l'épisode à voir dans la liste des épisodes vus"""
 
         # Récupération de l'identifiant sélectionné
-        planningtabNextIndex = self.tableWidget_3.currentRow()
+        planningtab_next_index = self.tableWidget_3.currentRow()
 
-        if planningtabNextIndex != -1:
+        if planningtab_next_index != -1:
 
             # Récupération de la date sélectionnée
-            selectedDate = self.planningCalendar.selectedDate().toPyDate()
+            selected_date = self.planningCalendar.selectedDate().toPyDate()
 
             # Récupération des informations sur l'élement sélectionné
-            data = self.planningToWatch[planningtabNextIndex]
-            serieId = data["serieId"]
-            seasonId = data["seasonId"]
-            seasonEpisodes = data["seasonEpisodes"]
-            seasonWatchedEpisodes = data["seasonWatchedEpisodes"]
-            seasonCurrentEpisodeId = seasonWatchedEpisodes + 1
+            data = self.planningToWatch[planningtab_next_index]
+            serie_id = data["serie_id"]
+            season_id = data["season_id"]
+            season_episodes = data["season_episodes"]
+            season_watched_episodes = data["season_watched_episodes"]
+            season_current_episode_id = season_watched_episodes + 1
 
             # Commande SQL d'insertion dans les animés vus
             log.info(planningAddEpisodeToWatchedList)
-            sqlData = {'selectedDate': selectedDate, 'serieId': serieId, 'seasonId': seasonId, 'seasonCurrentEpisodeId': seasonCurrentEpisodeId}
-            self.cursor.execute(planningAddEpisodeToWatchedList, sqlData)
+            sql_data = {'selected_date': selected_date, 'serie_id': serie_id, 'season_id': season_id,
+                        'season_current_episode_id': season_current_episode_id}
+            self.cursor.execute(planningAddEpisodeToWatchedList, sql_data)
 
             # Incrémentation du nombre d'épisodes vus pour la saison
             # Si la saison est terminée, alors
-            if seasonCurrentEpisodeId == seasonEpisodes:
+            if season_current_episode_id == season_episodes:
 
                 # On passe le nombre d'épisodes vus à 0
                 log.info(planningSetCurrentEpisodeTo0)
-                sqlData = {'seasonId': seasonId}
-                self.cursor.execute(planningSetCurrentEpisodeTo0, sqlData)
+                sql_data = {'season_id': season_id}
+                self.cursor.execute(planningSetCurrentEpisodeTo0, sql_data)
 
                 # On incrémente le nombre de visionnages
                 log.info(planningIncrementSeasonViewCount)
-                self.cursor.execute(planningIncrementSeasonViewCount, sqlData)
+                self.cursor.execute(planningIncrementSeasonViewCount, sql_data)
 
                 # On passe l'état de la série à 3: terminé
                 log.info(planningSetSeasonToFinished)
-                self.cursor.execute(planningSetSeasonToFinished, sqlData)
+                self.cursor.execute(planningSetSeasonToFinished, sql_data)
 
             # Sinon on incrémente normalement
             else:
-                sqlData = {'seasonWatchedEpisodes': seasonCurrentEpisodeId, 'seasonId': seasonId}
-                self.cursor.execute(planningIncrementEpisode, sqlData)
+                sql_data = {'season_watched_episodes': season_current_episode_id, 'season_id': season_id}
+                self.cursor.execute(planningIncrementEpisode, sql_data)
 
             # Mise à jour des couleurs de fond des jours dans le calendrier
             self.planningtab__calendar__paint_cells()
@@ -858,20 +831,19 @@ class MainWindow(QMainWindow):
             # Mise à jour de la liste des épisodes à voir
             self.planningtab__next__fill()
 
-
     def planningtab__watched__remove(self):
         """Fonction qui supprime une série dans la liste"""
 
         # Récupération de l'identifiant de la ligne sélectionnée
-        currentId = self.tableWidget_2.currentRow()
+        current_id = self.tableWidget_2.currentRow()
 
-        if currentId != -1:
-            data = self.planningWatched[currentId]
-            planningId = data["planningId"]
+        if current_id != -1:
+            data = self.planning_watched[current_id]
+            planning_id = data["planning_id"]
 
             log.info(planningRemoveEpisodeFromWatchedList)
-            sqlData = {'planningId': planningId}
-            self.cursor.execute(planningRemoveEpisodeFromWatchedList, sqlData)
+            sql_data = {'planning_id': planning_id}
+            self.cursor.execute(planningRemoveEpisodeFromWatchedList, sql_data)
 
             # Mise à jour des couleurs de fond des jours dans le calendrier
             self.planningtab__calendar__paint_cells()
@@ -879,19 +851,19 @@ class MainWindow(QMainWindow):
             # Mise à jour de la liste des épisodes vus
             self.planningtab__watched__fill()
 
-
     def planningtab__is_button_need_to_be_enabled(self):
         """Affiche ou masque le bouton d'ouverture si le dossier de la série n'existe pas"""
 
-        planningtabNextIndex = self.tableWidget_3.currentRow()
-        if planningtabNextIndex != -1:
+        planningtab_next_index = self.tableWidget_3.currentRow()
+        if planningtab_next_index != -1:
             # Récupération des informations sur l'élement sélectionné
-            data = self.planningToWatch[planningtabNextIndex]
-            seriePath = data["seriePath"]
+            data = self.planningToWatch[planningtab_next_index]
+            serie_path = data["serie_path"]
 
-            if os.path.exists(seriePath): self.pushButton_13.setEnabled(True)
-            else: self.pushButton_13.setEnabled(False)
-
+            if os.path.exists(serie_path):
+                self.pushButton_13.setEnabled(True)
+            else:
+                self.pushButton_13.setEnabled(False)
 
     def planningtab__next__clear(self):
         """Fonction qui vide la liste des épisodes à voir"""
@@ -903,7 +875,6 @@ class MainWindow(QMainWindow):
         # Supprime les lignes vides
         self.tableWidget_3.setRowCount(0)
 
-
     def planningtab__next__fill(self):
         """Fonction qui remplie la liste des épisodes à voir"""
 
@@ -913,54 +884,53 @@ class MainWindow(QMainWindow):
         # Si on choisi de n'afficher que les séries en cours
         if self.checkBox.isChecked():
             # Commande SQL
-            sqlQuery = planningFillWithWatchingSeries
+            sql_query = planningFillWithWatchingSeries
 
         else:
             # Commande SQL
-            sqlQuery = planningEpisodesFillWithAll
+            sql_query = planningEpisodesFillWithAll
 
-        log.info(sqlQuery)
-        self.cursor.execute(sqlQuery)
+        log.info(sql_query)
+        self.cursor.execute(sql_query)
         self.planningToWatch = self.cursor.fetchall()
 
         # Remplissage de la liste des séries vues (si elle n'est pas vide)
         if self.planningToWatch:
 
             # Définition de la taille du tableau
-            rowNumber = len(self.planningToWatch)
-            self.tableWidget_3.setRowCount(rowNumber)
+            row_number = len(self.planningToWatch)
+            self.tableWidget_3.setRowCount(row_number)
 
             # Ajout des éléments
-            for id, row in enumerate(self.planningToWatch):
+            for index, row in enumerate(self.planningToWatch):
                 # Récupération des informations
-                serieTitle = row["serieTitle"]
-                seasonTitle = row["seasonTitle"]
-                planningEpisodeId = row["seasonWatchedEpisodes"]  # Identifiant du prochain épisode
-                planningEpisodeIdNext = row["seasonWatchedEpisodes"] + 1
-                planningEpisodes = row["seasonEpisodes"]
-                plannningEpisodeIdTotal = "{} / {}".format(planningEpisodeIdNext, planningEpisodes)
+                serie_title = row["serie_title"]
+                season_title = row["season_title"]
+                planning_episode_id = row["season_watched_episodes"]  # Identifiant du prochain épisode
+                planning_episode_id_next = row["season_watched_episodes"] + 1
+                planning_episodes = row["season_episodes"]
+                plannning_episode_id_total = "{} / {}".format(planning_episode_id_next, planning_episodes)
 
                 # Ajout des colonnes dans le tableau
-                column0 = QTableWidgetItem(serieTitle)
-                self.tableWidget_3.setItem(id, 0, column0)
+                column0 = QTableWidgetItem(serie_title)
+                self.tableWidget_3.setItem(index, 0, column0)
 
-                column1 = QTableWidgetItem(seasonTitle)
-                self.tableWidget_3.setItem(id, 1, column1)
+                column1 = QTableWidgetItem(season_title)
+                self.tableWidget_3.setItem(index, 1, column1)
 
-                column2 = QTableWidgetItem(plannningEpisodeIdTotal)
-                self.tableWidget_3.setItem(id, 2, column2)
+                column2 = QTableWidgetItem(plannning_episode_id_total)
+                self.tableWidget_3.setItem(index, 2, column2)
 
-                progressBar = QProgressBar(self)
-                progressBar.setMinimum(0)
-                progressBar.setMaximum(planningEpisodes)
-                progressBar.setValue(planningEpisodeId) # Car si un film donc épisode 1 / 1 on à déja une barre à 100%
+                progress_bar = QProgressBar(self)
+                progress_bar.setMinimum(0)
+                progress_bar.setMaximum(planning_episodes)
+                progress_bar.setValue(
+                    planning_episode_id)  # Car si un film donc épisode 1 / 1 on à déja une barre à 100%
 
-                self.tableWidget_3.setCellWidget(id, 3, progressBar)
-
+                self.tableWidget_3.setCellWidget(index, 3, progress_bar)
 
         # Taille de cellules s'adaptant au contenu
         self.tableWidget_3.resizeColumnsToContents()
-
 
     def planningtab__calendar__today(self):
         """Fonction qui ramène le calendrier à la date actuelle"""
@@ -974,22 +944,21 @@ class MainWindow(QMainWindow):
         # Met à jour les informations
         self.planningtab__watched__fill()
 
-
     def planningtab__open_explorer(self):
         """Fonction qui ouvre un gestionnaire de fichiers. Multiplatforme"""
 
         # Récupération de l'identifiant sélectionné dans le tableau des animés à voir
-        planningtabNextIndex = self.tableWidget_3.currentRow()
+        planningtab_next_index = self.tableWidget_3.currentRow()
 
-        if planningtabNextIndex != -1:
+        if planningtab_next_index != -1:
 
             # Récupération des informations sur l'élement sélectionné
-            data = self.planningToWatch[planningtabNextIndex]
-            seriePath = data["seriePath"]
+            data = self.planningToWatch[planningtab_next_index]
+            serie_path = data["serie_path"]
 
-            if seriePath:
-                if not open_filebrowser(seriePath): log.info("Impossible d'ouvrir le répertoire")
-
+            if serie_path:
+                if not open_filebrowser(serie_path):
+                    log.info("Impossible d'ouvrir le répertoire")
 
     def notestab__fill(self):
         """Fonction qui rempli les notes"""
@@ -1001,22 +970,20 @@ class MainWindow(QMainWindow):
 
         # Si il y a une notes existantes:
         if notes:
-            notesPageId = notes["notesPageId"]
-            notesData = notes["notesData"]
+            notes_page_id = notes["notes_page_id"]
+            notes_data = notes["notes_data"]
 
-            self.plainTextEdit.setPlainText(notesData)
-
+            self.plainTextEdit.setPlainText(notes_data)
 
     def notestab__save(self):
         """Fonction qui sauvegarde les notes"""
 
         # Récupération des données
-        notesData = self.plainTextEdit.toPlainText()
+        notes_data = self.plainTextEdit.toPlainText()
 
         # Enregistrement des notes dans la base de données
-        sqlData = {'notesData': notesData}
-        self.cursor.execute(notesSave, sqlData)
-
+        sql_data = {'notes_data': notes_data}
+        self.cursor.execute(notesSave, sql_data)
 
     def settings__load(self):
         """Fonction qui charge les paramètres depuis le fichier de configuration"""
@@ -1041,17 +1008,14 @@ class MainWindow(QMainWindow):
             # Création d'un fichier de configuration
             self.settings__save()
 
-
     def settings__fill(self):
         """Fonction qui rempli les parametres dans l'onglet associé"""
 
         log.info("Chargement des paramètres dans les élements de l'onglet Paramètres")
 
-
         # Application des informations sur les controles visuels
         self.comboBox_3.setCurrentIndex(self.settings["startupPageId"])
         self.checkBox_2.setChecked(self.settings["realtimeSearch"])
-
 
     def settings__save(self):
         """Fonction utilisé pour sauvegarder la configuration"""
@@ -1069,7 +1033,6 @@ class MainWindow(QMainWindow):
 
         self.statusbar.showMessage("Paramètres sauvegardés. Relancer l'application pour qu'ils prennent effet.")
 
-
     # Fonctions de l'onglet outils
     def tools__watch_time__execute(self):
         """Fonction qui permet d'établir un planning """
@@ -1078,22 +1041,22 @@ class MainWindow(QMainWindow):
         self.listWidget_2.clear()
 
         # Récupération du contenu des spinbox
-        episodeNumber = self.spinBox_2.value()
-        episodeLength = self.spinBox_3.value()
+        episode_number = self.spinBox_2.value()
+        episode_length = self.spinBox_3.value()
 
         # Récupération de l'heure de départ à partir de la textbox  et la convertion en string
-        startString = str(self.timeEdit.dateTime().toString("hh:mm"))  # time().toPyTime()
+        start_string = str(self.timeEdit.dateTime().toString("hh:mm"))  # time().toPyTime()
 
         # Convertion de la chaine en type datetime
-        start = datetime.strptime(startString, "%H:%M")
+        start = datetime.strptime(start_string, "%H:%M")
 
-        for x in range(episodeNumber):
-            end = start + timedelta(minutes=episodeLength)
-            rowText = "{:02d} - {:02d}:{:02d} -> {:02d}:{:02d}".format(x + 1, start.hour, start.minute, end.hour,
-                                                                       end.minute)  # Chaine qui sera affichée
+        for x in range(episode_number):
+            end = start + timedelta(minutes=episode_length)
+            row_text = "{:02d} - {:02d}:{:02d} -> {:02d}:{:02d}".format(x + 1, start.hour, start.minute, end.hour,
+                                                                        end.minute)  # Chaine qui sera affichée
 
             # Création de l'élément
-            row = QListWidgetItem(rowText)
+            row = QListWidgetItem(row_text)
 
             # Ajout de l'élément dans le tableau
             self.listWidget_2.addItem(row)
@@ -1101,16 +1064,14 @@ class MainWindow(QMainWindow):
             # Décale la plage
             start = end
 
-
     def tools__watch_time__local_time(self):
         """Fonction qui permet de choisir l'heure actuelle dans l'outil"""
 
         # Récupération de l'heure locale
-        localTime = QTime.currentTime()
+        local_time = QTime.currentTime()
 
         # Application de l'heure sur l'objet timeEdit
-        self.timeEdit.setTime(localTime)
-
+        self.timeEdit.setTime(local_time)
 
     def on_close(self, event):
         """Action appelée à la fermeture de l'application"""
@@ -1119,15 +1080,16 @@ class MainWindow(QMainWindow):
         if self.database.total_changes > 0:
 
             # Affiche la fenetre de dialogue d'enregistrement
-            saveQuestion = QMessageBox.question(self, 'Enregistrer les changements', "Enregistrer les modifications ?", QMessageBox.Yes, QMessageBox.No)
+            save_question = QMessageBox.question(self, 'Enregistrer les changements', "Enregistrer les modifications ?",
+                                                 QMessageBox.Yes, QMessageBox.No)
 
             # Si on clique sur Oui (Sauvegarder)
-            if saveQuestion == QMessageBox.Yes:
+            if save_question == QMessageBox.Yes:
                 # Enregistre les modifications dans la bdd
                 self.database.commit()
 
             # Si on clique sur Quitter sans sauvegarder
-            elif saveQuestion == QMessageBox.No:
+            elif save_question == QMessageBox.No:
 
                 # Annule tout les changements depuis le dernier enregistrement
                 self.database.rollback()

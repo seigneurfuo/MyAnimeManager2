@@ -8,21 +8,20 @@ from ressources.log import *
 
 
 class SerieModal(QDialog):
-    def __init__(self, parent, action, serieData):
+    def __init__(self, parent, action, serie_data):
         """Classe de la fenetre modale seasonModal"""
 
         super(SerieModal, self).__init__()
 
         self.parent = parent
         self.action = action
-        self.serieData = serieData
+        self.serieData = serie_data
         self.seriePath = ""
 
         loadUi(os.path.join(self.parent.appDir, 'ressources/SerieModal.ui'), self)
 
         # Définition des évenements de la fenetre
         self.events()
-
 
     def events(self):
         """Evènements de la fenetre modale"""
@@ -37,8 +36,8 @@ class SerieModal(QDialog):
         self.choosePathButton.clicked.connect(self.choose_path)
 
         #
-        # On a besoin de l'id interne de la série pour nommer la cover. Mais on ne peut pas la connaitre avant la création de la série.
-        # On empèche donc l'ajout d'une cover en mode création
+        # On a besoin de l'id interne de la série pour nommer la cover. Mais on ne peut pas la connaitre avant la
+        # création de la série. On empèche donc l'ajout d'une cover en mode création
         #
 
         if self.action == "create":
@@ -54,87 +53,89 @@ class SerieModal(QDialog):
 
 
         elif self.action == "edit":
-            # Bouton de sélection de l'image de la série (par défault lors de la création on ne peut pas choisir l'image: contournement de bug)
+            # Bouton de sélection de l'image de la série (par défault lors de la création on ne peut pas choisir
+            # l'image: contournement de bug)
             self.chooseCoverButton.clicked.connect(self.choose_cover)
 
             # Remplissage des informations
             self.fill()
 
-
     def choose_cover(self):
         """Fonction qui permet de rechercher une image"""
 
         # Ouveture d'une fenetre de sélection de fichier
-        fileName, _ = QFileDialog.getOpenFileName(self, "Choisir une image", "",
-                                                  "Fichiers images (*.jpg *.jpeg *.png *.gif);;Tous les fichiers (*)")
+        file_name, _ = QFileDialog.getOpenFileName(self, "Choisir une image", "",
+                                                   "Fichiers images (*.jpg *.jpeg *.png *.gif);;Tous les fichiers (*)")
 
         # Si un fichier à été sélectionné
-        if fileName:
-            logMsg = "Chargé: {0}".format(fileName)
-            log.info(logMsg)
+        if file_name:
+            log_msg = "Chargé: {0}".format(file_name)
+            log.info(log_msg)
 
             # Définition du nom de l'image de destination
-            serieId = str(self.serieData["serieId"])
-            coverFilename = "./profile/covers/{0}".format(serieId)
+            serie_id = str(self.serieData["serie_id"])
+            cover_filename = "./profile/covers/{0}".format(serie_id)
 
             # Copie l'image sélectionnée dans le dossier correpondant
-            copy(fileName, coverFilename)
+            copy(file_name, cover_filename)
 
             # Application de l'image
-            pixmap = QPixmap(coverFilename)
+            pixmap = QPixmap(cover_filename)
             self.coverPreview.setPixmap(pixmap)
-
 
     def choose_path(self):
         """Fonction qui permet à l'utilisateur de choisir le dossier de la série"""
 
         # Ouveture d'une fenetre de sélection de dossier
-        folderName = QFileDialog.getExistingDirectory(self, "Choisir le dossier de la série")
+        folder_name = QFileDialog.getExistingDirectory(self, "Choisir le dossier de la série")
 
         # Si un dossier à été sélectionné
-        if folderName:
-            #log.info(folderName)
+        if folder_name:
+            # log.info(folder_name)
 
             # Application du texte sur le widget line edit
-            self.lineEdit_2.setText(folderName)
-
+            self.lineEdit_2.setText(folder_name)
 
     def save(self):
         """Fonction qui permet d'ajouter une nouvelle série"""
 
         # Récupération des informations entrées par l'utilisateur
-        serieSortId = self.spinBox_2.value()
-        serieTitle = str(self.lineEdit.text())
-        seriePath = str(self.lineEdit_2.text())  # On récupère le chemin de la série depuis un bloc de texte car il est possible de coller directement le chemin de la série au lieu d'utiliser l'explorateur
+        serie_sort_id = self.spinBox_2.value()
+        serie_title = str(self.lineEdit.text())
+        serie_path = str(
+            self.lineEdit_2.text())  # On récupère le chemin de la série depuis un bloc de texte car il est possible
+        # de coller directement le chemin de la série au lieu d'utiliser l'explorateur
 
         # Checkbox (série appréciée)
         if self.checkBox.isChecked():
-            serieLiked = 1
+            serie_liked = 1
         else:
-            serieLiked = 0
+            serie_liked = 0
 
         if self.action == "create":
 
             # Application des modifications dans la base
-            sqlQuery = "INSERT INTO serie (serieId, serieSortId, serieTitle, serieLiked, seriePath) VALUES (NULL, :serieSortId, :serieTitle, :serieLiked, :seriePath)"
-            sqlData = {'serieSortId': serieSortId, 'serieTitle': serieTitle, 'serieLiked': serieLiked,
-                    'seriePath': seriePath}
-            self.parent.cursor.execute(sqlQuery, sqlData)
+            sql_query = "INSERT INTO serie (serie_id, serie_sort_id, serie_title, serie_liked, serie_path) VALUES (" \
+                        "NULL, :serie_sort_id, :serie_title, :serie_liked, :serie_path) "
+            sql_data = {'serie_sort_id': serie_sort_id, 'serie_title': serie_title, 'serie_liked': serie_liked,
+                        'serie_path': serie_path}
+            self.parent.cursor.execute(sql_query, sql_data)
 
         elif self.action == "edit":
 
             # Récupération des informations sur la série
-            serieData = self.serieData
-            serieId = int(serieData["serieId"])
+            serie_data = self.serieData
+            serie_id = int(serie_data["serie_id"])
 
             # Commande SQL de mise à jour
-            sqlQuery = "UPDATE serie SET serieSortId = :serieSortId, serieTitle = :serieTitle, serieLiked = :serieLiked, seriePath = :seriePath WHERE serieId = :serieId"
-            sqlData = {'serieSortId': serieSortId, 'serieTitle': serieTitle, 'serieLiked': serieLiked,
-                    'seriePath': seriePath, 'serieId': serieId}
-            self.parent.cursor.execute(sqlQuery, sqlData)
+            sql_query = "UPDATE serie SET serie_sort_id = :serie_sort_id, serie_title = :serie_title, serie_liked = " \
+                        ":serie_liked, serie_path = :serie_path WHERE serie_id = :serie_id "
+            sql_data = {'serie_sort_id': serie_sort_id, 'serie_title': serie_title, 'serie_liked': serie_liked,
+                        'serie_path': serie_path, 'serie_id': serie_id}
+            self.parent.cursor.execute(sql_query, sql_data)
 
         # Affichage de la commande sql (debug)
-        #log.info(sqlQuery)
+        # log.info(sql_query)
 
         # Mise a jour de la liste des séries et des informations
         self.parent.listtab__serieslist__fill()
@@ -143,33 +144,32 @@ class SerieModal(QDialog):
         # Fermeture de la fenetre modale
         self.close()
 
-
     def fill(self):
         """Fonction qui rempli les informations lors de l'édition d'une série"""
 
         # Récupération des informations sur la série
-        serieData = self.serieData
-        serieSortId = int(serieData["serieSortId"])
-        serieTitle = str(serieData["serieTitle"])
-        serieLiked = int(serieData["serieLiked"])
-        seriePath = str(serieData["seriePath"])
+        serie_data = self.serieData
+        serie_sort_id = int(serie_data["serie_sort_id"])
+        serie_title = str(serie_data["serie_title"])
+        serie_liked = int(serie_data["serie_liked"])
+        serie_path = str(serie_data["serie_path"])
 
         # Application des informations dans les différents élements
-        self.spinBox_2.setValue(serieSortId)
-        self.lineEdit.setText(serieTitle)
-        self.lineEdit_2.setText(seriePath)
+        self.spinBox_2.setValue(serie_sort_id)
+        self.lineEdit.setText(serie_title)
+        self.lineEdit_2.setText(serie_path)
 
         # Checkbox
-        if serieLiked == 1: self.checkBox.setChecked(True)
+        if serie_liked == 1:
+            self.checkBox.setChecked(True)
 
         # Chargement de l'image
-        serieId = str(self.serieData["serieId"])
-        coverFilename = "./profile/covers/{0}".format(serieId)
-        if os.path.exists(coverFilename):
+        serie_id = str(self.serieData["serie_id"])
+        cover_filename = "./profile/covers/{0}".format(serie_id)
+        if os.path.exists(cover_filename):
             # Application de l'image
-            pixmap = QPixmap(coverFilename)
+            pixmap = QPixmap(cover_filename)
             self.coverPreview.setPixmap(pixmap)
-
 
     def cancel(self):
         """Fonction appelée lors du clic sur le bouton annuler"""

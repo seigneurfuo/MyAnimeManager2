@@ -4,15 +4,15 @@ import os
 
 
 class SeasonModal(QDialog):
-    def __init__(self, parent, action, serieId, seasonData):
+    def __init__(self, parent, action, serie_id, season_data):
         """Classe de la fenetre modale seasonModal"""
 
         super(SeasonModal, self).__init__()
 
         self.parent = parent
         self.action = action
-        self.serieId = serieId
-        self.seasonData = seasonData
+        self.serieId = serie_id
+        self.seasonData = season_data
 
         loadUi(os.path.join(self.parent.appDir, 'ressources/SeasonModal.ui'), self)
 
@@ -27,108 +27,114 @@ class SeasonModal(QDialog):
         self.saveButton.clicked.connect(self.save)
 
         # venements en mode édition
-        if self.action == "edit": self.fill()
+        if self.action == "edit":
+            self.fill()
 
     def fill(self):
         """Fonction qui rempli les informations lors de l'édition d'une saison"""
 
         # Récupération des informations
-        seasonData = self.seasonData
-        seasonSortId = seasonData["seasonSortId"]
-        seasonTitle = str(seasonData["seasonTitle"])
-        seasonStudio = str(seasonData["seasonStudio"])
-        seasonDescription = str(seasonData["seasonDescription"])
-        seasonReleaseYear = str(seasonData["seasonReleaseYear"])
-        seasonFansubTeam = str(seasonData["seasonFansubTeam"])
-        seasonEpisodes = seasonData["seasonEpisodes"]
-        seasonWatchedEpisodes = seasonData["seasonWatchedEpisodes"]
-        seasonViewCount = seasonData["seasonViewCount"]
-        seasonLanguage = seasonData["seasonLanguage"]
-        seasonState = seasonData["seasonState"]
-        seasonNotes = seasonData["seasonNotes"]
+        season_data = self.seasonData
+        season_sort_id = season_data["season_sort_id"]
+        season_title = str(season_data["season_title"])
+        season_studio = str(season_data["season_studio"])
+        season_description = str(season_data["season_description"])
+        season_release_year = str(season_data["season_release_year"])
+        season_fansub_team = str(season_data["season_fansub_team"])
+        season_episodes = season_data["season_episodes"]
+        season_watched_episodes = season_data["season_watched_episodes"]
+        season_view_count = season_data["season_view_count"]
+        season_language = season_data["season_language"]
+        season_state = season_data["season_state"]
+        season_notes = season_data["season_notes"]
 
         # Application des informations sur l'interface
-        self.spinBox_2.setValue(seasonSortId)
-        self.lineEdit.setText(seasonStudio)
-        self.lineEdit_2.setText(seasonTitle)
-        self.lineEdit_3.setText(seasonDescription)
-        self.lineEdit_5.setText(seasonReleaseYear)
-        self.lineEdit_6.setText(seasonFansubTeam)
-        self.episodesSpinbox.setValue(seasonEpisodes)
-        self.episodesWatchedSpinbox.setValue(seasonWatchedEpisodes)
-        self.seasonViewCountSpinbox.setValue(seasonViewCount)
-        self.seasonLanguageComboBox.setCurrentIndex(seasonLanguage)
-        self.seasonStateComboBox.setCurrentIndex(seasonState)
-        self.textEdit.setText(seasonNotes)
+        self.spinBox_2.setValue(season_sort_id)
+        self.lineEdit.setText(season_studio)
+        self.lineEdit_2.setText(season_title)
+        self.lineEdit_3.setText(season_description)
+        self.lineEdit_5.setText(season_release_year)
+        self.lineEdit_6.setText(season_fansub_team)
+        self.episodesSpinbox.setValue(season_episodes)
+        self.episodesWatchedSpinbox.setValue(season_watched_episodes)
+        self.seasonViewCountSpinbox.setValue(season_view_count)
+        self.seasonLanguageComboBox.setCurrentIndex(season_language)
+        self.seasonStateComboBox.setCurrentIndex(season_state)
+        self.textEdit.setText(season_notes)
 
     def save(self):
         """Fonction appelée lors du clic sur le bouton enregistrer"""
 
         # Récupération de l'identifiant de la série
-        serieId = self.serieId
+        serie_id = self.serieId
 
         # Récupération des informations entrées par l'utilisateur
-        seasonSortId = self.spinBox_2.text()
-        seasonTitle = str(self.lineEdit_2.text())
-        seasonDescription = str(self.lineEdit_3.text())
-        seasonStudio = str(self.lineEdit.text())
-        seasonReleaseYear = self.lineEdit_5.text()
-        seasonFansubTeam = str(self.lineEdit_6.text())
-        seasonEpisodes = self.episodesSpinbox.value()
-        seasonWatchedEpisodes = self.episodesWatchedSpinbox.value()
-        seasonLanguage = self.seasonLanguageComboBox.currentIndex()
-        seasonViewCount = self.seasonViewCountSpinbox.value()
-        seasonState = self.seasonStateComboBox.currentIndex()
-        seasonNotes = self.textEdit.toPlainText()
+        season_sort_id = self.spinBox_2.text()
+        season_title = str(self.lineEdit_2.text())
+        season_description = str(self.lineEdit_3.text())
+        season_studio = str(self.lineEdit.text())
+        season_release_year = self.lineEdit_5.text()
+        season_fansub_team = str(self.lineEdit_6.text())
+        season_episodes = self.episodesSpinbox.value()
+        season_watched_episodes = self.episodesWatchedSpinbox.value()
+        season_language = self.seasonLanguageComboBox.currentIndex()
+        season_view_count = self.seasonViewCountSpinbox.value()
+        season_state = self.seasonStateComboBox.currentIndex()
+        season_notes = self.textEdit.toPlainText()
 
         # Vérification des informations avant traitement
-        if seasonReleaseYear == "": seasonReleaseYear = None
+        if season_release_year == "":
+            season_release_year = None
 
         if self.action == "create":
             # Commande SQL de création # seriedId a terminer
-            sqlQuery = """INSERT INTO season (seasonId, seasonSortId, seasonTitle, seasonDescription, seasonStudio, seasonReleaseYear, seasonEpisodes, seasonWatchedEpisodes, seasonFKserieId, seasonLanguage, seasonState, seasonFansubTeam, seasonViewCount, seasonNotes)
-                          VALUES (NULL, :seasonSortId, :seasonTitle, :seasonDescription, :seasonStudio, :seasonReleaseYear, :seasonEpisodes, :seasonWatchedEpisodes, :serieId, :seasonLanguage, :seasonState, :seasonFansubTeam, :seasonViewCount, :seasonNotes)"""
+            sql_query = """INSERT INTO season (season_id, season_sort_id, season_title, season_description, season_studio, season_release_year, season_episodes, season_watched_episodes, seasonFKserieId, season_language, season_state, season_fansub_team, season_view_count, season_notes)
+                          VALUES (NULL, :season_sort_id, :season_title, :season_description, :season_studio, :season_release_year, :season_episodes, :season_watched_episodes, :serie_id, :season_language, :season_state, :season_fansub_team, :season_view_count, :season_notes)"""
 
-            sqlData = {'seasonSortId': seasonSortId, 'seasonTitle': seasonTitle, 'seasonDescription': seasonDescription,
-                       'seasonStudio': seasonStudio, 'seasonReleaseYear': seasonReleaseYear,
-                       'seasonEpisodes': seasonEpisodes, 'seasonWatchedEpisodes': seasonWatchedEpisodes,
-                       'serieId': serieId, 'seasonLanguage': seasonLanguage, 'seasonState': seasonState, 'seasonFansubTeam': seasonFansubTeam,
-                       'seasonViewCount': seasonViewCount, 'seasonNotes': seasonNotes}
+            sql_data = {'season_sort_id': season_sort_id, 'season_title': season_title,
+                        'season_description': season_description,
+                        'season_studio': season_studio, 'season_release_year': season_release_year,
+                        'season_episodes': season_episodes, 'season_watched_episodes': season_watched_episodes,
+                        'serie_id': serie_id, 'season_language': season_language, 'season_state': season_state,
+                        'season_fansub_team': season_fansub_team,
+                        'season_view_count': season_view_count, 'season_notes': season_notes}
 
             # Execution de la requete SQL
-            self.parent.cursor.execute(sqlQuery, sqlData)
+            self.parent.cursor.execute(sql_query, sql_data)
 
 
         elif self.action == "edit":
             # Récupération des informations sur la saison
-            seasonData = self.seasonData
-            seasonId = int(seasonData["seasonId"])
+            season_data = self.seasonData
+            season_id = int(season_data["season_id"])
 
             # Commande SQL de mise à jour
-            sqlQuery = """
+            sql_query = """
             UPDATE season
-            SET seasonSortId = :seasonSortId,
-            seasonTitle = :seasonTitle,
-            seasonDescription = :seasonDescription,
-            seasonStudio = :seasonStudio,
-            seasonReleaseYear = :seasonReleaseYear,
-            seasonEpisodes = :seasonEpisodes,
-            seasonFansubTeam = :seasonFansubTeam,
-            seasonWatchedEpisodes = :seasonWatchedEpisodes,
-            seasonViewCount = :seasonViewCount,
-            seasonLanguage = :seasonLanguage,
-            seasonState = :seasonState,
-            seasonNotes = :seasonNotes
-            WHERE seasonId = :seasonId"""
+            SET season_sort_id = :season_sort_id,
+            season_title = :season_title,
+            season_description = :season_description,
+            season_studio = :season_studio,
+            season_release_year = :season_release_year,
+            season_episodes = :season_episodes,
+            season_fansub_team = :season_fansub_team,
+            season_watched_episodes = :season_watched_episodes,
+            season_view_count = :season_view_count,
+            season_language = :season_language,
+            season_state = :season_state,
+            season_notes = :season_notes
+            WHERE season_id = :season_id"""
 
-            sqlData = {'seasonSortId': seasonSortId, 'seasonTitle': seasonTitle, 'seasonDescription': seasonDescription,
-                       'seasonStudio': seasonStudio, 'seasonReleaseYear': seasonReleaseYear,
-                       'seasonEpisodes': seasonEpisodes, 'seasonWatchedEpisodes': seasonWatchedEpisodes, 'seasonLanguage': seasonLanguage,
-                       'seasonState': seasonState, 'seasonId': seasonId, 'seasonFansubTeam': seasonFansubTeam,
-                       'seasonViewCount': seasonViewCount, 'seasonNotes': seasonNotes}
+            sql_data = {'season_sort_id': season_sort_id, 'season_title': season_title,
+                        'season_description': season_description,
+                        'season_studio': season_studio, 'season_release_year': season_release_year,
+                        'season_episodes': season_episodes, 'season_watched_episodes': season_watched_episodes,
+                        'season_language': season_language,
+                        'season_state': season_state, 'season_id': season_id, 'season_fansub_team': season_fansub_team,
+                        'season_view_count': season_view_count, 'season_notes': season_notes}
 
             # Execution de la requete SQL
-            self.parent.cursor.execute(sqlQuery, sqlData)
+            self.parent.cursor.execute(sql_query, sql_data)
 
         # Mise a jour de informations de la serie (le nombre de saisons change mais il est mis à jour par seasonlist)
         self.parent.listtab__seasonslist__fill()
