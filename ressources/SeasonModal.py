@@ -88,7 +88,7 @@ class SeasonModal(QDialog):
 
         if self.action == "create":
             # Commande SQL de création # seriedId a terminer
-            sql_query = """INSERT INTO season (season_id, season_sort_id, season_title, season_description, season_studio, season_release_year, season_episodes, season_watched_episodes, seasonFKserieId, season_language, season_state, season_fansub_team, season_view_count, season_notes)
+            sql_query = """INSERT INTO season (season_id, season_sort_id, season_title, season_description, season_studio, season_release_year, season_episodes, season_watched_episodes, season_fk_serie_id, season_language, season_state, season_fansub_team, season_view_count, season_notes)
                           VALUES (NULL, :season_sort_id, :season_title, :season_description, :season_studio, :season_release_year, :season_episodes, :season_watched_episodes, :serie_id, :season_language, :season_state, :season_fansub_team, :season_view_count, :season_notes)"""
 
             sql_data = {'season_sort_id': season_sort_id, 'season_title': season_title,
