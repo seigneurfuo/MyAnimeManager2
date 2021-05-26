@@ -24,8 +24,8 @@ def generate_series_list(template_file, output_file):
 
 def generate_planning(template_file, output_file):
     dates = Planning.select() \
-        .join(Serie) \
-        .join(Season) \
+        .join(Serie, on=(Planning.planning_fk_serie == Serie.serie_id)) \
+        .join(Season, on=(Planning.planning_fk_season == Season.season_id)) \
         .order_by(Planning.planning_date \
         .desc(), Planning.planning_fk_serie.serie_sort_id, Planning.planning_fk_season.season_sort_id, Planning.planning_episode_id)
     
@@ -36,21 +36,10 @@ def generate_planning(template_file, output_file):
         "line_break": line_break
     }
 
-    passed_rows = []
-    already_exists_count = 0
-
     output_file = output_file.replace(".docx", ".txt")
     with open(output_file, "w") as output_file_writer:
         for date in dates:
             row = "{} - {} - {} - {}".format(date.planning_date, date.planning_fk_serie.serie_title, date.planning_fk_season.season_title, date.planning_episode_id)
-
-
-            # On vérifie si la ligne n'est pas déja réntrée plusieurs fois
-            if row in passed_rows:
-                row += "\t\t FIXME: Ligne déja existante !"
-                already_exists_count += 1
-            else:
-                passed_rows.append(row)
 
             output_file_writer.write(row + "\n")
 
