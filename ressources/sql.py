@@ -142,7 +142,7 @@ WHERE season_id = :season_id
 
 planningIncrementSeasonViewCount = """
 UPDATE season 
-SET season_view_count = season_wiew_count + 1 WHERE season_id = :season_id
+SET season_view_count = season_view_count + 1 WHERE season_id = :season_id
 """
 
 planningFillWithWatchingSeries = """
