@@ -47,7 +47,7 @@ CREATE TABLE Season (
     season_fansub_team      TEXT,
     season_language        INTEGER NOT NULL,
     season_state           INTEGER NOT NULL,
-    season_wiew_count       INTEGER NOT NULL,
+    season_view_count       INTEGER NOT NULL,
     season_notes           TEXT,
     anidb TEXT,
     animeka TEXT,
@@ -142,7 +142,7 @@ WHERE season_id = :season_id
 
 planningIncrementSeasonViewCount = """
 UPDATE season 
-SET season_wiew_count = season_wiew_count + 1 WHERE season_id = :season_id
+SET season_view_count = season_wiew_count + 1 WHERE season_id = :season_id
 """
 
 planningFillWithWatchingSeries = """
