@@ -43,7 +43,7 @@ def generate_planning(template_file, output_file):
 
             output_file_writer.write(row + "\n")
 
-    msg = "Nombre de lignes multiples dans le planning: {} sur {} lignes exportées !".format(already_exists_count, len(dates))
+    msg = "Nombre de lignes lignes exportées: {}.".format(len(dates))
     print(msg)
 
     #document = docxtpl.DocxTemplate(template_file)
