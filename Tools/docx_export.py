@@ -52,8 +52,8 @@ def generate_planning(template_file, output_file):
 
 
 def main():
-    #generate_series_list("template_liste.docx", "Liste des animés.docx")
-    generate_planning("template_planning.docx", "Planning de visionnage.docx")
+    #generate_series_list("Templates/template_liste.docx", "Liste des animés.docx")
+    generate_planning("Templates/template_planning.docx", "Planning de visionnage.docx")
 
 
 main()
