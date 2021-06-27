@@ -58,7 +58,7 @@ CREATE TABLE Season (
     FOREIGN KEY (season_fk_serie_id) REFERENCES Serie (serie_id) 
 );"""
 
-seasonDeleteFromSeasonsWhereserie_idQuery = """
+seasonDeleteFromSeasonsWhereSerie_idQuery = """
 DELETE FROM season 
 WHERE season_fk_serie_id = :serie_id
 """

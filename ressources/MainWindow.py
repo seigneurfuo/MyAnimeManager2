@@ -580,8 +580,8 @@ class MainWindow(QMainWindow):
             self.cursor.execute(serieDeleteFromPlanningQuery, sql_data)
 
             # Suppression des saisons
-            log.info(seasonDeleteFromSeasonsWhereSerieIdQuery)
-            self.cursor.execute(seasonDeleteFromSeasonsWhereSerieIdQuery, sql_data)
+            log.info(seasonDeleteFromSeasonsWhereSerie_idQuery)
+            self.cursor.execute(seasonDeleteFromSeasonsWhereSerie_idQuery, sql_data)
 
             # Suppression de la série
             log.info(serieDeleteFromSeriesQuery)
