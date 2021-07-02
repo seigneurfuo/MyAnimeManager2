@@ -48,7 +48,7 @@ class MainWindow(QMainWindow):
 
         self.seasonsList = []
         self.currentSeasonId = 0
-        self.seasonStates = ["Indéfinie", "A voir", "En cours", "Terminée"]
+        self.seasonStates = ["Indéfinie", "A voir", "En cours", "Terminée", "Annulée"]
         self.seasonLanguages = ["Indéfinie", "Japonais", "Japonais & Francais (Dual Audio)", "Français", "Autres"]
 
         self.planning_watched = []
@@ -154,12 +154,8 @@ class MainWindow(QMainWindow):
 
         tab_id = self.tabWidget.currentIndex()
 
-        log_msg = "Id onglet: {0}".format(tab_id)
-        log.info(log_msg)
-
         # Planning
         if tab_id == 0:
-            log.info("Remplissage de l'onglet planning")
             self.planningtab__calendar__paint_cells()
             self.planningtab__watched__fill()
             self.planningtab__next__fill()
@@ -269,11 +265,9 @@ class MainWindow(QMainWindow):
         """Fonction appelée lorsque la sélection d'une série est changée"""
 
         # Remplisage des informations de la série
-        log.info("self.listtab__series__changed --> self.listtab__seriedata__fill")
         self.listtab__seriedata__fill()
 
         # Remplissage de la liste des saisons
-        log.info("self.listtab__series__changed --> self.listtab__seasonslist__fill")
         self.listtab__seasonslist__fill()
 
     def listtab__serieslist__set_current_index(self):
@@ -408,7 +402,6 @@ class MainWindow(QMainWindow):
         """Fonction appelée lorsque la sélection d'une saison est changée"""
 
         # Nettoyage et remplisage de informations de la série
-        log.info("self.listtab__seasons__changed --> self.listtab__seasondata__fill")
         self.listtab__seasondata__fill()
 
     def listtab__seasonslist__set_current_index(self):
@@ -435,7 +428,6 @@ class MainWindow(QMainWindow):
 
             serie_id = self.seriesList[serie_id_list]["serie_id"]
 
-            log.info(seasonsGetListQuery)
             sql_data = {'serie_id': serie_id}
             self.cursor.execute(seasonsGetListQuery, sql_data)
             self.seasonsList = self.cursor.fetchall()
@@ -576,15 +568,12 @@ class MainWindow(QMainWindow):
             sql_data = {'serie_id': serie_id}
 
             # Suppression de la série dans dans le planning (évite de garder des séries dans le planning)
-            log.info(serieDeleteFromPlanningQuery)
             self.cursor.execute(serieDeleteFromPlanningQuery, sql_data)
 
             # Suppression des saisons
-            log.info(seasonDeleteFromSeasonsWhereSerie_idQuery)
             self.cursor.execute(seasonDeleteFromSeasonsWhereSerie_idQuery, sql_data)
 
             # Suppression de la série
-            log.info(serieDeleteFromSeriesQuery)
             self.cursor.execute(serieDeleteFromSeriesQuery, sql_data)
 
             # Mise à jour de la liste des séries et des informations
@@ -662,11 +651,9 @@ class MainWindow(QMainWindow):
             sql_data = {'season_id': season_id}
 
             # Suppression de la saison dans dans le planning (évite de garder des saisons dans le planning)
-            log.info(seasonDeleteFromPlanningQuery)
             self.cursor.execute(seasonDeleteFromPlanningQuery, sql_data)
 
             # Suppression des saisons
-            log.info(seasonDeleteFromSeasonsQuery)
             self.cursor.execute(seasonDeleteFromSeasonsQuery, sql_data)
 
             # Mise à jour de l'interface
@@ -698,7 +685,6 @@ class MainWindow(QMainWindow):
         """
 
         self.planningCalendar.cellsCondition.clear()
-        log.info(planningDateFromPlanningQuery)
         self.cursor.execute(planningDateFromPlanningQuery)
         rows = self.cursor.fetchall()
 
@@ -730,7 +716,6 @@ class MainWindow(QMainWindow):
         # Récupération de la date en cours dans le calendrier
         selected_date = self.planningCalendar.selectedDate().toPyDate()
 
-        log.info(getDataForTheChoosenDay)
         sql_data = {'planning_date': selected_date}
         self.cursor.execute(getDataForTheChoosenDay, sql_data)
         self.planning_watched = self.cursor.fetchall()
@@ -796,7 +781,6 @@ class MainWindow(QMainWindow):
             season_current_episode_id = season_watched_episodes + 1
 
             # Commande SQL d'insertion dans les animés vus
-            log.info(planningAddEpisodeToWatchedList)
             sql_data = {'selected_date': selected_date, 'serie_id': serie_id, 'season_id': season_id,
                         'season_current_episode_id': season_current_episode_id}
             self.cursor.execute(planningAddEpisodeToWatchedList, sql_data)
@@ -806,16 +790,13 @@ class MainWindow(QMainWindow):
             if season_current_episode_id == season_episodes:
 
                 # On passe le nombre d'épisodes vus à 0
-                log.info(planningSetCurrentEpisodeTo0)
                 sql_data = {'season_id': season_id}
                 self.cursor.execute(planningSetCurrentEpisodeTo0, sql_data)
 
                 # On incrémente le nombre de visionnages
-                log.info(planningIncrementSeasonViewCount)
                 self.cursor.execute(planningIncrementSeasonViewCount, sql_data)
 
                 # On passe l'état de la série à 3: terminé
-                log.info(planningSetSeasonToFinished)
                 self.cursor.execute(planningSetSeasonToFinished, sql_data)
 
             # Sinon on incrémente normalement
@@ -842,7 +823,6 @@ class MainWindow(QMainWindow):
             data = self.planning_watched[current_id]
             planning_id = data["planning_id"]
 
-            log.info(planningRemoveEpisodeFromWatchedList)
             sql_data = {'planning_id': planning_id}
             self.cursor.execute(planningRemoveEpisodeFromWatchedList, sql_data)
 
@@ -891,7 +871,6 @@ class MainWindow(QMainWindow):
             # Commande SQL
             sql_query = planningEpisodesFillWithAll
 
-        log.info(sql_query)
         self.cursor.execute(sql_query)
         self.planningToWatch = self.cursor.fetchall()
 
@@ -1057,7 +1036,6 @@ class MainWindow(QMainWindow):
     def notestab__fill(self):
         """Fonction qui rempli les notes"""
 
-        log.info(notesGet)
         self.cursor.execute(notesGet)
 
         notes = self.cursor.fetchone()
@@ -1085,8 +1063,6 @@ class MainWindow(QMainWindow):
         # Si le fichier de paramètres existe
         if os.path.exists(os.path.join(self.appDataFolder, "settings.json")):
 
-            log.info("Fichier de paramètres trouvé. Chargement des informations ...")
-
             # Ouverture du fichier json
             with open(os.path.join(self.appDataFolder, "settings.json"), "r") as settingsFile:
 
@@ -1094,8 +1070,6 @@ class MainWindow(QMainWindow):
                 self.settings = load(settingsFile)
 
         else:
-            log.info("Aucun fichier de paramètres trouvé. Utilisation des parametres par défaut")
-
             # Utilisation des paramètres par défaut
             self.settings = self.defaultSettings
 
@@ -1104,8 +1078,6 @@ class MainWindow(QMainWindow):
 
     def settings__fill(self):
         """Fonction qui rempli les parametres dans l'onglet associé"""
-
-        log.info("Chargement des paramètres dans les élements de l'onglet Paramètres")
 
         # Application des informations sur les controles visuels
         self.comboBox_3.setCurrentIndex(self.settings["startupPageId"])
@@ -1120,7 +1092,6 @@ class MainWindow(QMainWindow):
 
         # Ouverture ou création du fichier de configuration
         with open(os.path.join(self.appDataFolder, 'settings.json'), 'w') as settingsFile:
-            log.info("Sauvegarde des paramètres")
 
             # Sauvegarde des paramètres avec JSON
             dump(self.settings, settingsFile)

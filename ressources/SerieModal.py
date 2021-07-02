@@ -69,9 +69,6 @@ class SerieModal(QDialog):
 
         # Si un fichier à été sélectionné
         if file_name:
-            log_msg = "Chargé: {0}".format(file_name)
-            log.info(log_msg)
-
             # Définition du nom de l'image de destination
             serie_id = str(self.serieData["serie_id"])
             cover_filename = "./profile/covers/{0}".format(serie_id)
@@ -91,8 +88,6 @@ class SerieModal(QDialog):
 
         # Si un dossier à été sélectionné
         if folder_name:
-            # log.info(folder_name)
-
             # Application du texte sur le widget line edit
             self.lineEdit_2.setText(folder_name)
 
@@ -133,9 +128,6 @@ class SerieModal(QDialog):
             sql_data = {'serie_sort_id': serie_sort_id, 'serie_title': serie_title, 'serie_liked': serie_liked,
                         'serie_path': serie_path, 'serie_id': serie_id}
             self.parent.cursor.execute(sql_query, sql_data)
-
-        # Affichage de la commande sql (debug)
-        # log.info(sql_query)
 
         # Mise a jour de la liste des séries et des informations
         self.parent.listtab__serieslist__fill()
