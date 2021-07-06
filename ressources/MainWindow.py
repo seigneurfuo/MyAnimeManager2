@@ -165,8 +165,11 @@ class MainWindow(QMainWindow):
         elif tab_id == 1:
             self.listtab__serieslist__fill()
 
+        elif tab_id == 2:
+            self.fulllisttab_table_fill()
+
         # Notes
-        elif tab_id == 3:
+        elif tab_id == 4:
             self.notestab__fill()
 
         # Paramètres
@@ -674,7 +677,7 @@ class MainWindow(QMainWindow):
         path = self.serie_path
 
         if path:
-            if not open_filebrowser(path):
+            if not open_file_explorer(path):
                 log.info("Impossible d'ouvrir le répertoire")
 
     def planningtab__calendar__paint_cells(self):
@@ -937,7 +940,7 @@ class MainWindow(QMainWindow):
             serie_path = data["serie_path"]
 
             if serie_path:
-                if not open_filebrowser(serie_path):
+                if not open_file_explorer(serie_path):
                     log.info("Impossible d'ouvrir le répertoire")
 
     def planningtab__on_season_dates_state_changed(self):
@@ -972,6 +975,7 @@ class MainWindow(QMainWindow):
             # Changement du nom des colonnes
             self.tableWidget_2.setHorizontalHeaderLabels(["Date", "Delta", "Episode(s)"])
             self.planningtab__list_season_dates()
+
 
     def planningtab__list_season_dates(self):
         # Récupération de l'identifiant sélectionné
@@ -1031,6 +1035,38 @@ class MainWindow(QMainWindow):
 
             # Taille de cellules s'adaptant au contenu
             self.tableWidget_2.resizeColumnsToContents()
+
+
+    def fulllisttab_table_fill(self):
+        self.full_list_table.setRowCount(0)
+
+        self.cursor.execute(getFullSeriesList)
+        results = self.cursor.fetchall()
+
+        self.label_40.setText("Nombre d'éléments: " + str(len(results)))
+        self.full_list_table.setRowCount(len(results))
+
+        for index, row in enumerate(results):
+
+            column0 = QTableWidgetItem(str(row["serie_sort_id"]))
+            self.full_list_table.setItem(index, 0, column0)
+
+            column1 = QTableWidgetItem(row["serie_title"])
+            self.full_list_table.setItem(index, 1, column1)
+
+            column2 = QTableWidgetItem(str(row["season_sort_id"]))
+            self.full_list_table.setItem(index, 2, column2)
+
+            column3 = QTableWidgetItem(row["season_title"])
+            self.full_list_table.setItem(index, 3, column3)
+
+            column4 = QTableWidgetItem(str(row["season_episodes"]))
+            self.full_list_table.setItem(index, 4, column4)
+
+            column5 = QTableWidgetItem(str(row["season_release_year"]))
+            self.full_list_table.setItem(index, 5, column5)
+
+        self.full_list_table.resizeColumnsToContents()
 
 
     def notestab__fill(self):
