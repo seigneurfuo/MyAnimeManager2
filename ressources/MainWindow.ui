@@ -25,7 +25,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>5</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -1381,8 +1381,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>255</width>
-                <height>175</height>
+                <width>467</width>
+                <height>384</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_3">
@@ -1503,6 +1503,13 @@
         <string>Liste 2</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4">
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_40">
+          <property name="text">
+           <string>Nombre d'éléments: </string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="0">
          <widget class="QTableWidget" name="full_list_table">
           <property name="selectionMode">
@@ -1544,13 +1551,6 @@
             <string>Année</string>
            </property>
           </column>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_40">
-          <property name="text">
-           <string>Nombre d'éléments: </string>
-          </property>
          </widget>
         </item>
        </layout>
@@ -1782,7 +1782,7 @@
           <x>0</x>
           <y>0</y>
           <width>441</width>
-          <height>281</height>
+          <height>141</height>
          </rect>
         </property>
         <property name="title">
@@ -1866,6 +1866,32 @@
           <number>24</number>
          </property>
         </widget>
+       </widget>
+       <widget class="QPushButton" name="pushButton_15">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>170</y>
+          <width>161</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Exporter la liste complète</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="pushButton_16">
+        <property name="geometry">
+         <rect>
+          <x>180</x>
+          <y>170</y>
+          <width>161</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Exporter la liste des séries</string>
+        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_4">

@@ -5,7 +5,7 @@ def python2():
     return version_info[0] == 2
 
 
-def open_filebrowser(path):
+def open_file_explorer(path):
     """Ouvre un explorateur de fichiers à l'adresse indiquée en argument"""
 
     import platform
