@@ -185,5 +185,5 @@ SELECT Serie.serie_sort_id, Serie.serie_title, Season.season_sort_id, Season.sea
 FROM Season
 LEFT JOIN Serie ON Serie.serie_id = Season.season_fk_serie_id
 WHERE Serie.serie_sort_id > 0
-ORDER BY Serie.serie_sort_id, Season.serie_sort_id
+ORDER BY Serie.serie_sort_id, Season.season_sort_id
 """
