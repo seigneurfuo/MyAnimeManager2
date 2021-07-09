@@ -187,3 +187,52 @@ LEFT JOIN Serie ON Serie.serie_id = Season.season_fk_serie_id
 WHERE Serie.serie_sort_id > 0
 ORDER BY Serie.serie_sort_id, Season.season_sort_id
 """
+
+"""
+    0: Indéfinie
+    1: A voir
+    2: En cours
+    3: Terminée
+    4: Abandonnée
+"""
+
+getCountSeries = """
+SELECT COUNT(Serie.serie_id) AS nb_elements
+FROM Serie
+"""
+
+getCountSeasons = """
+SELECT COUNT(Season.season_id) AS nb_elements
+FROM Season
+"""
+
+getCountSeasonsStateIndefinie = """
+SELECT COUNT(Season.season_id) AS nb_elements
+FROM Season
+WHERE Season.season_state = 0
+"""
+
+getCountSeasonsStateAVoir = """
+SELECT COUNT(Season.season_id) AS nb_elements
+FROM Season
+WHERE Season.season_state = 1
+"""
+
+getCountSeasonsStateEnCours = """
+SELECT COUNT(Season.season_id) AS nb_elements
+FROM Season
+WHERE Season.season_state = 2
+"""
+
+getCountSeasonsStateTerminee = """
+SELECT COUNT(Season.season_id) AS nb_elements
+FROM Season
+WHERE Season.season_state = 3
+"""
+
+
+getCountSeasonsAStatebandonnee = """
+SELECT COUNT(Season.season_id) AS nb_elements
+FROM Season
+WHERE Season.season_state = 4
+"""
