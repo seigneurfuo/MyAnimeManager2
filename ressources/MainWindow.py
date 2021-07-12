@@ -1,3 +1,5 @@
+import csv
+
 from PyQt5.QtCore import QTime, Qt, QDate, QRect
 from PyQt5.QtGui import QPixmap, QColor, QPainter
 from PyQt5.QtWidgets import QMessageBox, QListWidgetItem, QMainWindow, QTableWidgetItem, QProgressBar
@@ -147,6 +149,9 @@ class MainWindow(QMainWindow):
 
         # ----- Onglet notes -----
         self.pushButton_12.clicked.connect(self.notestab__save)
+
+        # ----- Stats -----
+        self.pushButton_15.clicked.connect(self.export_seasons_list)
 
         # ----- Onglet paramètres -----
         self.pushButton_11.clicked.connect(self.settings__save)
@@ -1160,6 +1165,44 @@ class MainWindow(QMainWindow):
         # Enregistrement des notes dans la base de données
         sql_data = {'notes_data': notes_data}
         self.cursor.execute(notesSave, sql_data)
+
+
+    def export_seasons_list(self):
+        self.cursor.execute(getFullSeriesList)
+        results = self.cursor.fetchall()
+
+        # Création du dossier s'il n'existe pas
+        output_folderpath = os.path.join(self.appDataFolder, "output")
+        if not os.path.exists(output_folderpath):
+            os.makedirs(output_folderpath)
+
+        export_type = "csv"
+        if export_type:
+
+            output_filepath = os.path.join(output_folderpath, "Liste des séries.csv")
+            with open(output_filepath, 'w', newline='') as csv_file:
+
+
+                csv_writer = csv.writer(csv_file, delimiter=";")
+
+                # Entetes
+                csv_writer.writerow(["Animé", "(Saga / Série)"])
+
+                for index, row in enumerate(results):
+
+                    serie_title = str(row[1])
+                    season_title = str(row[3])
+
+                    # Si la saison n'a pas de titre, on reprends celui de la série
+                    if season_title in ["", None]:
+                        season_title = serie_title
+
+                    row_data = [season_title, serie_title]
+                    csv_writer.writerow(row_data)
+
+
+            QMessageBox.information(self, 'Extraction terminée', "Extraction terminée !", QMessageBox.Ok)
+            open_file_explorer(output_folderpath)
 
 
     def settings__load(self):
