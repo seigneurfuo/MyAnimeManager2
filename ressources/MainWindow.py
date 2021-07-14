@@ -1104,23 +1104,21 @@ class MainWindow(QMainWindow):
 
         for index, row in enumerate(results):
 
-            column0 = QTableWidgetItem(str(row["serie_sort_id"]))
+            ids = "{} - {}".format(row["serie_sort_id"], row["season_sort_id"])
+            column0 = QTableWidgetItem(ids)
             self.full_list_table.setItem(index, 0, column0)
 
             column1 = QTableWidgetItem(row["serie_title"])
             self.full_list_table.setItem(index, 1, column1)
 
-            column2 = QTableWidgetItem(str(row["season_sort_id"]))
+            column2 = QTableWidgetItem(row["season_title"])
             self.full_list_table.setItem(index, 2, column2)
 
-            column3 = QTableWidgetItem(row["season_title"])
+            column3 = QTableWidgetItem(str(row["season_episodes"]))
             self.full_list_table.setItem(index, 3, column3)
 
-            column4 = QTableWidgetItem(str(row["season_episodes"]))
+            column4 = QTableWidgetItem(str(row["season_release_year"]))
             self.full_list_table.setItem(index, 4, column4)
-
-            column5 = QTableWidgetItem(str(row["season_release_year"]))
-            self.full_list_table.setItem(index, 5, column5)
 
         self.full_list_table.resizeColumnsToContents()
 

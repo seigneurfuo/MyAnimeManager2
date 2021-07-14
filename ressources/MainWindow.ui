@@ -25,7 +25,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>2</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -1381,8 +1381,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>255</width>
-                <height>175</height>
+                <width>467</width>
+                <height>384</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_3">
@@ -1528,17 +1528,12 @@
           </column>
           <column>
            <property name="text">
-            <string>Nom</string>
+            <string>Série / Saga</string>
            </property>
           </column>
           <column>
            <property name="text">
-            <string>ID Saison</string>
-           </property>
-          </column>
-          <column>
-           <property name="text">
-            <string>Titre saison</string>
+            <string>Saison</string>
            </property>
           </column>
           <column>
