@@ -23,7 +23,6 @@ import platform
 
 # Modules locaux
 from ressources.ressource import icons  # Chemins vers les fichiers (TODO: à remplacer dans le futur par un qrc)
-from ressources.log import *
 from ressources.utils import *
 from ressources.calendar import Calendar
 
@@ -209,9 +208,9 @@ class MainWindow(QMainWindow):
             if not os.path.exists(self.appDataFolder):
                 # Création du dossier ./profile/covers qui créer en meme temps le dossier parent ./profile
                 os.makedirs(self.appDataFolder)
-                log.info("Dossier de \"profile\" créer !")
+                print("Dossier de \"profil\" créer !")
 
-        log.info("Dossier du profil: {}".format(self.appDataFolder))
+        print("Dossier du profil: {}".format(self.appDataFolder))
 
 
     def database_(self):
@@ -722,7 +721,7 @@ class MainWindow(QMainWindow):
 
         if path:
             if not open_file_explorer(path):
-                log.info("Impossible d'ouvrir le répertoire")
+                print("Impossible d'ouvrir le répertoire")
 
 
     def planningtab__calendar__paint_cells(self):
@@ -999,7 +998,7 @@ class MainWindow(QMainWindow):
 
             if serie_path:
                 if not open_file_explorer(serie_path):
-                    log.info("Impossible d'ouvrir le répertoire")
+                    print("Impossible d'ouvrir le répertoire")
 
 
     def planningtab__on_season_dates_state_changed(self):
@@ -1213,8 +1212,13 @@ class MainWindow(QMainWindow):
                     csv_writer.writerow(row_data)
 
 
-            QMessageBox.information(self, 'Extraction terminée', "Extraction terminée !", QMessageBox.Ok)
-            open_file_explorer(output_folderpath)
+            # Affiche la fenetre de dialogue d'enregistrement
+            extraction_ask = QMessageBox.question(self, 'Extraction terminée', "Extraction terminée !",
+                                                 QMessageBox.Close, QMessageBox.Open)
+
+            # Si on clique sur Oui (Sauvegarder)
+            if extraction_ask == QMessageBox.Open:
+                open_file_explorer(output_folderpath)
 
 
     def settings__load(self):

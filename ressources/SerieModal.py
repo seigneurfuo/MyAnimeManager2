@@ -4,7 +4,6 @@ from PyQt5.uic import loadUi
 
 from shutil import copy
 import os
-from ressources.log import *
 
 
 class SerieModal(QDialog):
