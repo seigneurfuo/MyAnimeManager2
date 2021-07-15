@@ -181,7 +181,7 @@ ORDER BY planning_date ASC
 """
 
 getFullSeriesList = """
-SELECT Serie.serie_sort_id, Serie.serie_title, Season.season_sort_id, Season.season_title, Season.season_episodes, Season.season_release_year
+SELECT Serie.serie_sort_id, Serie.serie_title, Season.season_sort_id, Season.season_title, Season.season_episodes, Season.season_release_year, Season.season_state, Season.season_view_count
 FROM Season
 LEFT JOIN Serie ON Serie.serie_id = Season.season_fk_serie_id
 WHERE Serie.serie_sort_id > 0
@@ -235,4 +235,8 @@ getCountSeasonsAStatebandonnee = """
 SELECT COUNT(Season.season_id) AS nb_elements
 FROM Season
 WHERE Season.season_state = 4
+"""
+
+getSeasonsWithMostEpisodes = """
+
 """

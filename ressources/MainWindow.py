@@ -1,9 +1,10 @@
 import csv
 
-from PyQt5.QtCore import QTime, Qt, QDate, QRect
+from PyQt5.QtCore import QTime, Qt, QDate, QRect, QT_VERSION_STR, PYQT_VERSION_STR
 from PyQt5.QtGui import QPixmap, QColor, QPainter
 from PyQt5.QtWidgets import QMessageBox, QListWidgetItem, QMainWindow, QTableWidgetItem, QProgressBar
 from PyQt5.uic import loadUi
+
 
 # Modales
 from ressources.SeasonModal import SeasonModal
@@ -18,6 +19,7 @@ from json import load, dump
 from datetime import datetime, timedelta
 from pathlib import Path
 from random import randint
+import platform
 
 # Modules locaux
 from ressources.ressource import icons  # Chemins vers les fichiers (TODO: à remplacer dans le futur par un qrc)
@@ -40,6 +42,7 @@ class MainWindow(QMainWindow):
 
         # Répertoire de travail de l'application lancée
         self.appDir = app_dir
+        self.app_version = version
 
         self.defaultSettings = {"startupPageId": 1, "realtimeSearch": False}
         self.settings = {}
@@ -67,7 +70,7 @@ class MainWindow(QMainWindow):
         self.database_()
 
         # Initialise l'affichage
-        self.setup_ui(version)
+        self.setup_ui()
 
         # Chargement des paramètres
         self.settings__load()
@@ -82,21 +85,15 @@ class MainWindow(QMainWindow):
         self.tabWidget.setCurrentIndex(self.settings["startupPageId"])
 
 
-    def setup_ui(self, version):
-        """
-
-        :param version: Version de l'application
-        :return: None
-        """
-
+    def setup_ui(self):
         loadUi(os.path.join(self.appDir, 'ressources/MainWindow.ui'), self)
 
         # Chargement du calendrier personalisé
         self.planningCalendar = Calendar()
         self.planningCalendar.setCellsBackgroundColor(QColor(115, 210, 22, 50))
-        self.verticalLayout_3.insertWidget(0, self.planningCalendar, )
+        self.horizontalLayout_31.insertWidget(0, self.planningCalendar, )
 
-        window_title = "MyAnimeManager2 - version {0}".format(version)
+        window_title = "MyAnimeManager2 - version {0}".format(self.app_version)
         self.setWindowTitle(window_title)
 
 
@@ -162,7 +159,7 @@ class MainWindow(QMainWindow):
 
         tab_id = self.tabWidget.currentIndex()
 
-        print(tab_id)
+        print("Tab ID:", tab_id)
 
         # Planning
         if tab_id == 0:
@@ -179,8 +176,6 @@ class MainWindow(QMainWindow):
         elif tab_id == 2:
             self.fulllisttab_table_fill()
 
-
-
         # Notes
         elif tab_id == 4:
             self.notestab__fill()
@@ -190,8 +185,12 @@ class MainWindow(QMainWindow):
             self.stats__fill()
 
         # Paramètres
-        elif tab_id == 5:
+        elif tab_id == 6:
             self.settings__fill()
+
+        # A propos
+        elif tab_id == 7:
+            self.fill_about_data()
 
 
     def profile__create(self):
@@ -960,8 +959,12 @@ class MainWindow(QMainWindow):
                 progress_bar = QProgressBar(self)
                 progress_bar.setMinimum(0)
                 progress_bar.setMaximum(planning_episodes)
-                progress_bar.setValue(
-                    planning_episode_id)  # Car si un film donc épisode 1 / 1 on à déja une barre à 100%
+                progress_bar.setValue(planning_episode_id)  # Car si un film donc épisode 1 / 1 on à déja une barre à 100%
+
+                # Style différent si on est sous Windows
+                if platform.system() == "Windows":
+                    progress_bar.setStyleSheet("QProgressBar::chunk ""{""background-color: #2B65EC;""}")
+                    progress_bar.setAlignment(Qt.AlignCenter)
 
                 self.tableWidget_3.setCellWidget(index, 3, progress_bar)
 
@@ -1071,7 +1074,7 @@ class MainWindow(QMainWindow):
                         if days == 0:
                             date_delta_message = ""
                         else:
-                            date_delta_message = "{} jours".format(days)
+                            date_delta_message = "⮩{} jours".format(days)
 
                     else:
                         date_delta_message = ""
@@ -1117,13 +1120,24 @@ class MainWindow(QMainWindow):
             column3 = QTableWidgetItem(str(row["season_episodes"]))
             self.full_list_table.setItem(index, 3, column3)
 
-            column4 = QTableWidgetItem(str(row["season_release_year"]))
+            release_year = "" if not row["season_release_year"] or row["season_release_year"] == "None" else str(row["season_release_year"])
+            column4 = QTableWidgetItem(release_year)
             self.full_list_table.setItem(index, 4, column4)
+
+            state_id = row["season_state"]
+            column5 = QTableWidgetItem(self.seasonStates[state_id])
+            self.full_list_table.setItem(index, 5, column5)
+
+            column6 = QTableWidgetItem(str(row["season_view_count"]))
+            self.full_list_table.setItem(index, 6, column6)
+
 
         self.full_list_table.resizeColumnsToContents()
 
 
     def stats__fill(self):
+
+        # Remplissage des données sur le nombre de séries et de saisons
         # Au lieu d'avoir 3 lignes poure chaque requète, on à une boucle for qui associe les donnees aux bon élements
         data_mapper = [(getCountSeasonsStateIndefinie, self.label_51), (getCountSeasonsStateAVoir, self.label_46),
                        (getCountSeasonsStateEnCours, self.label_45), (getCountSeasonsStateTerminee, self.label_44),
@@ -1246,6 +1260,12 @@ class MainWindow(QMainWindow):
 
         self.statusbar.showMessage("Paramètres sauvegardés. Relancer l'application pour qu'ils prennent effet.")
 
+
+    def fill_about_data(self):
+        self.label_70.setText(self.app_version)
+        self.label_75.setText(platform.python_version())
+        self.label_72.setText(QT_VERSION_STR)
+        self.label_74.setText(PYQT_VERSION_STR)
 
     # Fonctions de l'onglet outils
     def tools__watch_time__execute(self):
