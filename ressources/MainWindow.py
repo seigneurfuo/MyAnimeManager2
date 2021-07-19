@@ -206,9 +206,15 @@ class MainWindow(QMainWindow):
             self.appDataFolder = os.path.join(user_folder, ".myanimemanager2")
 
             if not os.path.exists(self.appDataFolder):
-                # Création du dossier ./profile/covers qui créer en meme temps le dossier parent ./profile
+                # Création du dossier de profile
                 os.makedirs(self.appDataFolder)
                 print("Dossier de \"profil\" créer !")
+
+        # Les sous-dossiers sont à créer peut imorte l'état du profil
+        for subfolder in ["output", "cover"]:
+            subfolder_path = os.path.join(self.appDataFolder, subfolder)
+            if not os.path.isdir(subfolder_path):
+                os.makedirs(subfolder_path)
 
         print("Dossier du profil: {}".format(self.appDataFolder))
 
@@ -1184,16 +1190,12 @@ class MainWindow(QMainWindow):
 
         # Création du dossier s'il n'existe pas
         output_folderpath = os.path.join(self.appDataFolder, "output")
-        if not os.path.exists(output_folderpath):
-            os.makedirs(output_folderpath)
 
         export_type = "csv"
         if export_type:
 
             output_filepath = os.path.join(output_folderpath, "Liste des séries.csv")
             with open(output_filepath, 'w', newline='') as csv_file:
-
-
                 csv_writer = csv.writer(csv_file, delimiter=";")
 
                 # Entetes
@@ -1210,7 +1212,6 @@ class MainWindow(QMainWindow):
 
                     row_data = [season_title, serie_title]
                     csv_writer.writerow(row_data)
-
 
             # Affiche la fenetre de dialogue d'enregistrement
             extraction_ask = QMessageBox.question(self, 'Extraction terminée', "Extraction terminée !",
