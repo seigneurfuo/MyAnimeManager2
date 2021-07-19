@@ -2,12 +2,15 @@ from peewee import *
 
 database = SqliteDatabase("/home/seigneurfuo/.myanimemanager2/database.sqlite3")
 
+
 class UnknownField(object):
     def __init__(self, *_, **__): pass
+
 
 class BaseModel(Model):
     class Meta:
         database = database
+
 
 class Notes(BaseModel):
     notes_page_id = AutoField()
@@ -15,6 +18,7 @@ class Notes(BaseModel):
 
     class Meta:
         table_name = 'Notes'
+
 
 class Serie(BaseModel):
     serie_id = AutoField()
@@ -25,6 +29,7 @@ class Serie(BaseModel):
 
     class Meta:
         table_name = 'Serie'
+
 
 class Season(BaseModel):
     season_id = AutoField()
@@ -51,6 +56,7 @@ class Season(BaseModel):
     class Meta:
         table_name = 'Season'
 
+
 class Planning(BaseModel):
     planning_id = AutoField()
     planning_date = DateField()
@@ -60,6 +66,7 @@ class Planning(BaseModel):
 
     class Meta:
         table_name = 'Planning'
+
 
 class SqliteSequence(BaseModel):
     name = BareField(null=True)
