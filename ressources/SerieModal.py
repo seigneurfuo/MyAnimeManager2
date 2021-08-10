@@ -70,7 +70,7 @@ class SerieModal(QDialog):
         if file_name:
             # Définition du nom de l'image de destination
             serie_id = str(self.serieData["serie_id"])
-            cover_filename = "./profile/covers/{0}".format(serie_id)
+            cover_filename = os.path.join(self.parent.appDataFolder, "covers", serie_id)
 
             # Copie l'image sélectionnée dans le dossier correpondant
             copy(file_name, cover_filename)
