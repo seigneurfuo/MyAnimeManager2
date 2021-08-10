@@ -16,6 +16,7 @@ import os
 import sqlite3
 from json import load, dump
 from datetime import datetime, timedelta
+from dateutil.relativedelta import relativedelta
 from pathlib import Path
 from random import randint
 import platform
@@ -1053,6 +1054,8 @@ class MainWindow(QMainWindow):
     def fulllisttab_table_fill(self):
         self.full_list_table.setRowCount(0)
 
+        today_date_object = datetime.now()
+
         self.cursor.execute(getFullSeriesList)
         results = self.cursor.fetchall()
 
@@ -1073,19 +1076,37 @@ class MainWindow(QMainWindow):
             column3 = QTableWidgetItem(str(row["season_episodes"]))
             self.full_list_table.setItem(index, 3, column3)
 
-            release_year = "" if not row["season_release_year"] or row["season_release_year"] == "None" else str(
-                row["season_release_year"])
+            # Pour les années et l'age
+            if not row["season_release_year"] or row["season_release_year"] == "None":
+                release_year = ""
+                age = ""
+
+            else:
+                release_year = str(row["season_release_year"])
+                # TODO: Dans une prochaine version, indiquer dans la BDD le type ede date enregistré
+                # On verifie si on à seulement une année
+                if len(release_year) == 4:
+                    # Différence entre deux dates
+                    release_year_datetime_object = datetime.strptime(release_year, "%Y")
+                    age_diff = relativedelta(today_date_object, release_year_datetime_object)
+                    age = "{} ans".format(age_diff.years)
+                else:
+                    age = ""
+
             column4 = QTableWidgetItem(release_year)
             self.full_list_table.setItem(index, 4, column4)
 
-            state_id = row["season_state"]
-            column5 = QTableWidgetItem(self.seasonStates[state_id])
+            column5 = QTableWidgetItem(age)
             self.full_list_table.setItem(index, 5, column5)
 
-            column6 = QTableWidgetItem(str(row["season_view_count"]))
+            state_id = row["season_state"]
+            column6 = QTableWidgetItem(self.seasonStates[state_id])
             self.full_list_table.setItem(index, 6, column6)
 
-        self.full_list_table.resizeColumnsToContents()
+            column7 = QTableWidgetItem(str(row["season_view_count"]))
+            self.full_list_table.setItem(index, 7, column6)
+
+        #self.full_list_table.resizeColumnsToContents()
 
     def stats__fill(self):
 

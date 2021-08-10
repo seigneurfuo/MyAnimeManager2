@@ -25,7 +25,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideNone</enum>
@@ -184,10 +184,10 @@
               <attribute name="verticalHeaderVisible">
                <bool>false</bool>
               </attribute>
-              <attribute name="verticalHeaderDefaultSectionSize">
+              <attribute name="verticalHeaderMinimumSectionSize">
                <number>20</number>
               </attribute>
-              <attribute name="verticalHeaderMinimumSectionSize">
+              <attribute name="verticalHeaderDefaultSectionSize">
                <number>20</number>
               </attribute>
               <column>
@@ -299,10 +299,10 @@
             <attribute name="verticalHeaderVisible">
              <bool>false</bool>
             </attribute>
-            <attribute name="verticalHeaderDefaultSectionSize">
+            <attribute name="verticalHeaderMinimumSectionSize">
              <number>20</number>
             </attribute>
-            <attribute name="verticalHeaderMinimumSectionSize">
+            <attribute name="verticalHeaderDefaultSectionSize">
              <number>20</number>
             </attribute>
             <attribute name="verticalHeaderStretchLastSection">
@@ -1404,8 +1404,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>479</width>
-                <height>335</height>
+                <width>467</width>
+                <height>384</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_3">
@@ -1570,6 +1570,11 @@
           <column>
            <property name="text">
             <string>Année</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Age</string>
            </property>
           </column>
           <column>
@@ -2247,7 +2252,7 @@
        <attribute name="title">
         <string>A propos</string>
        </attribute>
-       <widget class="QWidget" name="">
+       <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
           <x>11</x>
@@ -2370,7 +2375,7 @@
      <x>0</x>
      <y>0</y>
      <width>1115</width>
-     <height>21</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>

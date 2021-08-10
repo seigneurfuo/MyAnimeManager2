@@ -1,7 +1,6 @@
 __pycache__
 .idea/
 *.pyc
-.idea/
 dist/MyAnimeManager 2/
 dist/output/
 dist/pkg/
