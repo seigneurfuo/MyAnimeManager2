@@ -8,7 +8,7 @@ license=('')
 conflicts=('MyAnimeManager2')
 groups=("★ seigneurfuo: Paquets persos")
 depends=("python" "python-pyqt5")
-source=("myanimemanager2.desktop" "git+file:///home/seigneurfuo/Projets/MyAnimeManager/MyAnimeManager 2/MyAnimeManager2#branch=master")
+source=("myanimemanager2.desktop" "git+file:///home/seigneurfuo/Projets/MyAnimeManager/MyAnimeManager 2#branch=master")
 md5sums=('ebf453c3c15fd530d7d26c9a67d2304d'
          'SKIP')
 
@@ -20,7 +20,7 @@ pkgver() {
 
 package() {
 	mkdir -p "$pkgdir/opt"
-	cp -R "$srcdir/MyAnimeManager2" "$pkgdir/opt"
+	cp -R "$srcdir/MyAnimeManager 2" "$pkgdir/opt"
 
     # Supression des fichiers inutiles
 	rm -f "$pkgdir/opt/$pkgname/README.md"
