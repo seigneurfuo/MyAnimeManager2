@@ -20,7 +20,8 @@ pkgver() {
 
 package() {
 	mkdir -p "$pkgdir/opt"
-	cp -R "$srcdir/MyAnimeManager 2" "$pkgdir/opt"
+	mv "$srcdir/MyAnimeManager 2" "$srcdir/MyAnimeManager2"
+	cp -R "$srcdir/MyAnimeManager2" "$pkgdir/opt"
 
     # Supression des fichiers inutiles
 	rm -f "$pkgdir/opt/$pkgname/README.md"
