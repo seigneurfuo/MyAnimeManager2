@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Name=MyAnimeManager2
+Type=Application
+Comment=MyAnimeManager2
+Terminal=false
+Exec=python /opt/MyAnimeManager2/MyAnimeManager2.py
+Icon=/opt/MyAnimeManager2/ressources/icons/icon.png
+StartupNotify=true
+Categories=Sound;
+GenericName=Amar Installer
+Keywords=MyAnimeManager2

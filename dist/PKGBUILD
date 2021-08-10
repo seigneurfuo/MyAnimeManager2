@@ -1,0 +1,30 @@
+pkgname="myanimemanager2"
+pkgver=$(date '+%Y.%m.%d')
+pkgrel=1
+pkgdesc="Un logiciel de gestion de séries et d'animés."
+url="https://seigneurfuo.com"
+arch=('any')
+license=('')
+conflicts=('MyAnimeManager2')
+groups=("★ seigneurfuo: Paquets persos")
+depends=("python" "python-pyqt5")
+source=("myanimemanager2.desktop" "git+file:///home/seigneurfuo/Projets/MyAnimeManager/MyAnimeManager 2/MyAnimeManager2#branch=master")
+md5sums=('ebf453c3c15fd530d7d26c9a67d2304d'
+         'SKIP')
+
+PKGDEST="$(pwd)/output"
+
+pkgver() {
+    date +%Y.%m.%d
+}
+
+package() {
+	mkdir -p "$pkgdir/opt"
+	cp -R "$srcdir/MyAnimeManager2" "$pkgdir/opt"
+
+    # Supression des fichiers inutiles
+	rm -f "$pkgdir/opt/$pkgname/README.md"
+	rm -rf "$pkgdir/opt/$pkgname/.git"
+	
+	install -Dm644 "myanimemanager2.desktop" "${pkgdir}/usr/share/applications/myanimemanager2.desktop"
+}

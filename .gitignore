@@ -1,8 +1,12 @@
 __pycache__
-profile
-../.idea
+.idea/
 *.pyc
 .idea/
+dist/MyAnimeManager2/
+dist/output/
+dist/pkg/
+dist/src/
+profile/
 venv/
 Tools/Liste des animés.docxTools/Planning de visionnage.docx
 Tools/Planning de visionnage.txt
