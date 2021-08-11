@@ -16,7 +16,6 @@ import os
 import sqlite3
 from json import load, dump
 from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
 from pathlib import Path
 from random import randint
 import platform
@@ -1088,8 +1087,8 @@ class MainWindow(QMainWindow):
                 if len(release_year) == 4:
                     # Différence entre deux dates
                     release_year_datetime_object = datetime.strptime(release_year, "%Y")
-                    age_diff = relativedelta(today_date_object, release_year_datetime_object)
-                    age = "{} ans".format(age_diff.years)
+                    age_diff = today_date_object.year - release_year_datetime_object.year
+                    age = "{} ans".format(age_diff)
                 else:
                     age = ""
 
