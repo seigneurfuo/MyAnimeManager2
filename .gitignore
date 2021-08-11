@@ -1,14 +1,13 @@
 __pycache__
 .idea/
 *.pyc
-dist/MyAnimeManager 2/
-dist/output/
-dist/pkg/
-dist/src/
+
+packaging/appimage/AppDir/
+packaging/archlinux/output/
+
 profile/
 venv/
 Tools/Liste des animés.docxTools/Planning de visionnage.docx
 Tools/Planning de visionnage.txt
 Tools/Liste des animés.docx
 Tools/Planning de visionnage.docx
-
