@@ -4,6 +4,8 @@ __pycache__
 
 packaging/appimage/AppDir/
 packaging/archlinux/output/
+packaging/flatpak/build/
+packaging/flatpak/.flatpak-builder/
 
 profile/
 venv/
