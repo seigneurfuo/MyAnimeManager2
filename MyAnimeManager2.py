@@ -12,10 +12,10 @@
 __version__ = "2021.08.10"
 
 import sys
-from ressources.utils import python2
+from ressources.utils import python_version
 
 # Vérification de la version de Python minimale pour lancer
-if python2():
+if python_version() == 2:
     sys.exit('Cette application à besoin de Python 3 pour fonctionner ! Veuillez l\'installer au préalable: https://python.org/download')
 
 from PyQt5.QtWidgets import QApplication

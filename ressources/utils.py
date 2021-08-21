@@ -1,8 +1,11 @@
-def python2():
+import os
+
+
+def python_version():
     """Retourne vrai si la version de python est 2.x"""
 
     from sys import version_info
-    return version_info[0] == 2
+    return version_info[0]
 
 
 def open_file_explorer(path):
