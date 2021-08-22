@@ -35,3 +35,11 @@ def href_link(text):
         return "<a href=\"{text}\">{text}</a".format(text=text)
     else:
         return ""
+
+
+def get_serie_cover(appDir, appDataFolder, serie_id):
+    cover_filename = os.path.join(appDataFolder, "covers/{0}".format(serie_id))
+    if not os.path.isfile(cover_filename):
+       cover_filename = os.path.join(appDir, "ressources/icons/image-x-generic.png")
+
+    return cover_filename

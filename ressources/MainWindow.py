@@ -2,10 +2,11 @@ import csv
 
 from PyQt5.QtCore import QTime, Qt, QDate, QRect, QT_VERSION_STR, PYQT_VERSION_STR
 from PyQt5.QtGui import QPixmap, QColor, QPainter
-from PyQt5.QtWidgets import QMessageBox, QListWidgetItem, QMainWindow, QTableWidgetItem, QProgressBar
+from PyQt5.QtWidgets import QMessageBox, QListWidgetItem, QMainWindow, QTableWidgetItem, QProgressBar, QLabel
 from PyQt5.uic import loadUi
 
 # Modales
+from ressources.CoverListElement import CoverListElement
 from ressources.SeasonModal import SeasonModal
 from ressources.SerieModal import SerieModal
 
@@ -189,6 +190,10 @@ class MainWindow(QMainWindow):
         # A propos
         elif tab_id == 7:
             self.fill_about_data()
+
+        elif tab_id == 8:
+            self.listtab3_fill_data()
+
 
     def profile__create(self):
         """Fonction qui crée un dossier de profil si il n'existe pas"""
@@ -409,6 +414,7 @@ class MainWindow(QMainWindow):
                 # Application de l'image
                 pixmap = QPixmap(picture_filename)
                 self.label_30.setPixmap(pixmap)
+
 
     def listtab__seriedata__clear(self):
         """Fonction qui nettoye les informations d'une série"""
@@ -980,6 +986,7 @@ class MainWindow(QMainWindow):
         # Met à jour les informations
         self.planningtab__watched__fill()
 
+
     def planningtab__open_explorer(self):
         """Fonction qui ouvre un gestionnaire de fichiers. Multiplatforme"""
 
@@ -1214,8 +1221,8 @@ class MainWindow(QMainWindow):
 
                 for index, row in enumerate(results):
 
-                    serie_title = str(row[1])
-                    season_title = str(row[3])
+                    serie_title = str(row["serie_title"])
+                    season_title = str(row["season_title"])
 
                     # Si la saison n'a pas de titre, on reprends celui de la série
                     if season_title in ["", None]:
@@ -1251,6 +1258,30 @@ class MainWindow(QMainWindow):
 
             # Création d'un fichier de configuration
             self.settings__save()
+
+
+    def listtab3_fill_data(self):
+        serie_square = []
+
+        self.cursor.execute(seriesGetListQuery)
+        results = self.cursor.fetchall()
+
+        x_nb = 3
+        x_pos = 1
+        y_pos = 1
+        for index, row in enumerate(results):
+            cover_list_element = CoverListElement(self, row)
+            self.gridLayout_15.addWidget(cover_list_element, y_pos, x_pos)
+
+            # Découpage pour faire la grille
+            if index % x_nb == 0:
+                #print(y_pos, "-", x_pos)
+                x_pos = 1
+                y_pos += 1
+
+            else:
+                x_pos += 1
+
 
     def settings__fill(self):
         """Fonction qui rempli les parametres dans l'onglet associé"""
