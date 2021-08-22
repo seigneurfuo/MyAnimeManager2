@@ -1,3 +1,4 @@
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QDialog, QFileDialog
 from PyQt5.uic import loadUi
@@ -14,13 +15,23 @@ class SerieModal(QDialog):
 
         self.parent = parent
         self.action = action
-        self.serieData = serie_data
-        self.seriePath = ""
+        self.serie_data = serie_data
+        self.serie_path = ""
+
+        self.title = "Ajout" if action == "create" else "Edition: {}".format(self.serie_data["serie_title"])
 
         loadUi(os.path.join(self.parent.appDir, 'ressources/SerieModal.ui'), self)
 
         # Définition des évenements de la fenetre
+        self.setup_ui()
         self.events()
+
+
+    def setup_ui(self):
+        self.setWindowTitle(self.title)
+
+        # Rends la fenetre principale inacessible tant que celle-ci est ouverte
+        self.setWindowModality(Qt.ApplicationModal)
 
 
     def events(self):
@@ -71,7 +82,7 @@ class SerieModal(QDialog):
         # Si un fichier à été sélectionné
         if file_name:
             # Définition du nom de l'image de destination
-            serie_id = str(self.serieData["serie_id"])
+            serie_id = str(self.serie_data["serie_id"])
             cover_filename = os.path.join(self.parent.appDataFolder, "covers", serie_id)
 
             # Copie l'image sélectionnée dans le dossier correpondant
@@ -122,7 +133,7 @@ class SerieModal(QDialog):
         elif self.action == "edit":
 
             # Récupération des informations sur la série
-            serie_data = self.serieData
+            serie_data = self.serie_data
             serie_id = int(serie_data["serie_id"])
 
             # Commande SQL de mise à jour
@@ -144,7 +155,7 @@ class SerieModal(QDialog):
         """Fonction qui rempli les informations lors de l'édition d'une série"""
 
         # Récupération des informations sur la série
-        serie_data = self.serieData
+        serie_data = self.serie_data
         serie_sort_id = int(serie_data["serie_sort_id"])
         serie_title = str(serie_data["serie_title"])
         serie_liked = int(serie_data["serie_liked"])
@@ -160,7 +171,7 @@ class SerieModal(QDialog):
             self.checkBox.setChecked(True)
 
         # Chargement de l'image
-        serie_id = str(self.serieData["serie_id"])
+        serie_id = str(self.serie_data["serie_id"])
         cover_filename = "./profile/covers/{0}".format(serie_id)
         if os.path.exists(cover_filename):
             # Application de l'image

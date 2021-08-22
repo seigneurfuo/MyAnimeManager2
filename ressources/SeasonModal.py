@@ -1,5 +1,7 @@
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog
 from PyQt5.uic import loadUi
+
 import os
 
 
@@ -11,13 +13,23 @@ class SeasonModal(QDialog):
 
         self.parent = parent
         self.action = action
-        self.serieId = serie_id
-        self.seasonData = season_data
+        self.serie_id = serie_id
+        self.season_data = season_data
+
+        self.title = "Ajout" if action == "create" else "Edition: {}".format(self.season_data["season_title"])
 
         loadUi(os.path.join(self.parent.appDir, 'ressources/SeasonModal.ui'), self)
 
         # Définition des évenements de la fenetre
+        self.setup_ui()
         self.events()
+
+
+    def setup_ui(self):
+        self.setWindowTitle(self.title)
+
+        # Rends la fenetre principale inacessible tant que celle-ci est ouverte
+        self.setWindowModality(Qt.ApplicationModal)
 
 
     def events(self):
@@ -36,7 +48,7 @@ class SeasonModal(QDialog):
         """Fonction qui rempli les informations lors de l'édition d'une saison"""
 
         # Récupération des informations
-        season_data = self.seasonData
+        season_data = self.season_data
         season_sort_id = season_data["season_sort_id"]
         season_title = str(season_data["season_title"])
         season_studio = str(season_data["season_studio"])
@@ -69,7 +81,7 @@ class SeasonModal(QDialog):
         """Fonction appelée lors du clic sur le bouton enregistrer"""
 
         # Récupération de l'identifiant de la série
-        serie_id = self.serieId
+        serie_id = self.serie_id
 
         # Récupération des informations entrées par l'utilisateur
         season_sort_id = self.spinBox_2.text()
@@ -108,7 +120,7 @@ class SeasonModal(QDialog):
 
         elif self.action == "edit":
             # Récupération des informations sur la saison
-            season_data = self.seasonData
+            season_data = self.season_data
             season_id = int(season_data["season_id"])
 
             # Commande SQL de mise à jour

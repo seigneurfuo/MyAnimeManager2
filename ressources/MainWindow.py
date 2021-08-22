@@ -255,24 +255,18 @@ class MainWindow(QMainWindow):
         self.cursor.execute(notesCreateTableQuery)
 
 
-    def listtab__seriemodal__open(self, titre, action, data):
+    def listtab__seriemodal__open(self, action, data):
         """Fonction d'ouverture de la fenètre modale série"""
 
         # Utilisé pour mémoriser la sélection de la combobox pour sélectionner la ligne après une modification
         self.currentSerieId = self.comboBox_2.currentIndex()
 
         # Création d'une instance de la classe
-        self.seriemodal = SerieModal(self, action, data)
-
-        # Définition du titre
-        self.seriemodal.setWindowTitle(titre)
-
-        # Rends la fenetre principale inacessible tant que celle-ci est ouverte
-        self.seriemodal.setWindowModality(Qt.ApplicationModal)
+        self.seriemodal = SerieModal(self, action=action, serie_data=data)
         self.seriemodal.show()
 
 
-    def listtab__seasonmodal__open(self, titre, action, serie_data, season_data):
+    def listtab__seasonmodal__open(self, action, serie_data, season_data):
         """Fonction d'ouverture de la fenètre modale saison"""
 
         # Utilisé pour mémoriser la sélection de la combobox pour sélectionner la ligne après une modification
@@ -280,12 +274,6 @@ class MainWindow(QMainWindow):
 
         # Création d'une instance de la classe
         self.seasonmodal = SeasonModal(self, action, serie_data, season_data)
-
-        # Définition d'un titre
-        self.seasonmodal.setWindowTitle(titre)
-
-        # Rends la fenetre principale inacessible tant que celle-ci est ouverte
-        self.seasonmodal.setWindowModality(Qt.ApplicationModal)
         self.seasonmodal.show()
 
 
@@ -566,7 +554,7 @@ class MainWindow(QMainWindow):
     def listtab__create_serie(self):
         """Fonction qui lance la fenetre de création d'une nouvelle série"""
 
-        self.listtab__seriemodal__open("Ajouter", "create", None)
+        self.listtab__seriemodal__open(action="create", data=None)
 
 
     def listtab__edit_serie(self):
@@ -583,13 +571,9 @@ class MainWindow(QMainWindow):
 
             # Récupération des informations
             serie_data = self.seriesList[serie_index_id]
-            serie_title = serie_data["serie_title"]
-
-            # Titre de la fenetre
-            serie_modal_title = "Edition : %s" % serie_title
 
             # Ouverture de la fenetre d'édition
-            self.listtab__seriemodal__open(serie_modal_title, "edit", serie_data)
+            self.listtab__seriemodal__open(action="edit", data=serie_data)
 
 
     def listtab__delete_serie(self):
@@ -644,7 +628,7 @@ class MainWindow(QMainWindow):
             serie_id = serie_data["serie_id"]
 
             # Ouverture de la fenetre modale
-            self.listtab__seasonmodal__open("Ajouter", "create", serie_id, None)
+            self.listtab__seasonmodal__open("create", serie_id, None)
 
 
     def listtab__edit_season(self):
@@ -668,13 +652,9 @@ class MainWindow(QMainWindow):
 
             # Récupération des informations sur la saison
             season_data = self.seasonsList[season_index_id]
-            season_title = season_data["season_title"]
-
-            # Titre de la fenetre
-            season_modal_title = "Edition : %s" % season_title
 
             # Ouverture de la fenetre d'édition
-            self.listtab__seasonmodal__open(season_modal_title, "edit", serie_id, season_data)
+            self.listtab__seasonmodal__open("edit", serie_id, season_data)
 
 
     def listtab__delete__season(self):
