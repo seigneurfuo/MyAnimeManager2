@@ -2,6 +2,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QVBoxLayout, QPushButton, QLabel, QWidget
 
+from ressources.SerieModal import SerieModal
 from ressources.utils import get_serie_cover
 
 
@@ -17,6 +18,7 @@ class CoverListElement(QWidget):
         self.data = data
 
         self.setup_ui()
+        self.events()
 
 
     def setup_ui(self):
@@ -44,4 +46,9 @@ class CoverListElement(QWidget):
 
 
     def events(self):
-        pass
+        self.edit_button.clicked.connect(self.seriemodal_open)
+
+
+    def seriemodal_open(self):
+        self.seriemodal = SerieModal(self.parent, action="edit", serie_data=self.data)
+        self.seriemodal.show()
