@@ -19,6 +19,7 @@ class SeasonModal(QDialog):
         # Définition des évenements de la fenetre
         self.events()
 
+
     def events(self):
         """Evènements de la fenetre modale"""
 
@@ -29,6 +30,7 @@ class SeasonModal(QDialog):
         # venements en mode édition
         if self.action == "edit":
             self.fill()
+
 
     def fill(self):
         """Fonction qui rempli les informations lors de l'édition d'une saison"""
@@ -61,6 +63,7 @@ class SeasonModal(QDialog):
         self.seasonLanguageComboBox.setCurrentIndex(season_language)
         self.seasonStateComboBox.setCurrentIndex(season_state)
         self.textEdit.setText(season_notes)
+
 
     def save(self):
         """Fonction appelée lors du clic sur le bouton enregistrer"""
@@ -142,6 +145,7 @@ class SeasonModal(QDialog):
 
         # Fermeture de la fenetre modale
         self.close()
+
 
     def oncancel(self):
         """Fonction appelée lors du clic sur le bouton annuler"""

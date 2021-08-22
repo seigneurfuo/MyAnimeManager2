@@ -82,6 +82,7 @@ class MainWindow(QMainWindow):
         # Définition du premier onglet affiché (ici car c'est un parametre qui n'est utilisé qu'au démarrage
         self.tabWidget.setCurrentIndex(self.settings["startupPageId"])
 
+
     def setup_ui(self):
         loadUi(os.path.join(self.appDir, 'ressources/MainWindow.ui'), self)
 
@@ -92,6 +93,7 @@ class MainWindow(QMainWindow):
 
         window_title = "MyAnimeManager2 - version {0}".format(self.app_version)
         self.setWindowTitle(window_title)
+
 
     def events(self):
         """Définition de tout les évènements de la fenetre pricipale"""
@@ -148,6 +150,7 @@ class MainWindow(QMainWindow):
 
         # ----- Onglet paramètres -----
         self.pushButton_11.clicked.connect(self.settings__save)
+
 
     def on_tab_changed(self):
         """Fonction déclanchée a chaque fois qu'un onglet est lancé"""
@@ -207,6 +210,7 @@ class MainWindow(QMainWindow):
 
         print("Dossier du profil: {}".format(self.appDataFolder))
 
+
     def database_(self):
         """"Fonction qui gère la créatio et l'ouverture de la base de données"""
 
@@ -222,6 +226,7 @@ class MainWindow(QMainWindow):
 
             # Remplissage des tables
 
+
     def database__open(self):
         """Ouvre la base de données et crée un curseur"""
 
@@ -234,6 +239,7 @@ class MainWindow(QMainWindow):
         # Création d'un curseur SQL
         self.cursor = self.database.cursor()
 
+
     def database__create_tables(self):
         """"""
 
@@ -242,6 +248,7 @@ class MainWindow(QMainWindow):
         self.cursor.execute(seasonCreateTableQuery)
         self.cursor.execute(planningCreateTableQuery)
         self.cursor.execute(notesCreateTableQuery)
+
 
     def listtab__seriemodal__open(self, titre, action, data):
         """Fonction d'ouverture de la fenètre modale série"""
@@ -259,6 +266,7 @@ class MainWindow(QMainWindow):
         self.seriemodal.setWindowModality(Qt.ApplicationModal)
         self.seriemodal.show()
 
+
     def listtab__seasonmodal__open(self, titre, action, serie_data, season_data):
         """Fonction d'ouverture de la fenètre modale saison"""
 
@@ -275,6 +283,7 @@ class MainWindow(QMainWindow):
         self.seasonmodal.setWindowModality(Qt.ApplicationModal)
         self.seasonmodal.show()
 
+
     def listtab__series__changed(self):
         """Fonction appelée lorsque la sélection d'une série est changée"""
 
@@ -283,6 +292,7 @@ class MainWindow(QMainWindow):
 
         # Remplissage de la liste des saisons
         self.listtab__seasonslist__fill()
+
 
     def listtab__serieslist__set_current_index(self):
         """Fonction qui permet de remetre la sélection actuelle dans la combobox"""
@@ -303,6 +313,7 @@ class MainWindow(QMainWindow):
         # Remolissage de la liste avec les résultats
         self.listtab__serieslist__fill(search_patern=search_patern)
 
+
     def listtab__serieslist__search_clear(self):
         """Fonction qui vide la barre de recherche"""
         # Vide la liste
@@ -310,6 +321,7 @@ class MainWindow(QMainWindow):
 
         # Rafraichi la liste des séries
         self.listtab__serieslist__fill()
+
 
     def listtab__serieslist__fill(self, search_patern=None):
         """Fonction qui rempli la liste des séries"""
@@ -349,11 +361,13 @@ class MainWindow(QMainWindow):
 
             self.listtab__serieslist__set_current_index()
 
+
     def listtab__serieslist__clear(self):
         """Fonction qui nettoye la liste des séries"""
 
         # Suppression des élements de la combobox
         self.comboBox_2.clear()
+
 
     def listtab__seriedata__fill(self):
         """Fonction qui rempli les champs d'informations de la série"""
@@ -412,11 +426,13 @@ class MainWindow(QMainWindow):
         self.label_30.setScaledContents(True)
         self.label_30.setPixmap(pixmap)
 
+
     def listtab__seasons__changed(self):
         """Fonction appelée lorsque la sélection d'une saison est changée"""
 
         # Nettoyage et remplisage de informations de la série
         self.listtab__seasondata__fill()
+
 
     def listtab__seasonslist__set_current_index(self):
         """Fonction qui permet de remetre la sélection actuelle dans la combobox"""
@@ -427,6 +443,7 @@ class MainWindow(QMainWindow):
         elif len(self.seasonsList) > self.currentSeasonId:
             index = self.currentSeasonId
             self.comboBox.setCurrentIndex(index)
+
 
     def listtab__seasonslist__fill(self):
         """Fonction qui remplie la liste des saisons pour la série choisie"""
@@ -463,11 +480,13 @@ class MainWindow(QMainWindow):
 
             self.listtab__seasonslist__set_current_index()
 
+
     def listtab__seasonslist__clear(self):
         """Liste qui nettoye la liste des saisons"""
 
         # Suppression des élements de la combobox
         self.comboBox.clear()
+
 
     def listtab__seasondata__fill(self):
         """Fonction qui remplie la liste des informations de la saison sélectionnée"""
@@ -526,6 +545,7 @@ class MainWindow(QMainWindow):
 
             # TODO myanimelist & planetejeunesse
 
+
     def listtab__seasondata__clear(self):
         """Fonction qui nettoye la liste des informations de la saison sélectionnée"""
 
@@ -536,10 +556,12 @@ class MainWindow(QMainWindow):
         for label_name in labels:
             label_name.clear()
 
+
     def listtab__create_serie(self):
         """Fonction qui lance la fenetre de création d'une nouvelle série"""
 
         self.listtab__seriemodal__open("Ajouter", "create", None)
+
 
     def listtab__edit_serie(self):
         """Fonction qui lance la fenetre d'édition d'une série"""
@@ -562,6 +584,7 @@ class MainWindow(QMainWindow):
 
             # Ouverture de la fenetre d'édition
             self.listtab__seriemodal__open(serie_modal_title, "edit", serie_data)
+
 
     def listtab__delete_serie(self):
         """Fonction appelée pour la suppresion d'une série"""
@@ -596,6 +619,7 @@ class MainWindow(QMainWindow):
             self.listtab__seasonslist__fill()
             self.listtab__seasondata__fill()
 
+
     def listtab__create_season(self):
         """Fonction qui lance la fenetre de création d'une nouvelle saison"""
 
@@ -615,6 +639,7 @@ class MainWindow(QMainWindow):
 
             # Ouverture de la fenetre modale
             self.listtab__seasonmodal__open("Ajouter", "create", serie_id, None)
+
 
     def listtab__edit_season(self):
         """Fonction qui lance la fenetre d'edition d'une saison"""
@@ -645,6 +670,7 @@ class MainWindow(QMainWindow):
             # Ouverture de la fenetre d'édition
             self.listtab__seasonmodal__open(season_modal_title, "edit", serie_id, season_data)
 
+
     def listtab__delete__season(self):
         """Fonction qui supprime la saison sélectionnée"""
 
@@ -674,12 +700,14 @@ class MainWindow(QMainWindow):
             self.listtab__serieslist__fill()
             self.listtab__seriedata__fill()
 
+
     def listtab__random_serie(self):
         self.listtab__serieslist__fill()
 
         if self.seriesList:
             serie_id = randint(0, len(self.seriesList))
             self.comboBox_2.setCurrentIndex(serie_id)
+
 
     def listtab__open_explorer(self):
         """Fonction qui ouvre un gestionnaire de fichiers. Multiplatforme"""
@@ -690,6 +718,7 @@ class MainWindow(QMainWindow):
         if path:
             if not open_file_explorer(path):
                 print("Impossible d'ouvrir le répertoire")
+
 
     def planningtab__calendar__paint_cells(self):
         """
@@ -708,6 +737,7 @@ class MainWindow(QMainWindow):
 
         self.planningCalendar.paintCell(QPainter(), QRect(), QDate())
 
+
     def planningtab__watched__clear(self):
         """Fonction qui vide la liste des séries vues"""
 
@@ -717,6 +747,7 @@ class MainWindow(QMainWindow):
 
         # Supprime les lignes vides
         self.tableWidget_2.setRowCount(0)
+
 
     def planningtab__watched__fill(self):
         """Fonction qui rempli la listes des séries vus en fonction de la date"""
@@ -775,6 +806,7 @@ class MainWindow(QMainWindow):
         # Taille de cellules s'adaptant au contenu
         self.tableWidget_2.resizeColumnsToContents()
 
+
     def planningtab__watched__add(self):
         """Fonction qui ajoute l'épisode à voir dans la liste des épisodes vus"""
 
@@ -827,6 +859,7 @@ class MainWindow(QMainWindow):
             # Mise à jour de la liste des épisodes à voir
             self.planningtab__next__fill()
 
+
     def planningtab__watched__remove(self):
         """Fonction qui supprime une série dans la liste"""
 
@@ -846,6 +879,7 @@ class MainWindow(QMainWindow):
             # Mise à jour de la liste des épisodes vus
             self.planningtab__watched__fill()
 
+
     def planningtab__is_button_need_to_be_enabled(self):
         """Affiche ou masque le bouton d'ouverture si le dossier de la série n'existe pas"""
 
@@ -860,6 +894,7 @@ class MainWindow(QMainWindow):
             else:
                 self.pushButton_13.setEnabled(False)
 
+
     def planningtab__next__clear(self):
         """Fonction qui vide la liste des épisodes à voir"""
 
@@ -869,6 +904,7 @@ class MainWindow(QMainWindow):
 
         # Supprime les lignes vides
         self.tableWidget_3.setRowCount(0)
+
 
     def planningtab__next__fill(self):
         """Fonction qui remplie la liste des épisodes à voir"""
@@ -931,6 +967,7 @@ class MainWindow(QMainWindow):
         # Taille de cellules s'adaptant au contenu
         self.tableWidget_3.resizeColumnsToContents()
 
+
     def planningtab__calendar__today(self):
         """Fonction qui ramène le calendrier à la date actuelle"""
 
@@ -958,6 +995,7 @@ class MainWindow(QMainWindow):
             if serie_path:
                 if not open_file_explorer(serie_path):
                     print("Impossible d'ouvrir le répertoire")
+
 
     def planningtab__on_season_dates_state_changed(self):
 
@@ -990,6 +1028,7 @@ class MainWindow(QMainWindow):
             # Changement du nom des colonnes
             self.tableWidget_2.setHorizontalHeaderLabels(["Date", "Delta", "Episode(s)"])
             self.planningtab__list_season_dates()
+
 
     def planningtab__list_season_dates(self):
         # Récupération de l'identifiant sélectionné
@@ -1050,6 +1089,7 @@ class MainWindow(QMainWindow):
             # Taille de cellules s'adaptant au contenu
             self.tableWidget_2.resizeColumnsToContents()
 
+
     def fulllisttab_table_fill(self):
         self.full_list_table.setRowCount(0)
 
@@ -1107,6 +1147,7 @@ class MainWindow(QMainWindow):
 
         #self.full_list_table.resizeColumnsToContents()
 
+
     def stats__fill(self):
 
         # Remplissage des données sur le nombre de séries et de saisons
@@ -1124,6 +1165,7 @@ class MainWindow(QMainWindow):
             value = str(self.cursor.fetchone()["nb_elements"])
             widget_name.setText(value)
 
+
     def notestab__fill(self):
         """Fonction qui rempli les notes"""
 
@@ -1138,6 +1180,7 @@ class MainWindow(QMainWindow):
 
             self.plainTextEdit.setPlainText(notes_data)
 
+
     def notestab__save(self):
         """Fonction qui sauvegarde les notes"""
 
@@ -1147,6 +1190,7 @@ class MainWindow(QMainWindow):
         # Enregistrement des notes dans la base de données
         sql_data = {'notes_data': notes_data}
         self.cursor.execute(notesSave, sql_data)
+
 
     def export_seasons_list(self):
         self.cursor.execute(getFullSeriesList)
@@ -1188,6 +1232,7 @@ class MainWindow(QMainWindow):
             if extraction_ask == QMessageBox.Open:
                 open_file_explorer(output_folderpath)
 
+
     def settings__load(self):
         """Fonction qui charge les paramètres depuis le fichier de configuration"""
 
@@ -1214,6 +1259,7 @@ class MainWindow(QMainWindow):
         self.comboBox_3.setCurrentIndex(self.settings["startupPageId"])
         self.checkBox_2.setChecked(self.settings["realtimeSearch"])
 
+
     def settings__save(self):
         """Fonction utilisé pour sauvegarder la configuration"""
 
@@ -1228,11 +1274,13 @@ class MainWindow(QMainWindow):
 
         self.statusbar.showMessage("Paramètres sauvegardés. Relancer l'application pour qu'ils prennent effet.")
 
+
     def fill_about_data(self):
         self.label_70.setText(self.app_version)
         self.label_75.setText(platform.python_version())
         self.label_72.setText(QT_VERSION_STR)
         self.label_74.setText(PYQT_VERSION_STR)
+
 
     # Fonctions de l'onglet outils
     def tools__watch_time__execute(self):
@@ -1265,6 +1313,7 @@ class MainWindow(QMainWindow):
             # Décale la plage
             start = end
 
+
     def tools__watch_time__local_time(self):
         """Fonction qui permet de choisir l'heure actuelle dans l'outil"""
 
@@ -1273,6 +1322,7 @@ class MainWindow(QMainWindow):
 
         # Application de l'heure sur l'objet timeEdit
         self.timeEdit.setTime(local_time)
+
 
     def on_close(self, event):
         """Action appelée à la fermeture de l'application"""

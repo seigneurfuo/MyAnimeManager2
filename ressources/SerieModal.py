@@ -22,6 +22,7 @@ class SerieModal(QDialog):
         # Définition des évenements de la fenetre
         self.events()
 
+
     def events(self):
         """Evènements de la fenetre modale"""
 
@@ -59,6 +60,7 @@ class SerieModal(QDialog):
             # Remplissage des informations
             self.fill()
 
+
     def choose_cover(self):
         """Fonction qui permet de rechercher une image"""
 
@@ -79,6 +81,7 @@ class SerieModal(QDialog):
             pixmap = QPixmap(cover_filename)
             self.coverPreview.setPixmap(pixmap)
 
+
     def choose_path(self):
         """Fonction qui permet à l'utilisateur de choisir le dossier de la série"""
 
@@ -89,6 +92,7 @@ class SerieModal(QDialog):
         if folder_name:
             # Application du texte sur le widget line edit
             self.lineEdit_2.setText(folder_name)
+
 
     def save(self):
         """Fonction qui permet d'ajouter une nouvelle série"""
@@ -135,6 +139,7 @@ class SerieModal(QDialog):
         # Fermeture de la fenetre modale
         self.close()
 
+
     def fill(self):
         """Fonction qui rempli les informations lors de l'édition d'une série"""
 
@@ -161,6 +166,7 @@ class SerieModal(QDialog):
             # Application de l'image
             pixmap = QPixmap(cover_filename)
             self.coverPreview.setPixmap(pixmap)
+
 
     def cancel(self):
         """Fonction appelée lors du clic sur le bouton annuler"""
