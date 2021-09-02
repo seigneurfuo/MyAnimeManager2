@@ -1130,7 +1130,7 @@ class MainWindow(QMainWindow):
             self.full_list_table.setItem(index, 6, column6)
 
             column7 = QTableWidgetItem(str(row["season_view_count"]))
-            self.full_list_table.setItem(index, 7, column6)
+            self.full_list_table.setItem(index, 7, column7)
 
         #self.full_list_table.resizeColumnsToContents()
 
@@ -1241,8 +1241,6 @@ class MainWindow(QMainWindow):
 
 
     def listtab3_fill_data(self):
-        serie_square = []
-
         self.cursor.execute(seriesGetListQuery)
         results = self.cursor.fetchall()
 
