@@ -9,7 +9,7 @@ conflicts=('MyAnimeManager2')
 groups=("★ seigneurfuo: Paquets persos")
 depends=("python" "python-pyqt5")
 source=("myanimemanager2.desktop" "git+file:///home/seigneurfuo/Projets/MyAnimeManager/MyAnimeManager2#branch=master")
-md5sums=('6f121d31c416706f10a19719744c0d0c'
+md5sums=('SKIP'
          'SKIP')
 
 PKGDEST="$(pwd)/output"
