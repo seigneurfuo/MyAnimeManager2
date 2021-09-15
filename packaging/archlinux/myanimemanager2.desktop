@@ -2,11 +2,11 @@
 Version=1.0
 Name=MyAnimeManager2
 Type=Application
-Comment=MyAnimeManager2
+Comment="Un gestionnaire d"animés et de séries codé en Python"
 Terminal=false
 Exec=python /opt/MyAnimeManager2/MyAnimeManager2.py
-Icon=/opt/MyAnimeManager2/ressources/icons/icon.png
+Icon=/opt/MyAnimeManager2/ressources/icons/icon
 StartupNotify=true
-Categories=Sound;
-GenericName=Amar Installer
+Categories=AudioVideo;
+GenericName=MyAnimeManager2
 Keywords=MyAnimeManager2
